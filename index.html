@@ -368,20 +368,23 @@
             color: var(--primary);
         }
 
-        /* إحصائيات الهوم بشكل بصري وواضح: شبكة من 3 أعمدة ثابتة */
+        /* إحصائيات الهوم - تصميم جديد: موبايل أولاً (صفوف)، وديسكتوب أعمدة */
         .hero-stats {
             margin-top: 36px;
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 24px;
-            align-items: start;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
         .hero-stat-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            text-align: center;
-            gap: 8px;
+            gap: 10px;
+            text-align: right;
+        }
+        .hero-stat-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
         .hero-stat-icon {
             width: 34px;
@@ -543,16 +546,22 @@
             border: 1px solid #f1e4ec;
         }
 
-        /* في الموبايل: تقليل الهوامش والخط مع الحفاظ على الأعمدة الثلاثة في نفس السطر */
-        @media (max-width: 768px) {
+        /* على الشاشات الأوسع (تابلت / ديسكتوب): عرض الإحصائيات في 3 أعمدة */
+        @media (min-width: 768px) {
             .hero-stats {
-                gap: 12px;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 24px;
+                align-items: start;
             }
-            .hero-stat-number {
-                font-size: 1.1rem;
+            .hero-stat-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 8px;
             }
-            .hero-stat-label {
-                font-size: 0.8rem;
+            .hero-stat-content {
+                align-items: center;
             }
         }
 

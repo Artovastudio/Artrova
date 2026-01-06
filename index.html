@@ -1680,55 +1680,78 @@
                 <template x-for="project in filteredProjects" :key="project.id">
                     <div class="portfolio-item"
                          role="article"
-                         :aria-label="project.title + ' - ' + project.location"
-                                    language === 'ar'
-                                        ? (
-                                            project.id <= 6
-                                                ? project.title.split('|')[0].trim()
-                                                : (
-                                                    project.category === 'commercial' ? 'مشروع تجاري' :
-                                                    project.category === 'residential' ? 'مشروع سكني' :
-                                                    project.category === 'hospitality' ? 'مشروع ضيافة' :
-                                                    project.category === 'furniture' ? 'مشروع أثاث' :
-                                                    project.title.split('|')[0].trim()
-                                                )
-                                          )
+                         :aria-label="project.title + ' - ' + project.location">
+                        <img 
+                            :src="project.image" 
+                            :alt="language === 'ar'
+                                ? (
+                                    project.category === 'residential'
+                                        ? 'تصميم داخلي حديث لمسكن أو فيلا من أعمال Artrova Studio'
+                                        : project.category === 'commercial'
+                                            ? 'تصميم مكتب أو نشاط تجاري حديث من أعمال Artrova Studio'
+                                            : project.category === 'hospitality'
+                                                ? 'تصميم مطعم أو مساحة ضيافة من أعمال Artrova Studio'
+                                                : project.category === 'furniture'
+                                                    ? 'تصميم قطعة أثاث مخصصة من أعمال Artrova Studio'
+                                                    : 'صورة من أحد مشاريع Artrova Studio')
+                                : (
+                                    project.category === 'residential'
+                                        ? 'Modern residential interior or villa design by Artrova Studio'
+                                        : project.category === 'commercial'
+                                            ? 'Modern office or commercial space design by Artrova Studio'
+                                            : project.category === 'hospitality'
+                                                ? 'Restaurant or hospitality space design by Artrova Studio'
+                                                : project.category === 'furniture'
+                                                    ? 'Custom furniture design by Artrova Studio'
+                                                    : 'Image from one of Artrova Studio projects')" 
+                            loading="lazy">
+                        <div class="portfolio-overlay">
+                            <h3 x-text="language === 'ar'
+                                ? (
+                                    project.id <= 6
+                                        ? project.title.split('|')[0].trim()
                                         : (
-                                            project.id <= 6
-                                                ? (project.title.split('|')[1] || project.title.split('|')[0]).trim()
-                                                : (
-                                                    project.category === 'commercial' ? 'Commercial Project' :
-                                                    project.category === 'residential' ? 'Residential Project' :
-                                                    project.category === 'hospitality' ? 'Hospitality Project' :
-                                                    project.category === 'furniture' ? 'Furniture Project' :
-                                                    (project.title.split('|')[1] || project.title.split('|')[0]).trim()
-                                                )
-                                          )
-                                "></h3>
-                                <p x-text="language === 'ar'
-                                    ? (
-                                        project.id <= 6
-                                            ? project.location.split('|')[0].trim()
-                                            : (
-                                                project.category === 'commercial' ? 'مشروع تجاري' :
-                                                project.category === 'residential' ? 'مشروع سكني' :
-                                                project.category === 'hospitality' ? 'مشروع ضيافة' :
-                                                project.category === 'furniture' ? 'مشروع أثاث' :
-                                                project.location.split('|')[0].trim()
-                                            )
-                                      )
-                                    : (
-                                        project.id <= 6
-                                            ? (project.location.split('|')[1] || project.location.split('|')[0]).trim()
-                                            : (
-                                                project.category === 'commercial' ? 'Commercial Project' :
-                                                project.category === 'residential' ? 'Residential Project' :
-                                                project.category === 'hospitality' ? 'Hospitality Project' :
-                                                project.category === 'furniture' ? 'Furniture Project' :
-                                                (project.location.split('|')[1] || project.location.split('|')[0]).trim()
-                                            )
-                                      )"></p>
-                            </div>
+                                            project.category === 'commercial' ? 'مشروع تجاري' :
+                                            project.category === 'residential' ? 'مشروع سكني' :
+                                            project.category === 'hospitality' ? 'مشروع ضيافة' :
+                                            project.category === 'furniture' ? 'مشروع أثاث' :
+                                            project.title.split('|')[0].trim()
+                                        )
+                                  )
+                                : (
+                                    project.id <= 6
+                                        ? (project.title.split('|')[1] || project.title.split('|')[0]).trim()
+                                        : (
+                                            project.category === 'commercial' ? 'Commercial Project' :
+                                            project.category === 'residential' ? 'Residential Project' :
+                                            project.category === 'hospitality' ? 'Hospitality Project' :
+                                            project.category === 'furniture' ? 'Furniture Project' :
+                                            (project.title.split('|')[1] || project.title.split('|')[0]).trim()
+                                        )
+                                  )"></h3>
+                            <p x-text="language === 'ar'
+                                ? (
+                                    project.id <= 6
+                                        ? project.location.split('|')[0].trim()
+                                        : (
+                                            project.category === 'commercial' ? 'مشروع تجاري' :
+                                            project.category === 'residential' ? 'مشروع سكني' :
+                                            project.category === 'hospitality' ? 'مشروع ضيافة' :
+                                            project.category === 'furniture' ? 'مشروع أثاث' :
+                                            project.location.split('|')[0].trim()
+                                        )
+                                  )
+                                : (
+                                    project.id <= 6
+                                        ? (project.location.split('|')[1] || project.location.split('|')[0]).trim()
+                                        : (
+                                            project.category === 'commercial' ? 'Commercial Project' :
+                                            project.category === 'residential' ? 'Residential Project' :
+                                            project.category === 'hospitality' ? 'Hospitality Project' :
+                                            project.category === 'furniture' ? 'Furniture Project' :
+                                            (project.location.split('|')[1] || project.location.split('|')[0]).trim()
+                                        )
+                                  )"></p>
                         </div>
                     </div>
                 </template>

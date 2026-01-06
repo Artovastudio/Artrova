@@ -370,14 +370,18 @@
         .hero-stats {
             margin-top: 36px;
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 28px;
-            justify-content: center;
+            justify-content: space-between;
         }
         .hero-stat-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            text-align: center;
+            gap: 8px;
+            flex: 1 1 0;
         }
         .hero-stat-icon {
             width: 34px;
@@ -539,20 +543,10 @@
             border: 1px solid #f1e4ec;
         }
 
-        /* محاذاة إحصائيات الهيرو في سطر واحد على الموبايل */
-        @media (max-width: 768px) {
+        /* ضبط أحصائيات الهيرو كأعمدة رأسية متجاورة في كل المقاسات */
+        @media (max-width: 480px) {
             .hero-stats {
-                flex-wrap: nowrap;
-                justify-content: space-between;
                 gap: 16px;
-            }
-            .hero-stat-item {
-                flex: 1 1 0;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                gap: 6px;
             }
             .hero-stat-number {
                 font-size: 1.2rem;

@@ -546,22 +546,13 @@
             border: 1px solid #f1e4ec;
         }
 
-        /* على الشاشات الأوسع (تابلت / ديسكتوب): عرض الإحصائيات في 3 أعمدة */
+        /* على الشاشات الأوسع (تابلت / ديسكتوب): عرض الإحصائيات في 3 أعمدة مع بقاء الأيقونة بمحاذاة النص */
         @media (min-width: 768px) {
             .hero-stats {
                 display: grid;
                 grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 24px;
                 align-items: start;
-            }
-            .hero-stat-item {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 8px;
-            }
-            .hero-stat-content {
-                align-items: center;
             }
         }
 

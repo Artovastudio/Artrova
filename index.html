@@ -368,22 +368,20 @@
             color: var(--primary);
         }
 
-        /* إحصائيات الهوم بشكل خفيف وبصري (ثلاث أعمدة في الديسكتوب) */
+        /* إحصائيات الهوم بشكل بصري وواضح: شبكة من 3 أعمدة ثابتة */
         .hero-stats {
             margin-top: 36px;
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 28px;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+            align-items: start;
         }
         .hero-stat-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             text-align: center;
             gap: 8px;
-            flex: 1 1 0;
         }
         .hero-stat-icon {
             width: 34px;
@@ -545,20 +543,10 @@
             border: 1px solid #f1e4ec;
         }
 
-        /* في الموبايل: إبقاء الإحصائيات الثلاث في سطر واحد (3 أعمدة) مع تصغير النص */
+        /* في الموبايل: تقليل الهوامش والخط مع الحفاظ على الأعمدة الثلاثة في نفس السطر */
         @media (max-width: 768px) {
             .hero-stats {
-                flex-wrap: nowrap;
-                justify-content: space-between;
-                gap: 10px;
-            }
-            .hero-stat-item {
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                flex: 1 1 0;
-                gap: 4px;
+                gap: 12px;
             }
             .hero-stat-number {
                 font-size: 1.1rem;
@@ -1475,8 +1463,8 @@
                     <div class="hero-stat-content">
                         <div class="hero-stat-number" x-text="language === 'ar' ? '+10' : '10+'"></div>
                         <div class="hero-stat-label" x-text="language === 'ar' 
-                            ? 'سنوات من الخبرة في المشاريع السكنية والتجارية الفاخرة'
-                            : 'Years of experience in high-end residential and commercial projects'"></div>
+                            ? 'سنوات خبرة'
+                            : 'Years of Experience'"></div>
                     </div>
                 </div>
                 <div class="hero-stat-item">
@@ -1484,8 +1472,8 @@
                     <div class="hero-stat-content">
                         <div class="hero-stat-number" x-text="language === 'ar' ? '+150' : '150+'"></div>
                         <div class="hero-stat-label" x-text="language === 'ar' 
-                            ? 'مشروع مكتمل من الفكرة إلى التسليم'
-                            : 'Completed projects from first concept to final handover'"></div>
+                            ? 'مشاريع مكتملة'
+                            : 'Completed Projects'"></div>
                     </div>
                 </div>
                 <div class="hero-stat-item">
@@ -1493,8 +1481,8 @@
                     <div class="hero-stat-content">
                         <div class="hero-stat-number" x-text="language === 'ar' ? '2' : '2'"></div>
                         <div class="hero-stat-label" x-text="language === 'ar' 
-                            ? 'دول نعمل بينهما: السعودية ومصر'
-                            : 'Countries we operate between: Saudi Arabia & Egypt'"></div>
+                            ? 'دول نعمل بينها'
+                            : 'Countries We Serve'"></div>
                     </div>
                 </div>
             </div>

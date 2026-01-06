@@ -391,7 +391,7 @@
             font-size: 1.6rem;
             font-weight: 800;
             color: var(--primary);
-            letter-spacing: 0.03em;
+            letter-spacing: 0.08em;
         }
         .hero-stat-label {
             font-size: 0.95rem;
@@ -546,6 +546,18 @@
             }
             .hero-stat-label {
                 font-size: 0.9rem;
+            }
+            .hero-stat-item {
+                border: none;
+                padding-inline: 0;
+            }
+        }
+
+        /* فاصل عمودي خفيف في الإحصائية الوسطى على الديسكتوب ليطابق أسلوب الشرائح العددية */
+        @media (min-width: 992px) {
+            .hero-stat-item:nth-child(2) {
+                border-inline: 1px solid rgba(0,0,0,0.08);
+                padding-inline: 24px;
             }
         }
 

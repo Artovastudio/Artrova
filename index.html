@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -407,7 +407,7 @@
             color: var(--primary);
         }
 
-        /* إحصائيات الهوم - شريط أرقام نظيف يشبه Valore Studio */
+        /* إحصائيات الهوم - شريط أرقام نظيف */
         .hero-stats {
             margin-top: 36px;
             display: grid;
@@ -573,7 +573,7 @@
             border: 1px solid #f1e4ec;
         }
 
-        /* الهيرو الجديد المستوحى من Valore - سلايدر كامل الشاشة */
+        /* الهيرو الجديد - سلايدر كامل الشاشة */
         .hero-new {
             position: relative;
             min-height: 100vh;
@@ -991,6 +991,175 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+        }
+        .portfolio-group {
+            margin-bottom: 60px;
+        }
+        .portfolio-group-title {
+            display: inline-block;
+            margin: 0 0 22px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: rgba(194, 45, 120, 0.08);
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 0.2px;
+        }
+        .portfolio-category-title {
+            font-size: 1.4rem;
+            margin: 0 0 18px;
+            color: var(--dark);
+            font-weight: 800;
+        }
+        .portfolio-tag-title {
+            display: inline-block;
+            margin: 6px 0 18px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.06);
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .portfolio-masonry {
+            column-count: 3;
+            column-gap: 22px;
+        }
+        @media (max-width: 1100px) {
+            .portfolio-masonry { column-count: 2; }
+        }
+        @media (max-width: 640px) {
+            .portfolio-masonry { column-count: 1; }
+        }
+        .portfolio-masonry .portfolio-item {
+            break-inside: avoid;
+            margin: 0 0 22px;
+        }
+        .portfolio-masonry .portfolio-item img {
+            height: auto;
+            display: block;
+        }
+        .portfolio-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+        }
+        .portfolio-lightbox-inner {
+            position: relative;
+            width: min(1100px, 100%);
+            max-height: 88vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .portfolio-lightbox img {
+            width: 100%;
+            height: auto;
+            max-height: 88vh;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+        .portfolio-lightbox-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 46px;
+            height: 46px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .portfolio-lightbox-btn:hover {
+            background: rgba(0, 0, 0, 0.55);
+        }
+        .portfolio-lightbox-btn.prev { left: -10px; }
+        .portfolio-lightbox-btn.next { right: -10px; }
+        .portfolio-lightbox-close {
+            position: absolute;
+            top: -14px;
+            right: -14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+        }
+        @media (max-width: 640px) {
+            .portfolio-lightbox-btn.prev { left: 8px; }
+            .portfolio-lightbox-btn.next { right: 8px; }
+            .portfolio-lightbox-close { top: 8px; right: 8px; }
+        }
+        .portfolio-project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 22px;
+        }
+        .portfolio-project-card {
+            border-radius: 14px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .portfolio-project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.09);
+        }
+        .portfolio-project-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+        .portfolio-project-card-body {
+            padding: 14px 14px 16px;
+        }
+        .portfolio-project-card-title {
+            font-weight: 800;
+            color: var(--dark);
+            margin: 0;
+            font-size: 1rem;
+        }
+        .portfolio-project-view {
+            margin-top: 12px;
+        }
+        .portfolio-project-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 10px 0 18px;
+        }
+        .portfolio-back-btn {
+            border: 1px solid rgba(15, 23, 42, 0.15);
+            background: rgba(15, 23, 42, 0.04);
+            color: var(--dark);
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .portfolio-project-title {
+            font-size: 1.35rem;
+            font-weight: 900;
+            margin: 0;
+            color: var(--dark);
+            text-transform: none;
         }
         .portfolio-grid { 
             display: grid; 
@@ -1563,86 +1732,95 @@
     activeTab: 'home',
     activeFilter: 'all',
     mobileNavOpen: false,
+    portfolioTagsLoaded: false,
+    portfolioLightboxOpen: false,
+    portfolioLightboxIndex: 0,
+    portfolioProjectsLoaded: false,
+    portfolioProjects: [],
+    selectedPortfolioSlug: null,
+    get isFileProtocol() {
+        try { return window.location && window.location.protocol === 'file:'; } catch (e) { return false; }
+    },
     projects: [
-        {id: 1, category: 'residential', title: 'فيلا عصرية | Contemporary Villa', location: 'جدة، حي الشاطئ | Jeddah, Al Shati District', image: 'assets/images/Residential/kidsroom (2).jpeg'},
-        {id: 2, category: 'residential', title: 'شقة فاخرة | Luxury Apartment', location: 'القاهرة، التجمع | Cairo, El Tagamoa', image: 'assets/images/Residential/kidsroom (3).jpeg'},
-        {id: 3, category: 'commercial', title: 'مقر شركة | Corporate Office', location: 'جدة، برج الظهران | Jeddah, Dhahran Tower', image: 'assets/images/Commercial/administrative recruitment agency in damam,KSA.jpeg'},
-        {id: 4, category: 'hospitality', title: 'مطعم فاخر | Fine Dining Restaurant', location: 'القاهرة، المعادي | Cairo, Maadi', image: 'assets/images/Hospitality/furniture-09.jpeg'},
-        {id: 5, category: 'furniture', title: 'أثاث مخصص | Bespoke Furniture', location: 'جدة | Jeddah', image: 'assets/images/Furniture/furniture-03.jpeg'},
-        {id: 6, category: 'residential', title: 'قصر ملكي | Royal Palace', location: 'الرياض | Riyadh', image: 'assets/images/Residential/kidsroom (4).jpeg'},
+        {id: 1, category: 'residential', title: 'فيلا عصرية | Contemporary Villa', location: 'جدة، حي الشاطئ | Jeddah, Al Shati District', image: 'assets/site_images/categories/Residential/residential-001.jpeg'},
+        {id: 2, category: 'residential', title: 'شقة فاخرة | Luxury Apartment', location: 'القاهرة، التجمع | Cairo, El Tagamoa', image: 'assets/site_images/categories/Residential/residential-002.jpeg'},
+        {id: 3, category: 'commercial', title: 'مقر شركة | Corporate Office', location: 'جدة، برج الظهران | Jeddah, Dhahran Tower', image: 'assets/site_images/categories/Commercial/commercial-001.jpeg'},
+        {id: 4, category: 'hospitality', title: 'مطعم فاخر | Fine Dining Restaurant', location: 'القاهرة، المعادي | Cairo, Maadi', image: 'assets/site_images/categories/Hospitality/hospitality-001.jpeg'},
+        {id: 5, category: 'furniture', title: 'أثاث مخصص | Bespoke Furniture', location: 'جدة | Jeddah', image: 'assets/site_images/categories/Furniture/furniture-001.jpeg'},
+        {id: 6, category: 'residential', title: 'قصر ملكي | Royal Palace', location: 'الرياض | Riyadh', image: 'assets/site_images/categories/Residential/residential-003.jpeg'},
 
-        {id: 7, category: 'commercial', title: 'مشروع تجاري 01 | Commercial 01', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA.jpeg'},
-        {id: 8, category: 'commercial', title: 'مشروع تجاري 02 | Commercial 02', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA01.jpeg'},
-        {id: 9, category: 'commercial', title: 'مشروع تجاري 03 | Commercial 03', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA02.jpeg'},
-        {id: 10, category: 'commercial', title: 'مشروع تجاري 04 | Commercial 04', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA03.jpeg'},
-        {id: 11, category: 'commercial', title: 'مشروع تجاري 05 | Commercial 05', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA04.jpeg'},
-        {id: 12, category: 'commercial', title: 'مشروع تجاري 06 | Commercial 06', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA05.jpeg'},
-        {id: 13, category: 'commercial', title: 'مشروع تجاري 07 | Commercial 07', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA06.jpeg'},
-        {id: 14, category: 'commercial', title: 'مشروع تجاري 08 | Commercial 08', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA07.jpeg'},
-        {id: 15, category: 'commercial', title: 'مشروع تجاري 09 | Commercial 09', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA08.jpeg'},
-        {id: 16, category: 'commercial', title: 'مشروع تجاري 10 | Commercial 10', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA09.jpeg'},
-        {id: 17, category: 'commercial', title: 'مشروع تجاري 11 | Commercial 11', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA1.jpeg'},
-        {id: 18, category: 'commercial', title: 'مشروع تجاري 12 | Commercial 12', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA10.jpeg'},
-        {id: 19, category: 'commercial', title: 'مشروع تجاري 13 | Commercial 13', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA11.jpeg'},
-        {id: 20, category: 'commercial', title: 'مشروع تجاري 14 | Commercial 14', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA2.jpeg'},
-        {id: 21, category: 'commercial', title: 'مشروع تجاري 15 | Commercial 15', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA3.jpeg'},
-        {id: 22, category: 'commercial', title: 'مشروع تجاري 16 | Commercial 16', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA4.jpeg'},
-        {id: 23, category: 'commercial', title: 'مشروع تجاري 17 | Commercial 17', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA5.jpeg'},
-        {id: 24, category: 'commercial', title: 'مشروع تجاري 18 | Commercial 18', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA6.jpeg'},
-        {id: 25, category: 'commercial', title: 'مشروع تجاري 19 | Commercial 19', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA7.jpeg'},
-        {id: 26, category: 'commercial', title: 'مشروع تجاري 20 | Commercial 20', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA8.jpeg'},
+        {id: 7, category: 'commercial', title: 'مشروع تجاري 01 | Commercial 01', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-002.jpeg'},
+        {id: 8, category: 'commercial', title: 'مشروع تجاري 02 | Commercial 02', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-003.jpeg'},
+        {id: 9, category: 'commercial', title: 'مشروع تجاري 03 | Commercial 03', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-004.jpeg'},
+        {id: 10, category: 'commercial', title: 'مشروع تجاري 04 | Commercial 04', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-005.jpeg'},
+        {id: 11, category: 'commercial', title: 'مشروع تجاري 05 | Commercial 05', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-006.jpeg'},
+        {id: 12, category: 'commercial', title: 'مشروع تجاري 06 | Commercial 06', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-007.jpeg'},
+        {id: 13, category: 'commercial', title: 'مشروع تجاري 07 | Commercial 07', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-008.jpeg'},
+        {id: 14, category: 'commercial', title: 'مشروع تجاري 08 | Commercial 08', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-009.jpeg'},
+        {id: 15, category: 'commercial', title: 'مشروع تجاري 09 | Commercial 09', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-010.jpeg'},
+        {id: 16, category: 'commercial', title: 'مشروع تجاري 10 | Commercial 10', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-011.jpeg'},
+        {id: 17, category: 'commercial', title: 'مشروع تجاري 11 | Commercial 11', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-012.jpeg'},
+        {id: 18, category: 'commercial', title: 'مشروع تجاري 12 | Commercial 12', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-013.jpeg'},
+        {id: 19, category: 'commercial', title: 'مشروع تجاري 13 | Commercial 13', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-014.jpeg'},
+        {id: 20, category: 'commercial', title: 'مشروع تجاري 14 | Commercial 14', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-015.jpeg'},
+        {id: 21, category: 'commercial', title: 'مشروع تجاري 15 | Commercial 15', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-016.jpeg'},
+        {id: 22, category: 'commercial', title: 'مشروع تجاري 16 | Commercial 16', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-017.jpeg'},
+        {id: 23, category: 'commercial', title: 'مشروع تجاري 17 | Commercial 17', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-018.jpeg'},
+        {id: 24, category: 'commercial', title: 'مشروع تجاري 18 | Commercial 18', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-019.jpeg'},
+        {id: 25, category: 'commercial', title: 'مشروع تجاري 19 | Commercial 19', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-020.jpeg'},
+        {id: 26, category: 'commercial', title: 'مشروع تجاري 20 | Commercial 20', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-021.jpeg'},
 
-        {id: 27, category: 'residential', title: 'مشروع سكني 01 | Residential 01', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (5).jpeg'},
-        {id: 28, category: 'residential', title: 'مشروع سكني 02 | Residential 02', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (6).jpeg'},
-        {id: 29, category: 'residential', title: 'مشروع سكني 03 | Residential 03', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (7).jpeg'},
-        {id: 30, category: 'residential', title: 'مشروع سكني 04 | Residential 04', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (8).jpeg'},
-        {id: 31, category: 'residential', title: 'مشروع سكني 05 | Residential 05', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom.jpeg'},
-        {id: 32, category: 'residential', title: 'مشروع سكني 06 | Residential 06', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (10).jpeg'},
-        {id: 33, category: 'residential', title: 'مشروع سكني 07 | Residential 07', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (2).jpeg'},
-        {id: 34, category: 'residential', title: 'مشروع سكني 08 | Residential 08', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (3).jpeg'},
-        {id: 35, category: 'residential', title: 'مشروع سكني 09 | Residential 09', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (4).jpeg'},
-        {id: 36, category: 'residential', title: 'مشروع سكني 10 | Residential 10', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (5).jpeg'},
-        {id: 37, category: 'residential', title: 'مشروع سكني 11 | Residential 11', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (6).jpeg'},
-        {id: 38, category: 'residential', title: 'مشروع سكني 12 | Residential 12', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (7).jpeg'},
-        {id: 39, category: 'residential', title: 'مشروع سكني 13 | Residential 13', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (8).jpeg'},
-        {id: 40, category: 'residential', title: 'مشروع سكني 14 | Residential 14', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (9).jpeg'},
-        {id: 41, category: 'residential', title: 'مشروع سكني 15 | Residential 15', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom.jpeg'},
-        {id: 42, category: 'residential', title: 'مشروع سكني 16 | Residential 16', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/villa in el ehsaa KSA .jpeg'},
-        {id: 43, category: 'residential', title: 'مشروع سكني 17 | Residential 17', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/villa in el ehsaa KSA 01.jpeg'},
-        {id: 44, category: 'residential', title: 'مشروع سكني 18 | Residential 18', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/villa in el ehsaa KSA 02.jpeg'},
+        {id: 27, category: 'residential', title: 'مشروع سكني 01 | Residential 01', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-004.jpeg'},
+        {id: 28, category: 'residential', title: 'مشروع سكني 02 | Residential 02', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-005.jpeg'},
+        {id: 29, category: 'residential', title: 'مشروع سكني 03 | Residential 03', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-006.jpeg'},
+        {id: 30, category: 'residential', title: 'مشروع سكني 04 | Residential 04', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-007.jpeg'},
+        {id: 31, category: 'residential', title: 'مشروع سكني 05 | Residential 05', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-008.jpeg'},
+        {id: 32, category: 'residential', title: 'مشروع سكني 06 | Residential 06', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-009.jpeg'},
+        {id: 33, category: 'residential', title: 'مشروع سكني 07 | Residential 07', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-010.jpeg'},
+        {id: 34, category: 'residential', title: 'مشروع سكني 08 | Residential 08', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-011.jpeg'},
+        {id: 35, category: 'residential', title: 'مشروع سكني 09 | Residential 09', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-012.jpeg'},
+        {id: 36, category: 'residential', title: 'مشروع سكني 10 | Residential 10', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-013.jpeg'},
+        {id: 37, category: 'residential', title: 'مشروع سكني 11 | Residential 11', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-014.jpeg'},
+        {id: 38, category: 'residential', title: 'مشروع سكني 12 | Residential 12', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-015.jpeg'},
+        {id: 39, category: 'residential', title: 'مشروع سكني 13 | Residential 13', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-016.jpeg'},
+        {id: 40, category: 'residential', title: 'مشروع سكني 14 | Residential 14', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-017.jpeg'},
+        {id: 41, category: 'residential', title: 'مشروع سكني 15 | Residential 15', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-018.jpeg'},
+        {id: 42, category: 'residential', title: 'مشروع سكني 16 | Residential 16', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-019.jpeg'},
+        {id: 43, category: 'residential', title: 'مشروع سكني 17 | Residential 17', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-020.jpeg'},
+        {id: 44, category: 'residential', title: 'مشروع سكني 18 | Residential 18', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-021.jpeg'},
 
-        {id: 45, category: 'hospitality', title: 'مشروع ضيافة 01 | Hospitality 01', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/furniture-11.jpeg'},
-        {id: 46, category: 'hospitality', title: 'مشروع ضيافة 02 | Hospitality 02', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/furniture-14.jpeg'},
-        {id: 47, category: 'hospitality', title: 'مشروع ضيافة 03 | Hospitality 03', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/furniture-15.jpeg'},
-        {id: 48, category: 'hospitality', title: 'مشروع ضيافة 04 | Hospitality 04', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/project-68.jpeg'},
-        {id: 49, category: 'hospitality', title: 'مشروع ضيافة 05 | Hospitality 05', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/project-85.jpeg'},
-        {id: 50, category: 'hospitality', title: 'مشروع ضيافة 06 | Hospitality 06', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/project-87.jpeg'},
-        {id: 51, category: 'hospitality', title: 'مشروع ضيافة 07 | Hospitality 07', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/project-89.jpeg'},
-        {id: 52, category: 'hospitality', title: 'مشروع ضيافة 08 | Hospitality 08', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/project-90.jpeg'},
-        {id: 53, category: 'hospitality', title: 'مشروع ضيافة 09 | Hospitality 09', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/project-93.jpeg'},
-        {id: 54, category: 'hospitality', title: 'مشروع ضيافة 10 | Hospitality 10', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/images/Hospitality/residential-05.jpeg'},
+        {id: 45, category: 'hospitality', title: 'مشروع ضيافة 01 | Hospitality 01', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-002.jpeg'},
+        {id: 46, category: 'hospitality', title: 'مشروع ضيافة 02 | Hospitality 02', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-003.jpeg'},
+        {id: 47, category: 'hospitality', title: 'مشروع ضيافة 03 | Hospitality 03', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-004.jpeg'},
+        {id: 48, category: 'hospitality', title: 'مشروع ضيافة 04 | Hospitality 04', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-005.jpeg'},
+        {id: 49, category: 'hospitality', title: 'مشروع ضيافة 05 | Hospitality 05', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-006.jpeg'},
+        {id: 50, category: 'hospitality', title: 'مشروع ضيافة 06 | Hospitality 06', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-007.jpeg'},
+        {id: 51, category: 'hospitality', title: 'مشروع ضيافة 07 | Hospitality 07', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-008.jpeg'},
+        {id: 52, category: 'hospitality', title: 'مشروع ضيافة 08 | Hospitality 08', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-009.jpeg'},
+        {id: 53, category: 'hospitality', title: 'مشروع ضيافة 09 | Hospitality 09', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-010.jpeg'},
+        {id: 54, category: 'hospitality', title: 'مشروع ضيافة 10 | Hospitality 10', location: 'مشروع ضيافة | Hospitality Project', image: 'assets/site_images/categories/Hospitality/hospitality-011.jpeg'},
 
-        {id: 55, category: 'furniture', title: 'مشروع أثاث 01 | Furniture 01', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/furniture-10.jpeg'},
-        {id: 56, category: 'furniture', title: 'مشروع أثاث 02 | Furniture 02', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/furniture-12.jpeg'},
-        {id: 57, category: 'furniture', title: 'مشروع أثاث 03 | Furniture 03', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/furniture-16.jpeg'},
-        {id: 58, category: 'furniture', title: 'مشروع أثاث 04 | Furniture 04', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/furniture-17.jpeg'},
-        {id: 59, category: 'furniture', title: 'مشروع أثاث 05 | Furniture 05', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/furniture-21.jpeg'},
-        {id: 60, category: 'furniture', title: 'مشروع أثاث 06 | Furniture 06', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/furniture-22.jpeg'},
-        {id: 61, category: 'furniture', title: 'مشروع أثاث 07 | Furniture 07', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/project-171.jpeg'},
-        {id: 62, category: 'furniture', title: 'مشروع أثاث 08 | Furniture 08', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/project-173.jpeg'},
-        {id: 63, category: 'furniture', title: 'مشروع أثاث 09 | Furniture 09', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/project-174.jpeg'},
-        {id: 64, category: 'furniture', title: 'مشروع أثاث 10 | Furniture 10', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/furniture-12.jpeg'},
+        {id: 55, category: 'furniture', title: 'مشروع أثاث 01 | Furniture 01', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-002.jpeg'},
+        {id: 56, category: 'furniture', title: 'مشروع أثاث 02 | Furniture 02', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-003.jpeg'},
+        {id: 57, category: 'furniture', title: 'مشروع أثاث 03 | Furniture 03', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-004.jpeg'},
+        {id: 58, category: 'furniture', title: 'مشروع أثاث 04 | Furniture 04', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-005.jpeg'},
+        {id: 59, category: 'furniture', title: 'مشروع أثاث 05 | Furniture 05', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-006.jpeg'},
+        {id: 60, category: 'furniture', title: 'مشروع أثاث 06 | Furniture 06', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-007.jpeg'},
+        {id: 61, category: 'furniture', title: 'مشروع أثاث 07 | Furniture 07', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-008.jpeg'},
+        {id: 62, category: 'furniture', title: 'مشروع أثاث 08 | Furniture 08', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-009.jpeg'},
+        {id: 63, category: 'furniture', title: 'مشروع أثاث 09 | Furniture 09', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-010.jpeg'},
+        {id: 64, category: 'furniture', title: 'مشروع أثاث 10 | Furniture 10', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-003.jpeg'},
 
-        {id: 65, category: 'commercial', title: 'مشروع تجاري 21 | Commercial 21', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial shop in KSA9.jpeg'},
-        {id: 66, category: 'commercial', title: 'مشروع تجاري 22 | Commercial 22', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial-04.jpeg'},
-        {id: 67, category: 'commercial', title: 'مشروع تجاري 23 | Commercial 23', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial-05.jpeg'},
-        {id: 68, category: 'commercial', title: 'مشروع تجاري 24 | Commercial 24', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial-08.jpeg'},
-        {id: 69, category: 'commercial', title: 'مشروع تجاري 25 | Commercial 25', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial-14.jpeg'},
-        {id: 70, category: 'commercial', title: 'مشروع تجاري 26 | Commercial 26', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial-16.jpeg'},
+        {id: 65, category: 'commercial', title: 'مشروع تجاري 21 | Commercial 21', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-022.jpeg'},
+        {id: 66, category: 'commercial', title: 'مشروع تجاري 22 | Commercial 22', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-023.jpeg'},
+        {id: 67, category: 'commercial', title: 'مشروع تجاري 23 | Commercial 23', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-024.jpeg'},
+        {id: 68, category: 'commercial', title: 'مشروع تجاري 24 | Commercial 24', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-025.jpeg'},
+        {id: 69, category: 'commercial', title: 'مشروع تجاري 25 | Commercial 25', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-026.jpeg'},
+        {id: 70, category: 'commercial', title: 'مشروع تجاري 26 | Commercial 26', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-027.jpeg'},
 
-        {id: 71, category: 'residential', title: 'مشروع سكني 19 | Residential 19', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (2).jpeg'},
-        {id: 72, category: 'residential', title: 'مشروع سكني 20 | Residential 20', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (3).jpeg'},
-        {id: 73, category: 'residential', title: 'مشروع سكني 21 | Residential 21', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (4).jpeg'},
+        {id: 71, category: 'residential', title: 'مشروع سكني 19 | Residential 19', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-001.jpeg'},
+        {id: 72, category: 'residential', title: 'مشروع سكني 20 | Residential 20', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-002.jpeg'},
+        {id: 73, category: 'residential', title: 'مشروع سكني 21 | Residential 21', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-003.jpeg'},
 
         {id: 74, category: 'furniture', title: 'مشروع أثاث 11 | Furniture 11', location: 'أثاث مخصص | Custom Furniture', image: 'images/furniture-18.jpeg'},
         {id: 75, category: 'furniture', title: 'مشروع أثاث 12 | Furniture 12', location: 'أثاث مخصص | Custom Furniture', image: 'images/furniture-21.jpeg'},
@@ -1653,27 +1831,27 @@
         {id: 80, category: 'furniture', title: 'مشروع أثاث 17 | Furniture 17', location: 'أثاث مخصص | Custom Furniture', image: 'images/furniture-27.jpeg'},
         {id: 81, category: 'furniture', title: 'مشروع أثاث 18 | Furniture 18', location: 'أثاث مخصص | Custom Furniture', image: 'images/furniture-28.jpeg'},
 
-        {id: 82, category: 'residential', title: 'مشروع سكني 22 | Residential 22', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (7).jpeg'},
-        {id: 83, category: 'residential', title: 'مشروع سكني 23 | Residential 23', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (5).jpeg'},
-        {id: 84, category: 'residential', title: 'مشروع سكني 24 | Residential 24', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (6).jpeg'},
-        {id: 85, category: 'residential', title: 'مشروع سكني 25 | Residential 25', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (7).jpeg'},
-        {id: 86, category: 'residential', title: 'مشروع سكني 26 | Residential 26', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom (8).jpeg'},
-        {id: 87, category: 'residential', title: 'مشروع سكني 27 | Residential 27', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/kidsroom.jpeg'},
-        {id: 88, category: 'residential', title: 'مشروع سكني 28 | Residential 28', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (10).jpeg'},
-        {id: 89, category: 'residential', title: 'مشروع سكني 29 | Residential 29', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (2).jpeg'},
+        {id: 82, category: 'residential', title: 'مشروع سكني 22 | Residential 22', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-015.jpeg'},
+        {id: 83, category: 'residential', title: 'مشروع سكني 23 | Residential 23', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-004.jpeg'},
+        {id: 84, category: 'residential', title: 'مشروع سكني 24 | Residential 24', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-005.jpeg'},
+        {id: 85, category: 'residential', title: 'مشروع سكني 25 | Residential 25', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-006.jpeg'},
+        {id: 86, category: 'residential', title: 'مشروع سكني 26 | Residential 26', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-007.jpeg'},
+        {id: 87, category: 'residential', title: 'مشروع سكني 27 | Residential 27', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-008.jpeg'},
+        {id: 88, category: 'residential', title: 'مشروع سكني 28 | Residential 28', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-009.jpeg'},
+        {id: 89, category: 'residential', title: 'مشروع سكني 29 | Residential 29', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-010.jpeg'},
 
-        {id: 90, category: 'commercial', title: 'مشروع تجاري 27 | Commercial 27', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial-17.jpeg'},
-        {id: 91, category: 'commercial', title: 'مشروع تجاري 28 | Commercial 28', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial-18.jpeg'},
-        {id: 92, category: 'commercial', title: 'مشروع تجاري 29 | Commercial 29', location: 'مشروع تجاري | Commercial Project', image: 'assets/images/Commercial/commercial-21.jpeg'},
+        {id: 90, category: 'commercial', title: 'مشروع تجاري 27 | Commercial 27', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-028.jpeg'},
+        {id: 91, category: 'commercial', title: 'مشروع تجاري 28 | Commercial 28', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-029.jpeg'},
+        {id: 92, category: 'commercial', title: 'مشروع تجاري 29 | Commercial 29', location: 'مشروع تجاري | Commercial Project', image: 'assets/site_images/categories/Commercial/commercial-030.jpeg'},
 
-        {id: 93, category: 'residential', title: 'مشروع سكني 30 | Residential 30', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (3).jpeg'},
-        {id: 94, category: 'residential', title: 'مشروع سكني 31 | Residential 31', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (4).jpeg'},
-        {id: 95, category: 'residential', title: 'مشروع سكني 32 | Residential 32', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (5).jpeg'},
-        {id: 96, category: 'residential', title: 'مشروع سكني 33 | Residential 33', location: 'مشروع سكني | Residential Project', image: 'assets/images/Residential/master bedroom (6).jpeg'},
+        {id: 93, category: 'residential', title: 'مشروع سكني 30 | Residential 30', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-011.jpeg'},
+        {id: 94, category: 'residential', title: 'مشروع سكني 31 | Residential 31', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-012.jpeg'},
+        {id: 95, category: 'residential', title: 'مشروع سكني 32 | Residential 32', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-013.jpeg'},
+        {id: 96, category: 'residential', title: 'مشروع سكني 33 | Residential 33', location: 'مشروع سكني | Residential Project', image: 'assets/site_images/categories/Residential/residential-014.jpeg'},
 
-        {id: 97, category: 'furniture', title: 'وحدة أثاث حديثة | Modern Furniture Unit', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/residential-20.jpeg'},
-        {id: 98, category: 'furniture', title: 'وحدة تخزين عملية | Functional Storage Unit', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/residential-21.jpeg'},
-        {id: 99, category: 'furniture', title: 'ركن جلوس مميز | Signature Seating Corner', location: 'أثاث مخصص | Custom Furniture', image: 'assets/images/Furniture/residential-22.jpeg'},
+        {id: 97, category: 'furniture', title: 'وحدة أثاث حديثة | Modern Furniture Unit', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-020.jpeg'},
+        {id: 98, category: 'furniture', title: 'وحدة تخزين عملية | Functional Storage Unit', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-021.jpeg'},
+        {id: 99, category: 'furniture', title: 'ركن جلوس مميز | Signature Seating Corner', location: 'أثاث مخصص | Custom Furniture', image: 'assets/site_images/categories/Furniture/furniture-022.jpeg'},
     ],
     setTab(tab) {
         this.activeTab = tab;
@@ -1681,6 +1859,262 @@
     },
     get filteredProjects() {
         return this.activeFilter === 'all' ? this.projects : this.projects.filter(p => p.category === this.activeFilter);
+    },
+    get portfolioLightboxItems() {
+        if (this.selectedPortfolioProject && Array.isArray(this.selectedPortfolioProject.images)) {
+            return this.selectedPortfolioProject.images.map(img => ({ image: img }));
+        }
+        return this.filteredProjects;
+    },
+    get selectedPortfolioProject() {
+        if (!this.selectedPortfolioSlug) return null;
+        return (this.portfolioProjects || []).find(p => p.slug === this.selectedPortfolioSlug) || null;
+    },
+    async loadPortfolioProjects() {
+        try {
+            if (this.isFileProtocol) {
+                this.portfolioProjectsLoaded = false;
+                this.portfolioProjects = [];
+                return;
+            }
+            let data = null;
+            try {
+                const res = await fetch('data/portfolio_projects.json', { cache: 'no-store' });
+                if (res.ok) data = await res.json();
+            } catch (e) {}
+
+            if (!data) {
+                const resFallback = await fetch('data/artrova_projects.json', { cache: 'no-store' });
+                if (!resFallback.ok) throw new Error('portfolio_projects.json not found');
+                data = await resFallback.json();
+            }
+
+            const list = Array.isArray(data.projects) ? data.projects : [];
+            this.portfolioProjects = list.map(p => ({
+                slug: p.slug,
+                titleAr: p.titleAr,
+                titleEn: p.titleEn,
+                title: p.title,
+                images: Array.isArray(p.images) ? p.images : [],
+                cover: p.cover || ((Array.isArray(p.images) && p.images.length) ? p.images[0] : '')
+            }));
+            this.portfolioProjectsLoaded = true;
+        } catch (e) {
+            this.portfolioProjectsLoaded = false;
+            this.portfolioProjects = [];
+        }
+    },
+    openPortfolioProject(slug) {
+        this.selectedPortfolioSlug = slug;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    closePortfolioProject() {
+        this.selectedPortfolioSlug = null;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    openPortfolioLightbox(index) {
+        const len = this.portfolioLightboxItems.length;
+        if (!len) return;
+        const safeIndex = Math.max(0, Math.min(Number(index) || 0, len - 1));
+        this.portfolioLightboxIndex = safeIndex;
+        this.portfolioLightboxOpen = true;
+        document.documentElement.style.overflow = 'hidden';
+    },
+    getPortfolioProjectTitle(project) {
+        if (!project) return '';
+        const ar = String(project.titleAr || '').trim();
+        const en = String(project.titleEn || '').trim();
+        const any = String(project.title || '').trim();
+
+        if (ar && en && ar.toLowerCase() !== en.toLowerCase()) {
+            return `${ar} | ${en}`;
+        }
+        return ar || en || any;
+    },
+    closePortfolioLightbox() {
+        this.portfolioLightboxOpen = false;
+        document.documentElement.style.overflow = '';
+    },
+    nextPortfolioLightbox() {
+        const len = this.portfolioLightboxItems.length;
+        if (!len) return;
+        this.portfolioLightboxIndex = (this.portfolioLightboxIndex + 1) % len;
+    },
+    prevPortfolioLightbox() {
+        const len = this.portfolioLightboxItems.length;
+        if (!len) return;
+        this.portfolioLightboxIndex = (this.portfolioLightboxIndex - 1 + len) % len;
+    },
+    onPortfolioKeydown(e) {
+        if (!this.portfolioLightboxOpen) return;
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            this.closePortfolioLightbox();
+            return;
+        }
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            this.nextPortfolioLightbox();
+            return;
+        }
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            this.prevPortfolioLightbox();
+            return;
+        }
+    },
+    get portfolioGroups() {
+        const defs = [
+            { key: 'residential', ar: 'سكني', en: 'Residential' },
+            { key: 'commercial', ar: 'تجاري', en: 'Commercial' },
+            { key: 'hospitality', ar: 'ضيافة', en: 'Hospitality' },
+            { key: 'furniture', ar: 'أثاث', en: 'Furniture' }
+        ];
+
+        const keys = this.activeFilter && this.activeFilter !== 'all'
+            ? [this.activeFilter]
+            : defs.map(d => d.key);
+
+        return defs
+            .filter(d => keys.includes(d.key))
+            .map(d => ({
+                key: d.key,
+                titleAr: d.ar,
+                titleEn: d.en,
+                items: this.projects.filter(p => p.category === d.key)
+            }))
+            .filter(g => g.items.length);
+    },
+    csvParseLine(line) {
+        const out = [];
+        let cur = '';
+        let inQuotes = false;
+        const QUOTE = String.fromCharCode(34);
+        for (let i = 0; i < line.length; i++) {
+            const ch = line[i];
+            if (ch === QUOTE) {
+                if (inQuotes && line[i + 1] === QUOTE) {
+                    cur += QUOTE;
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (ch === ',' && !inQuotes) {
+                out.push(cur);
+                cur = '';
+            } else {
+                cur += ch;
+            }
+        }
+        out.push(cur);
+        return out;
+    },
+    portfolioTagFromOldName(oldName, category) {
+        const raw = String(oldName || '').toLowerCase();
+        const cat = String(category || '').toLowerCase();
+
+        if (cat === 'residential') {
+            if (raw.includes('kidsroom') || raw.includes('kid') || raw.includes('child')) return { ar: 'غرفة أطفال', en: 'Kids Room' };
+            if (raw.includes('master') || raw.includes('bedroom')) return { ar: 'غرفة نوم رئيسية', en: 'Master Bedroom' };
+            if (raw.includes('villa') || raw.includes('palace')) return { ar: 'فيلا / قصر', en: 'Villa / Palace' };
+            return { ar: 'سكني - أخرى', en: 'Residential - Other' };
+        }
+
+        if (cat === 'commercial') {
+            if (raw.includes('recruitment') || raw.includes('agency')) return { ar: 'مكاتب توظيف', en: 'Recruitment Agency' };
+            if (raw.includes('shop') || raw.includes('store') || raw.includes('retail')) return { ar: 'محلات تجارية', en: 'Commercial Shop' };
+            if (raw.includes('office') || raw.includes('corporate')) return { ar: 'مكاتب إدارية', en: 'Office' };
+            return { ar: 'تجاري - أخرى', en: 'Commercial - Other' };
+        }
+
+        if (cat === 'hospitality') {
+            if (raw.includes('restaurant') || raw.includes('dining') || raw.includes('cafe')) return { ar: 'مطاعم / كافيهات', en: 'Restaurants / Cafes' };
+            if (raw.includes('hotel')) return { ar: 'فنادق', en: 'Hotels' };
+            if (raw.includes('project-')) return { ar: 'ضيافة - مشاريع', en: 'Hospitality Projects' };
+            if (raw.includes('furniture')) return { ar: 'تفاصيل أثاث (ضيافة)', en: 'Furniture Details (Hospitality)' };
+            return { ar: 'ضيافة - أخرى', en: 'Hospitality - Other' };
+        }
+
+        if (cat === 'furniture') {
+            if (raw.includes('unit') || raw.includes('storage')) return { ar: 'وحدات / تخزين', en: 'Units / Storage' };
+            if (raw.includes('seating') || raw.includes('corner') || raw.includes('sofa') || raw.includes('chair')) return { ar: 'جلوس', en: 'Seating' };
+            if (raw.includes('project-')) return { ar: 'قطع مميزة', en: 'Signature Pieces' };
+            if (raw.includes('furniture-')) return { ar: 'أثاث', en: 'Furniture' };
+            return { ar: 'أثاث - أخرى', en: 'Furniture - Other' };
+        }
+
+        return { ar: 'أخرى', en: 'Other' };
+    },
+    async loadPortfolioTags() {
+        try {
+            if (this.isFileProtocol) {
+                this.portfolioTagsLoaded = false;
+                return;
+            }
+            const res = await fetch('rename-plan.csv', { cache: 'no-store' });
+            if (!res.ok) throw new Error('rename-plan.csv not found');
+            const text = await res.text();
+            const lines = text.split(/\r?\n/).filter(Boolean);
+            if (lines.length < 2) return;
+
+            const header = this.csvParseLine(lines[0]);
+            const idxNew = header.indexOf('NewRelative');
+            const idxOldName = header.indexOf('OldName');
+            const idxCat = header.indexOf('Category');
+            if (idxNew === -1 || idxOldName === -1) return;
+
+            const map = new Map();
+            for (let i = 1; i < lines.length; i++) {
+                const cols = this.csvParseLine(lines[i]);
+                const newRel = cols[idxNew];
+                const oldName = cols[idxOldName];
+                const cat = idxCat !== -1 ? cols[idxCat] : '';
+                if (!newRel) continue;
+                map.set(String(newRel).replace(/\\/g, '/'), { oldName, cat });
+            }
+
+            this.projects = this.projects.map(p => {
+                const key = String(p.image || '').replace(/\\/g, '/');
+                const hit = map.get(key);
+                const cat = (hit && hit.cat) ? hit.cat : p.category;
+                const tagObj = this.portfolioTagFromOldName(hit ? hit.oldName : '', cat);
+                return {
+                    ...p,
+                    portfolioTagAr: tagObj.ar,
+                    portfolioTagEn: tagObj.en
+                };
+            });
+
+            this.portfolioTagsLoaded = true;
+        } catch (e) {
+            this.portfolioTagsLoaded = false;
+        }
+    },
+    get portfolioTagGroups() {
+        const catGroups = this.portfolioGroups;
+        return catGroups.map(cg => {
+            const buckets = new Map();
+            cg.items.forEach(p => {
+                const ar = p.portfolioTagAr || (cg.key === 'residential' ? 'سكني - أخرى' : 'أخرى');
+                const en = p.portfolioTagEn || (cg.key === 'residential' ? 'Residential - Other' : 'Other');
+                const k = en + '||' + ar;
+                if (!buckets.has(k)) buckets.set(k, { tagAr: ar, tagEn: en, items: [] });
+                buckets.get(k).items.push(p);
+            });
+
+            const tags = Array.from(buckets.values())
+                .map(t => ({
+                    tagAr: t.tagAr,
+                    tagEn: t.tagEn,
+                    items: t.items
+                }))
+                .sort((a, b) => a.tagEn.localeCompare(b.tagEn));
+
+            return {
+                ...cg,
+                tags
+            };
+        });
     },
     setFilter(filter) {
         this.activeFilter = filter;
@@ -1733,6 +2167,9 @@
         this.activeFilter = initial;
         this.updateSeoForFilter(initial);
         this.updateUrlForFilter(initial);
+        this.loadPortfolioTags();
+        this.loadPortfolioProjects();
+        window.addEventListener('keydown', (e) => this.onPortfolioKeydown(e));
     },
     submitForm(event) {
         alert('شكراً لتواصلك معنا! سنرد عليك قريباً.');
@@ -2178,7 +2615,7 @@
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-card-image">
-                        <img src="assets/images/Residential/master bedroom.jpeg" alt="خدمة تصميم داخلي سكني" loading="lazy" decoding="async">
+                        <img src="assets/site_images/categories/Residential/residential-018.jpeg" alt="خدمة تصميم داخلي سكني" loading="lazy" decoding="async">
                     </div>
                     <div class="service-icon">🏠</div>
                     <h3 x-text="language === 'ar' ? 'تصميم سكني' : 'Residential Design'"></h3>
@@ -2186,7 +2623,7 @@
                 </div>
                 <div class="service-card">
                     <div class="service-card-image">
-                        <img src="assets/images/Commercial/commercial shop in KSA.jpeg" alt="خدمة تصميم تجاري" loading="lazy" decoding="async">
+                        <img src="assets/site_images/categories/Commercial/commercial-002.jpeg" alt="خدمة تصميم تجاري" loading="lazy" decoding="async">
                     </div>
                     <div class="service-icon">🏢</div>
                     <h3 x-text="language === 'ar' ? 'تصميم تجاري' : 'Commercial Design'"></h3>
@@ -2194,7 +2631,7 @@
                 </div>
                 <div class="service-card">
                     <div class="service-card-image">
-                        <img src="assets/images/Hospitality/project-90.jpeg" alt="خدمة تصميم الضيافة" loading="lazy" decoding="async">
+                        <img src="assets/site_images/categories/Hospitality/hospitality-009.jpeg" alt="خدمة تصميم الضيافة" loading="lazy" decoding="async">
                     </div>
                     <div class="service-icon">🍽️</div>
                     <h3 x-text="language === 'ar' ? 'الضيافة' : 'Hospitality Design'"></h3>
@@ -2202,7 +2639,7 @@
                 </div>
                 <div class="service-card">
                     <div class="service-card-image">
-                        <img src="assets/images/Furniture/furniture-12.jpeg" alt="خدمة الأثاث المخصص" loading="lazy" decoding="async">
+                        <img src="assets/site_images/categories/Furniture/furniture-003.jpeg" alt="خدمة الأثاث المخصص" loading="lazy" decoding="async">
                     </div>
                     <div class="service-icon">🪑</div>
                     <h3 x-text="language === 'ar' ? 'أثاث مخصص' : 'Custom Furniture'"></h3>
@@ -2230,147 +2667,68 @@
                 <h2 x-text="language === 'ar' ? 'أعمالنا المميزة' : 'Our Featured Projects'"></h2>
                 <p x-text="language === 'ar' ? 'مجموعة من المشاريع السكنية والتجارية التي نفخر بتنفيذها' : 'A selection of residential and commercial projects we are proud to deliver'"></p>
             </div>
-            
-            <div class="portfolio-filter" role="tablist" aria-label="فلترة المشاريع">
-                <button
-                    role="tab"
-                    id="tab-all"
-                    @click="setFilter('all')"
-                    :class="{'active': activeFilter === 'all'}"
-                    class="filter-btn"
-                    :aria-selected="activeFilter === 'all'"
-                    :tabindex="activeFilter === 'all' ? 0 : -1"
-                    aria-controls="portfolio-panel"
-                    x-text="language === 'ar' ? 'الكل' : 'All'"
-                ></button>
-                <button
-                    role="tab"
-                    id="tab-residential"
-                    @click="setFilter('residential')"
-                    :class="{'active': activeFilter === 'residential'}"
-                    class="filter-btn"
-                    :aria-selected="activeFilter === 'residential'"
-                    :tabindex="activeFilter === 'residential' ? 0 : -1"
-                    aria-controls="portfolio-panel"
-                    x-text="language === 'ar' ? 'سكني' : 'Residential'"
-                ></button>
-                <button
-                    role="tab"
-                    id="tab-commercial"
-                    @click="setFilter('commercial')"
-                    :class="{'active': activeFilter === 'commercial'}"
-                    class="filter-btn"
-                    :aria-selected="activeFilter === 'commercial'"
-                    :tabindex="activeFilter === 'commercial' ? 0 : -1"
-                    aria-controls="portfolio-panel"
-                    x-text="language === 'ar' ? 'تجاري' : 'Commercial'"
-                ></button>
-                <button
-                    role="tab"
-                    id="tab-hospitality"
-                    @click="setFilter('hospitality')"
-                    :class="{'active': activeFilter === 'hospitality'}"
-                    class="filter-btn"
-                    :aria-selected="activeFilter === 'hospitality'"
-                    :tabindex="activeFilter === 'hospitality' ? 0 : -1"
-                    aria-controls="portfolio-panel"
-                    x-text="language === 'ar' ? 'ضيافة' : 'Hospitality'"
-                ></button>
-                <button
-                    role="tab"
-                    id="tab-furniture"
-                    @click="setFilter('furniture')"
-                    :class="{'active': activeFilter === 'furniture'}"
-                    class="filter-btn"
-                    :aria-selected="activeFilter === 'furniture'"
-                    :tabindex="activeFilter === 'furniture' ? 0 : -1"
-                    aria-controls="portfolio-panel"
-                    x-text="language === 'ar' ? 'أثاث' : 'Furniture'"
-                ></button>
-            </div>
-            
-            <div class="portfolio-grid" id="portfolio-panel" role="tabpanel" aria-labelledby="tab-all">
-                <template x-for="project in filteredProjects" :key="project.id">
-                    <div class="portfolio-item"
-                         role="article"
-                         :aria-label="project.title + ' - ' + project.location">
-                        <img 
-                            :src="project.image" 
-                            :alt="language === 'ar'
-                                ? (
-                                    project.category === 'residential'
-                                        ? 'تصميم داخلي حديث لمسكن أو فيلا من أعمال Artrova Studio'
-                                        : project.category === 'commercial'
-                                            ? 'تصميم مكتب أو نشاط تجاري حديث من أعمال Artrova Studio'
-                                            : project.category === 'hospitality'
-                                                ? 'تصميم مطعم أو مساحة ضيافة من أعمال Artrova Studio'
-                                                : project.category === 'furniture'
-                                                    ? 'تصميم قطعة أثاث مخصصة من أعمال Artrova Studio'
-                                                    : 'صورة من أحد مشاريع Artrova Studio')
-                                : (
-                                    project.category === 'residential'
-                                        ? 'Modern residential interior or villa design by Artrova Studio'
-                                        : project.category === 'commercial'
-                                            ? 'Modern office or commercial space design by Artrova Studio'
-                                            : project.category === 'hospitality'
-                                                ? 'Restaurant or hospitality space design by Artrova Studio'
-                                                : project.category === 'furniture'
-                                                    ? 'Custom furniture design by Artrova Studio'
-                                                    : 'Image from one of Artrova Studio projects')" 
-                            loading="lazy">
-                        <div class="portfolio-overlay">
-                            <h3 x-text="language === 'ar'
-                                ? (
-                                    project.id <= 6
-                                        ? project.title.split('|')[0].trim()
-                                        : (
-                                            project.category === 'commercial' ? 'مشروع تجاري' :
-                                            project.category === 'residential' ? 'مشروع سكني' :
-                                            project.category === 'hospitality' ? 'مشروع ضيافة' :
-                                            project.category === 'furniture' ? 'مشروع أثاث' :
-                                            project.title.split('|')[0].trim()
-                                        )
-                                  )
-                                : (
-                                    project.id <= 6
-                                        ? (project.title.split('|')[1] || project.title.split('|')[0]).trim()
-                                        : (
-                                            project.category === 'commercial' ? 'Commercial Project' :
-                                            project.category === 'residential' ? 'Residential Project' :
-                                            project.category === 'hospitality' ? 'Hospitality Project' :
-                                            project.category === 'furniture' ? 'Furniture Project' :
-                                            (project.title.split('|')[1] || project.title.split('|')[0]).trim()
-                                        )
-                                  )"></h3>
-                            <p x-text="language === 'ar'
-                                ? (
-                                    project.id <= 6
-                                        ? project.location.split('|')[0].trim()
-                                        : (
-                                            project.category === 'commercial' ? 'مشروع تجاري' :
-                                            project.category === 'residential' ? 'مشروع سكني' :
-                                            project.category === 'hospitality' ? 'مشروع ضيافة' :
-                                            project.category === 'furniture' ? 'مشروع أثاث' :
-                                            project.location.split('|')[0].trim()
-                                        )
-                                  )
-                                : (
-                                    project.id <= 6
-                                        ? (project.location.split('|')[1] || project.location.split('|')[0]).trim()
-                                        : (
-                                            project.category === 'commercial' ? 'Commercial Project' :
-                                            project.category === 'residential' ? 'Residential Project' :
-                                            project.category === 'hospitality' ? 'Hospitality Project' :
-                                            project.category === 'furniture' ? 'Furniture Project' :
-                                            (project.location.split('|')[1] || project.location.split('|')[0]).trim()
-                                        )
-                                  )"></p>
+
+            <div id="portfolio-panel" role="tabpanel" aria-labelledby="tab-all">
+                <template x-if="!portfolioProjectsLoaded">
+                    <div style="text-align:center; padding: 30px 0; font-weight: 800;">
+                        <template x-if="isFileProtocol">
+                            <div x-text="language === 'ar'
+                                ? 'لن تظهر المشاريع عند فتح الملف مباشرة (file://). افتح الموقع عبر Live Server / localhost ثم أعد المحاولة.'
+                                : 'Projects will not load when opened via file://. Please use Live Server / localhost and try again.'"></div>
+                        </template>
+                        <template x-if="!isFileProtocol">
+                            <div x-text="language === 'ar' ? 'جاري تحميل المشاريع...' : 'Loading projects...'"></div>
+                        </template>
+                    </div>
+                </template>
+                <template x-if="portfolioProjectsLoaded && !selectedPortfolioProject">
+                    <div class="portfolio-project-grid">
+                        <template x-for="p in portfolioProjects" :key="p.slug">
+                            <div class="portfolio-project-card" role="button" tabindex="0" @click="openPortfolioProject(p.slug)" @keydown.enter.prevent="openPortfolioProject(p.slug)" @keydown.space.prevent="openPortfolioProject(p.slug)">
+                                <img :src="p.cover" :alt="getPortfolioProjectTitle(p)" loading="lazy" decoding="async">
+                                <div class="portfolio-project-card-body">
+                                    <p class="portfolio-project-card-title" x-text="getPortfolioProjectTitle(p)"></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template x-if="portfolioProjectsLoaded && selectedPortfolioProject">
+                    <div class="portfolio-project-view">
+                        <div class="portfolio-project-topbar">
+                            <button type="button" class="portfolio-back-btn" @click="closePortfolioProject()" x-text="language === 'ar' ? 'رجوع' : 'Back'"></button>
+                            <h3 class="portfolio-project-title" x-text="getPortfolioProjectTitle(selectedPortfolioProject)"></h3>
+                            <div></div>
+                        </div>
+
+                        <div class="portfolio-masonry">
+                            <template x-for="(img, idx) in selectedPortfolioProject.images" :key="img">
+                                <div class="portfolio-item" role="article">
+                                    <img :src="img" alt="" loading="lazy" decoding="async" @click="openPortfolioLightbox(idx)">
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </template>
             </div>
         </div>
     </section>
+
+    <div x-show="portfolioLightboxOpen" x-cloak class="portfolio-lightbox" @click.self="closePortfolioLightbox()" aria-modal="true" role="dialog">
+        <div class="portfolio-lightbox-inner">
+            <button type="button" class="portfolio-lightbox-btn prev" @click.stop="prevPortfolioLightbox()" aria-label="Previous">
+                <span aria-hidden="true">‹</span>
+            </button>
+            <button type="button" class="portfolio-lightbox-btn next" @click.stop="nextPortfolioLightbox()" aria-label="Next">
+                <span aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="portfolio-lightbox-close" @click.stop="closePortfolioLightbox()" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <img :src="portfolioLightboxItems[portfolioLightboxIndex] ? portfolioLightboxItems[portfolioLightboxIndex].image : ''" alt="" loading="eager">
+        </div>
+    </div>
 
     <!-- قسم الوحدات الجاهزة - Coming Soon -->
     <section id="future" class="future-section" x-show="activeTab === 'future'">
@@ -2693,14 +3051,17 @@
             }
 
             // Service Worker registration
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('service-worker.js')
-                    .catch(function (err) {
-                        console.warn('Service worker registration failed', err);
-                    });
-            }
+            document.addEventListener('DOMContentLoaded', function() {
+                if ('serviceWorker' in navigator && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+                    navigator.serviceWorker.register('service-worker.js')
+                        .catch(function (err) {
+                            console.warn('Service worker registration failed', err);
+                        });
+                }
+            });
         });
     </script>
 
 </body>
 </html>
+

@@ -175,6 +175,7 @@
             justify-content: space-between; 
             align-items: center; 
             gap: 24px;
+            position: relative;
         }
         .logo img {
             height: 55px;
@@ -631,6 +632,7 @@
             color: #111;
             box-shadow: 0 12px 24px rgba(0,0,0,0.18);
             border: 1px solid rgba(0,0,0,0.06);
+            display: none;
         }
         .hero-new .swiper-button-prev::after,
         .hero-new .swiper-button-next::after {
@@ -2020,13 +2022,18 @@
                 display: none; 
             }
             .mobile-menu-toggle {
-                display: none;
+                display: flex;
+                position: absolute;
+                left: 14px;
+                right: auto;
+                top: 50%;
+                transform: translateY(-50%);
             }
             .mobile-nav {
-                display: none;
+                display: block;
             }
             .mobile-nav-backdrop {
-                display: none;
+                display: block;
             }
             .hero-title { 
                 font-size: 2rem; 
@@ -2646,8 +2653,39 @@
                 </div>
             </nav>
 
+            <button type="button" class="mobile-menu-toggle" @click="mobileNavOpen = !mobileNavOpen" :class="{'is-open': mobileNavOpen}" :aria-expanded="mobileNavOpen ? 'true' : 'false'" aria-controls="mobileNav" :aria-label="mobileNavOpen ? (language === 'ar' ? 'إغلاق القائمة' : 'Close menu') : (language === 'ar' ? 'فتح القائمة' : 'Open menu')">
+                <span></span>
+            </button>
+
         </div>
     </header>
+
+    <!-- خلفية قائمة الموبايل -->
+    <div class="mobile-nav-backdrop" x-show="mobileNavOpen" @click="mobileNavOpen = false" x-transition.opacity.duration.150ms></div>
+
+    <!-- قائمة الموبايل -->
+    <div id="mobileNav" class="mobile-nav" x-show="mobileNavOpen" @click.outside="mobileNavOpen = false" x-transition:enter="mobile-nav-enter" x-transition:enter-end="mobile-nav-enter-end" x-transition:leave="mobile-nav-leave" x-transition:leave-end="mobile-nav-leave-end">
+        <div class="mobile-nav-head">
+            <div class="mobile-nav-title" x-text="language === 'ar' ? 'القائمة' : 'Menu'"></div>
+            <button type="button" class="mobile-nav-close" @click="mobileNavOpen = false" :aria-label="language === 'ar' ? 'إغلاق القائمة' : 'Close menu'">×</button>
+        </div>
+        <div class="mobile-nav-inner">
+            <div class="mobile-nav-links">
+                <a href="#" class="mobile-nav-link" @click.prevent="setTab('home'); mobileNavOpen = false" x-text="language === 'ar' ? 'الرئيسية' : 'Home'"></a>
+                <a href="#" class="mobile-nav-link" @click.prevent="setTab('about'); mobileNavOpen = false" x-text="language === 'ar' ? 'من نحن' : 'About'"></a>
+                <a href="#" class="mobile-nav-link" @click.prevent="setTab('services'); mobileNavOpen = false" x-text="language === 'ar' ? 'خدماتنا' : 'Services'"></a>
+                <a href="#" class="mobile-nav-link" @click.prevent="setTab('portfolio'); mobileNavOpen = false" x-text="language === 'ar' ? 'مشاريعنا' : 'Projects'"></a>
+                <a href="#" class="mobile-nav-link" @click.prevent="setTab('future'); mobileNavOpen = false" x-text="language === 'ar' ? 'كرفانات' : 'Caravans'"></a>
+                <a href="#" class="mobile-nav-link" @click.prevent="setTab('contact'); mobileNavOpen = false" x-text="language === 'ar' ? 'تواصل معنا' : 'Contact'"></a>
+            </div>
+            <div class="mobile-nav-footer">
+                <div class="mobile-nav-lang">
+                    <button @click="language = 'ar'" type="button" class="lang-toggle" :class="{'btn-primary': language === 'ar'}">AR</button>
+                    <button @click="language = 'en'" type="button" class="lang-toggle" :class="{'btn-primary': language === 'en'}">EN</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- الهيرو الجديد - سلايدر كامل الشاشة -->
     <section id="home" class="hero-new" x-show="activeTab === 'home'">
@@ -2716,9 +2754,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="swiper-button-prev" aria-label="Previous"></div>
-            <div class="swiper-button-next" aria-label="Next"></div>
 
             <div class="hero-new-pagination swiper-pagination"></div>
         </div>
@@ -3314,10 +3349,6 @@
                     pagination: {
                         el: '.hero-new-pagination',
                         clickable: true,
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
                     },
                     effect: 'slide',
                     grabCursor: true,

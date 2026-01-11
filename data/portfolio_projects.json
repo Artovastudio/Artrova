@@ -993,15 +993,15 @@
       "titleEn": null,
       "title": "Villa2",
       "images": [
-        "assets/site_images/projects/portfolio_projects/villa2/image001-31-721x720.jpg",
         "assets/site_images/projects/portfolio_projects/villa2/image002-27-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/villa2/image003-25.jpg",
         "assets/site_images/projects/portfolio_projects/villa2/image004-24-721x720.jpg",
+        "assets/site_images/projects/portfolio_projects/villa2/image001-31-721x720.jpg",
         "assets/site_images/projects/portfolio_projects/villa2/image005-15-721x720.jpg",
+        "assets/site_images/projects/portfolio_projects/villa2/image003-25.jpg",
         "assets/site_images/projects/portfolio_projects/villa2/image006-12.jpg",
         "assets/site_images/projects/portfolio_projects/villa2/image007-12-150x150.jpg"
       ],
-      "cover": "assets/site_images/projects/portfolio_projects/villa2/image001-31-721x720.jpg",
+      "cover": "assets/site_images/projects/portfolio_projects/villa2/image002-27-721x720.jpg",
       "imageCount": 7
     },
     {

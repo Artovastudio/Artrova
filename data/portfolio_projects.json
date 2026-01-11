@@ -8,17 +8,17 @@
       "titleEn": "Residential",
       "title": "Residential",
       "images": [
-        "assets/site_images/categories/Residential/residential-001.jpeg",
-        "assets/site_images/categories/Residential/residential-002.webp",
         "assets/site_images/categories/Residential/residential-003.webp",
-        "assets/site_images/categories/Residential/residential-004.webp",
         "assets/site_images/categories/Residential/residential-005.webp",
+        "assets/site_images/categories/Residential/residential-012.webp",
         "assets/site_images/categories/Residential/residential-006.jpeg",
         "assets/site_images/categories/Residential/residential-008.webp",
+        "assets/site_images/categories/Residential/residential-004.webp",
+        "assets/site_images/categories/Residential/residential-002.webp",
+        "assets/site_images/categories/Residential/residential-001.jpeg",
         "assets/site_images/categories/Residential/residential-009.jpeg",
         "assets/site_images/categories/Residential/residential-010.webp",
         "assets/site_images/categories/Residential/residential-011.webp",
-        "assets/site_images/categories/Residential/residential-012.webp",
         "assets/site_images/categories/Residential/residential-013.jpeg",
         "assets/site_images/categories/Residential/residential-014.webp",
         "assets/site_images/categories/Residential/residential-015.jpeg",
@@ -29,7 +29,7 @@
         "assets/site_images/categories/Residential/residential-020.jpeg",
         "assets/site_images/categories/Residential/residential-021.jpeg"
       ],
-      "cover": "assets/site_images/categories/Residential/residential-001.jpeg",
+      "cover": "assets/site_images/categories/Residential/residential-003.webp",
       "imageCount": 20
     },
     {

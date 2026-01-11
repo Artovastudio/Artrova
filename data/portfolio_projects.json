@@ -1,6 +1,6 @@
 {
   "source": "portfolio_projects",
-  "count": 46,
+  "count": 45,
   "projects": [
     {
       "slug": "residential",
@@ -1018,19 +1018,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/white-italian-villa/23r-1.jpg",
       "imageCount": 5
-    },
-    {
-      "slug": "home",
-      "titleAr": null,
-      "titleEn": "Home",
-      "title": "Home",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/home/IMG_20230619_093509.jpg",
-        "assets/site_images/projects/portfolio_projects/home/000196.jpg",
-        "assets/site_images/projects/portfolio_projects/home/PINELUMB.JPG"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/home/IMG_20230619_093509.jpg",
-      "imageCount": 3
     }
   ]
 }

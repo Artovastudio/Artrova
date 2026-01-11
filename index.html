@@ -2752,7 +2752,7 @@
         </div>
     </section>
 
-    <div x-show="portfolioLightboxOpen" x-cloak class="portfolio-lightbox" @click.self="closePortfolioLightbox()" aria-modal="true" role="dialog">
+    <div x-show="portfolioLightboxOpen" x-cloak class="portfolio-lightbox" style="display:none" @click.self="closePortfolioLightbox()" aria-modal="true" role="dialog">
         <div class="portfolio-lightbox-inner">
             <button type="button" class="portfolio-lightbox-btn prev" @click.stop="prevPortfolioLightbox()" aria-label="Previous">
                 <span aria-hidden="true">‹</span>

@@ -1353,7 +1353,18 @@
         setProgress(1, 2);
 
         // Delete the file from repo
-        const meta = await gh.getFileMeta(repoPath, branch, true);
+        let meta;
+        try {
+          meta = await gh.getFileMeta(repoPath, branch, true);
+        } catch (e) {
+          // If the image path is an absolute URL or has cache params, normalize and retry once
+          const retryPath = sitePathToRepoPath(path);
+          if (retryPath !== repoPath) {
+            meta = await gh.getFileMeta(retryPath, branch, true);
+          } else {
+            throw e;
+          }
+        }
         if (!meta || !meta.sha) throw new Error('تعذر الحصول على SHA للملف قبل الحذف');
         await gh.deleteFile(repoPath, `Delete portfolio image: ${repoPath}`, meta.sha);
 
@@ -1371,7 +1382,16 @@
         setStatus('تم حذف الصورة نهائيًا من GitHub وتحديث البيانات ✅', 'ok');
       } catch (e) {
         clearProgress();
-        // Revert local state so there is no hidden/pending mismatch
+        // If GitHub says 404, it usually means the file is not on the repo/branch (or path mismatch).
+        // Keep local deletion (JSON) and inform the user clearly.
+        const msg = String((e && e.message) ? e.message : e);
+        const is404 = /\b404\b/i.test(msg) || /Not Found/i.test(msg);
+        if (is404) {
+          setStatus('الصورة غير موجودة على GitHub بنفس المسار (404). تم حذفها من بيانات المشروع محليًا وسيتم تحديث JSON عند النشر. تأكد أن المسار صحيح وأن الصورة موجودة على فرع main.', 'danger');
+          return;
+        }
+
+        // For other errors, revert local state so there is no hidden/pending mismatch
         p.images = prevImages;
         p.cover = prevCover;
         p.imageCount = prevCount;
@@ -1593,7 +1613,26 @@
     }
 
     function sitePathToRepoPath(sitePath) {
-      return String(sitePath || '').replace(/^\//, '');
+      let p = String(sitePath || '').trim();
+      if (!p) return '';
+
+      // If an absolute URL is stored, convert it to a repo-relative path
+      if (/^https?:\/\//i.test(p)) {
+        try {
+          const u = new URL(p);
+          p = u.pathname || '';
+        } catch (e) {}
+      }
+
+      // strip query/hash (cache busting)
+      p = p.split('#')[0];
+      p = p.split('?')[0];
+
+      // normalize common prefixes
+      p = p.replace(/^\.\//, '');
+      p = p.replace(/^\//, '');
+
+      return p;
     }
 
     async function putPortfolioProjectsJsonWithRetry(gh, payload, branch) {

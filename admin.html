@@ -366,6 +366,9 @@
     // rename plan (for existing images): oldPath -> newPath
     const renameMap = new Map();
 
+    // drag & drop reorder
+    let dragExistingIndex = null;
+
     // uploads
     /** @type {Array<{file: File, previewUrl: string, name: string, targetPath: (string|null), appliedPath: (string|null), projectSlug: (string|null)}>} */
     let uploads = [];
@@ -477,11 +480,14 @@
 
       for (let idx = 0; idx < imgs.length; idx++) {
         const path = imgs[idx];
+        const originalPath = path;
         const marked = deleteSet.has(path);
         const currentFile = String(path).split('/').pop() || '';
         const currentDir = String(path).split('/').slice(0, -1).join('/');
         const card = document.createElement('div');
         card.className = 'img-card';
+        card.draggable = true;
+        card.dataset.idx = String(idx);
         card.innerHTML = `
           <div class="thumb"></div>
           <div class="body">
@@ -490,8 +496,7 @@
               <input type="text" value="${currentFile.replace(/\"/g,'&quot;')}" />
             </div>
             <div class="flags">
-              <button class="btn small" data-act="up">↑</button>
-              <button class="btn small" data-act="down">↓</button>
+              <span class="btn small" style="cursor:grab; user-select:none;">اسحب لترتيب</span>
               <button class="btn small ${marked ? 'ok' : 'danger'}" data-act="toggleDel">${marked ? 'إلغاء حذف' : 'حذف'}</button>
             </div>
           </div>
@@ -509,21 +514,42 @@
         nameInput.addEventListener('input', (e) => {
           const newName = sanitizeFilename(e.target.value);
           const newPath = (currentDir ? `${currentDir}/${newName}` : newName);
-          const oldPath = imgs[idx];
-          if (newPath && newPath !== oldPath) {
-            imgs[idx] = newPath;
-            renameMap.set(oldPath, newPath);
-            // if it was marked delete, move mark to new path
-            if (deleteSet.has(oldPath)) {
-              deleteSet.delete(oldPath);
-              deleteSet.add(newPath);
-            }
+          const fromPath = originalPath;
+          if (!newPath || newPath === fromPath) {
+            renameMap.delete(fromPath);
+            return;
+          }
+
+          imgs[idx] = newPath;
+          renameMap.set(fromPath, newPath);
+
+          // if it was marked delete, move mark to new path
+          if (deleteSet.has(fromPath)) {
+            deleteSet.delete(fromPath);
+            deleteSet.add(newPath);
           }
         });
 
-        card.querySelector('[data-act="up"]').addEventListener('click', () => moveExisting(idx, -1));
-        card.querySelector('[data-act="down"]').addEventListener('click', () => moveExisting(idx, 1));
         card.querySelector('[data-act="toggleDel"]').addEventListener('click', () => toggleDelete(imgs[idx]));
+
+        card.addEventListener('dragstart', () => {
+          dragExistingIndex = idx;
+          try { card.style.opacity = '0.6'; } catch (e) {}
+        });
+        card.addEventListener('dragend', () => {
+          dragExistingIndex = null;
+          try { card.style.opacity = '1'; } catch (e) {}
+        });
+        card.addEventListener('dragover', (ev) => {
+          ev.preventDefault();
+        });
+        card.addEventListener('drop', (ev) => {
+          ev.preventDefault();
+          if (dragExistingIndex === null || dragExistingIndex === idx) return;
+          reorderExisting(dragExistingIndex, idx);
+          dragExistingIndex = null;
+          renderExistingImages();
+        });
 
         wrap.appendChild(card);
       }
@@ -742,6 +768,18 @@
       renderExistingImages();
     }
 
+    function reorderExisting(fromIndex, toIndex) {
+      const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
+      if (!p || !Array.isArray(p.images)) return;
+      const arr = p.images;
+      if (fromIndex < 0 || fromIndex >= arr.length) return;
+      if (toIndex < 0 || toIndex >= arr.length) return;
+      const [item] = arr.splice(fromIndex, 1);
+      arr.splice(toIndex, 0, item);
+      p.cover = arr[0] || '';
+      p.imageCount = arr.length;
+    }
+
     function onPickFiles(files) {
       const picked = Array.from(files || []);
       if (!picked.length) return;
@@ -924,6 +962,14 @@
       return arrayBufferToBase64(buf);
     }
 
+    async function ghDownloadToBase64(downloadUrl, token) {
+      if (!downloadUrl) throw new Error('Missing download_url');
+      const res = await fetch(downloadUrl, { headers: ghHeaders(token) });
+      if (!res.ok) throw new Error(`Download failed: ${res.status}`);
+      const buf = await res.arrayBuffer();
+      return arrayBufferToBase64(buf);
+    }
+
     function utf8ToBase64(str) {
       return btoa(unescape(encodeURIComponent(str)));
     }
@@ -987,7 +1033,19 @@
             } catch (e) {
               continue;
             }
-            if (!fromMeta || !fromMeta.content || !fromMeta.sha) continue;
+            if (!fromMeta || !fromMeta.sha) continue;
+
+            let fromB64 = null;
+            try {
+              if (fromMeta.content && String(fromMeta.encoding || '').toLowerCase() === 'base64') {
+                fromB64 = String(fromMeta.content).replace(/\n/g, '');
+              } else if (fromMeta.download_url) {
+                fromB64 = await ghDownloadToBase64(fromMeta.download_url, token);
+              }
+            } catch (e) {
+              fromB64 = null;
+            }
+            if (!fromB64) continue;
 
             let toSha = undefined;
             try {
@@ -995,7 +1053,7 @@
               if (toMeta && toMeta.sha) toSha = toMeta.sha;
             } catch (e) {}
 
-            await ghPutFile(owner, repo, toPath, branch, token, `Rename portfolio image: ${toPath}`, String(fromMeta.content).replace(/\n/g,''), toSha);
+            await ghPutFile(owner, repo, toPath, branch, token, `Rename portfolio image: ${toPath}`, fromB64, toSha);
             await ghDeleteFile(owner, repo, fromPath, branch, token, `Delete old portfolio image: ${fromPath}`, fromMeta.sha);
           }
         }

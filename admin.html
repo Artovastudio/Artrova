@@ -225,11 +225,44 @@
       display: grid;
       place-items: center;
       overflow: hidden;
+      position: relative;
     }
     .img-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .img-card .body { padding: 10px; display: none; flex-direction: column; gap: 8px; }
     .img-card.open .body { display: flex; }
     .img-card .flags { display: flex; justify-content: space-between; gap: 8px; }
+
+    .img-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.35);
+      color: rgba(255,255,255,0.96);
+      font-weight: 900;
+      font-size: 0.82rem;
+      backdrop-filter: blur(8px);
+      z-index: 2;
+    }
+    .img-filename {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.55));
+      color: rgba(255,255,255,0.95);
+      font-weight: 800;
+      font-size: 0.86rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      z-index: 1;
+      pointer-events: none;
+    }
     .img-actions {
       position: absolute;
       top: 8px;
@@ -253,6 +286,17 @@
     }
     .img-action-btn.danger { border-color: rgba(239,68,68,0.45); background: rgba(239,68,68,0.28); }
     .img-action-btn:active { transform: scale(0.98); }
+
+    .img-action-btn.small {
+      width: 34px;
+      height: 34px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 520px) {
+      .img-action-btn { width: 38px; height: 38px; }
+      .img-action-btn.small { width: 36px; height: 36px; }
+    }
 
     .pill {
       display: inline-flex;
@@ -681,6 +725,8 @@
         card.dataset.idx = String(idx);
         card.innerHTML = `
           <div class="thumb"></div>
+          <div class="img-badge">${idx === 0 ? 'غلاف' : String(idx + 1)}</div>
+          <div class="img-filename">${currentFile.replace(/\"/g,'&quot;')}</div>
           <div class="img-actions">
             <button class="img-action-btn" data-act="edit" type="button" aria-label="تعديل الاسم">✎</button>
             <button class="img-action-btn danger" data-act="delete" type="button" aria-label="حذف">×</button>
@@ -772,19 +818,26 @@
         card.className = 'img-card';
         card.innerHTML = `
           <div class="thumb"><img src="${u.previewUrl}" alt="" /></div>
+          <div class="img-badge">${String(idx + 1)}</div>
+          <div class="img-filename">${String(u.name || '').replace(/\"/g,'&quot;')}</div>
+          <div class="img-actions">
+            <button class="img-action-btn" data-act="edit" type="button" aria-label="تعديل">✎</button>
+            <button class="img-action-btn small" data-act="up" type="button" aria-label="أعلى">↑</button>
+            <button class="img-action-btn small" data-act="down" type="button" aria-label="أسفل">↓</button>
+            <button class="img-action-btn danger" data-act="remove" type="button" aria-label="حذف">×</button>
+          </div>
           <div class="body">
             <div class="col">
               <label>اسم الملف</label>
-              <input type="text" value="${u.name.replace(/"/g,'&quot;')}" />
+              <input type="text" value="${u.name.replace(/\"/g,'&quot;')}" />
             </div>
             <div class="col">
               <label>المسار النهائي</label>
-              <input type="text" value="${String(u.targetPath || 'غير محدد بعد (اضغط إضافة الصور للمشروع)').replace(/"/g,'&quot;')}" disabled />
+              <input type="text" value="${String(u.targetPath || 'غير محدد بعد (اضغط إضافة الصور للمشروع)').replace(/\"/g,'&quot;')}" disabled />
             </div>
             <div class="flags">
-              <button class="btn small" data-act="up">↑</button>
-              <button class="btn small" data-act="down">↓</button>
-              <button class="btn small danger" data-act="remove">حذف</button>
+              <button class="btn small" data-act="close" type="button">إغلاق</button>
+              <span class="pill" style="justify-content:center;">اسحب/رتّب من الأسهم</span>
             </div>
           </div>
         `;
@@ -817,9 +870,29 @@
             renderUploadPreview();
           }
         });
-        card.querySelector('[data-act="up"]').addEventListener('click', () => moveUpload(idx, -1));
-        card.querySelector('[data-act="down"]').addEventListener('click', () => moveUpload(idx, 1));
-        card.querySelector('[data-act="remove"]').addEventListener('click', () => removeUpload(idx));
+
+        card.querySelector('[data-act="edit"]').addEventListener('click', (e) => {
+          e.preventDefault();
+          card.classList.toggle('open');
+          try { if (card.classList.contains('open')) input.focus(); } catch (e) {}
+        });
+        card.querySelector('[data-act="close"]').addEventListener('click', (e) => {
+          e.preventDefault();
+          card.classList.remove('open');
+        });
+
+        card.querySelector('[data-act="up"]').addEventListener('click', (e) => {
+          e.preventDefault();
+          moveUpload(idx, -1);
+        });
+        card.querySelector('[data-act="down"]').addEventListener('click', (e) => {
+          e.preventDefault();
+          moveUpload(idx, 1);
+        });
+        card.querySelector('[data-act="remove"]').addEventListener('click', (e) => {
+          e.preventDefault();
+          removeUpload(idx);
+        });
 
         wrap.appendChild(card);
       });

@@ -511,7 +511,6 @@
       for (let idx = 0; idx < imgs.length; idx++) {
         const path = imgs[idx];
         const originalPath = path;
-        const marked = state.deleteSet.has(path);
         const currentFile = String(path).split('/').pop() || '';
         const currentDir = String(path).split('/').slice(0, -1).join('/');
         const card = document.createElement('div');
@@ -527,7 +526,7 @@
             </div>
             <div class="flags">
               <span class="btn small" style="cursor:grab; user-select:none;">اسحب لترتيب</span>
-              <button class="btn small ${marked ? 'ok' : 'danger'}" data-act="toggleDel">${marked ? 'إلغاء حذف' : 'حذف'}</button>
+              <button class="btn small danger" data-act="delete">حذف</button>
             </div>
           </div>
         `;
@@ -560,7 +559,9 @@
           }
         });
 
-        card.querySelector('[data-act="toggleDel"]').addEventListener('click', () => toggleDelete(imgs[idx]));
+        card.querySelector('[data-act="delete"]').addEventListener('click', async () => {
+          await deleteImage(imgs[idx]);
+        });
 
         card.addEventListener('dragstart', () => {
           state.dragExistingIndex = idx;
@@ -778,10 +779,101 @@
       refreshUI();
     }
 
-    function toggleDelete(path) {
-      if (state.deleteSet.has(path)) state.deleteSet.delete(path);
-      else state.deleteSet.add(path);
+    async function deleteImage(path) {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p || !Array.isArray(p.images)) return;
+
+      const ok = confirm('تأكيد حذف الصورة نهائيًا من المشروع؟ (سيتم حذفها من GitHub عند نشر التعديلات)');
+      if (!ok) return;
+
+      const token = $('ghToken') ? $('ghToken').value.trim() : '';
+
+      const prevImages = Array.isArray(p.images) ? p.images.slice() : [];
+      const prevCover = p.cover;
+      const prevCount = p.imageCount;
+      const prevDeleteHad = state.deleteSet.has(path);
+
+      // Remove from current project JSON immediately
+      p.images = p.images.filter(x => x !== path);
+      p.cover = (p.images || [])[0] || '';
+      p.imageCount = (p.images || []).length;
+
+      // Ensure it gets deleted on publish
+      state.deleteSet.add(path);
+
+      // If this path is involved in a pending rename, remove that plan and delete both sides just in case
+      for (const [fromSite, toSite] of Array.from(state.renameMap.entries())) {
+        if (fromSite === path || toSite === path) {
+          state.deleteSet.add(fromSite);
+          state.deleteSet.add(toSite);
+          state.renameMap.delete(fromSite);
+        }
+      }
+
       renderExistingImages();
+      renderProjects();
+      updateCounts();
+
+      if (!token) {
+        setStatus('تم حذف الصورة من المشروع محليًا. الصق GitHub Token ثم اضغط "نشر التعديلات" للحذف النهائي من GitHub.', 'ok');
+        return;
+      }
+
+      const owner = GITHUB_OWNER;
+      const repo = GITHUB_REPO;
+      const branch = GITHUB_BRANCH;
+      const gh = createGithubClient(owner, repo, branch, token);
+
+      try {
+        const repoPath = sitePathToRepoPath(path);
+        setStatus(`حذف من GitHub: ${repoPath}`, '');
+        setProgress(1, 2);
+
+        // Delete the file from repo
+        const meta = await gh.getFileMeta(repoPath, branch, true);
+        if (!meta || !meta.sha) throw new Error('تعذر الحصول على SHA للملف قبل الحذف');
+        await gh.deleteFile(repoPath, `Delete portfolio image: ${repoPath}`, meta.sha);
+
+        // Update JSON on GitHub so the deletion is reflected immediately
+        setStatus('تحديث data/portfolio_projects.json ...', '');
+        setProgress(2, 2);
+        const jsonPath = 'data/portfolio_projects.json';
+        const payload = {
+          source: 'portfolio_projects',
+          count: (state.data.projects || []).length,
+          projects: state.data.projects
+        };
+        const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
+
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          try {
+            let jsonSha = undefined;
+            try {
+              const jsonMeta = await gh.getFileMeta(jsonPath, branch, true);
+              if (jsonMeta && jsonMeta.sha) jsonSha = jsonMeta.sha;
+            } catch (e) {}
+            await gh.putFile(jsonPath, 'Update portfolio projects data', jsonB64, jsonSha);
+            break;
+          } catch (e) {
+            const msg = String(e && e.message ? e.message : e);
+            const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
+            if (!isShaMismatch || attempt === 3) throw e;
+            await delay(450 * attempt);
+          }
+        }
+
+        clearProgress();
+        setStatus('تم حذف الصورة نهائيًا من GitHub وتحديث البيانات ✅', 'ok');
+      } catch (e) {
+        clearProgress();
+        // Revert local state so there is no hidden/pending mismatch
+        p.images = prevImages;
+        p.cover = prevCover;
+        p.imageCount = prevCount;
+        if (!prevDeleteHad) state.deleteSet.delete(path);
+        refreshUI();
+        handleError('فشل حذف الصورة من GitHub', e);
+      }
     }
 
     function moveExisting(index, delta) {
@@ -925,14 +1017,18 @@
         'Authorization': `Bearer ${token}`
       });
 
-      const contentsUrl = (path, ref) => {
+      const contentsUrl = (path, ref, bustCache) => {
         const enc = encodeURIComponent(path).replace(/%2F/g, '/');
-        return `https://api.github.com/repos/${owner}/${repo}/contents/${enc}` + (ref ? `?ref=${encodeURIComponent(ref)}` : '');
+        const qs = [];
+        if (ref) qs.push(`ref=${encodeURIComponent(ref)}`);
+        if (bustCache) qs.push(`ts=${Date.now()}`);
+        return `https://api.github.com/repos/${owner}/${repo}/contents/${enc}` + (qs.length ? `?${qs.join('&')}` : '');
       };
 
       const requestJson = async (url, method, payload) => {
         const res = await fetch(url, {
           method,
+          cache: 'no-store',
           headers: payload ? { ...headers(), 'Content-Type': 'application/json' } : headers(),
           body: payload ? JSON.stringify(payload) : undefined
         });
@@ -949,7 +1045,7 @@
         return body;
       };
 
-      const getFileMeta = (path, ref) => requestJson(contentsUrl(path, ref), 'GET');
+      const getFileMeta = (path, ref, bustCache) => requestJson(contentsUrl(path, ref, bustCache), 'GET');
       const putFile = (path, message, contentBase64, sha) => requestJson(contentsUrl(path, null), 'PUT', { message, content: contentBase64, branch, sha });
       const deleteFile = (path, message, sha) => requestJson(contentsUrl(path, null), 'DELETE', { message, branch, sha });
       const downloadToBase64 = async (downloadUrl) => {
@@ -961,6 +1057,10 @@
       };
 
       return { getFileMeta, putFile, deleteFile, downloadToBase64 };
+    }
+
+    function delay(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
     function arrayBufferToBase64(buffer) {
@@ -1110,7 +1210,7 @@
           try {
             let jsonSha = undefined;
             try {
-              const meta = await gh.getFileMeta(jsonPath, branch);
+              const meta = await gh.getFileMeta(jsonPath, branch, true);
               if (meta && meta.sha) jsonSha = meta.sha;
             } catch (e) {}
 
@@ -1123,6 +1223,7 @@
             const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
             if (!isShaMismatch || attempt === 3) throw e;
             setStatus(`تعارض في النسخة (SHA). إعادة المحاولة ${attempt}/3...`, '');
+            await delay(450 * attempt);
           }
         }
 

@@ -808,7 +808,7 @@
       const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
       if (!p) return;
 
-      const baseDir = `assets/site_images/projects/${p.slug}`;
+      const baseDir = `assets/site_images/projects/portfolio_projects/${p.slug}`;
 
       const used = new Set((p.images || []).map(x => String(x).split('/').pop() || ''));
       const pendingUploads = uploads.filter(u => !!u && !!u.file && !u.targetPath);

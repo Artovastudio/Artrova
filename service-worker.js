@@ -1,35 +1,56 @@
-const CACHE_NAME = 'artrova-cache-v1';
+const CACHE_NAME = 'artrova-cache-v2';
 const URLS_TO_CACHE = [
-  '/',
-  '/artrova-landing/',
-  '/artrova-landing/index.html',
-  '/artrova-landing/assets/design-system.css'
+  './',
+  './index.html',
+  './assets/design-system.css',
+  './manifest.json',
+  './assets/favicon-32x32.png',
+  './assets/favicon-16x16.png',
+  './assets/apple-touch-icon.png'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(URLS_TO_CACHE))
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(URLS_TO_CACHE))
+      .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      )
-    )
+    caches.keys()
+      .then(keys => Promise.all(keys.map(key => (key !== CACHE_NAME ? caches.delete(key) : undefined))))
+      .then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', event => {
+  const req = event.request;
+
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      fetch(req)
+        .then(res => {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy)).catch(() => {});
+          return res;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
+    caches.match(req).then(cached => {
+      if (cached) return cached;
+      return fetch(req).then(res => {
+        if (req.method === 'GET' && res && res.status === 200 && new URL(req.url).origin === self.location.origin) {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(req, copy)).catch(() => {});
+        }
+        return res;
+      });
     })
   );
 });

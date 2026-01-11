@@ -34,6 +34,9 @@
     .wrap { max-width: 1220px; margin: 0 auto; padding: 18px; }
 
     .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -46,6 +49,12 @@
     }
     .topbar h1 { margin: 0; font-size: 1.05rem; font-weight: 900; }
     .topbar .hint { color: var(--muted); font-size: 0.9rem; }
+
+    @media (max-width: 520px) {
+      .wrap { padding: 12px; }
+      .topbar { border-radius: 16px; padding: 12px 12px; }
+      .topbar .hint { display: none; }
+    }
 
     .grid {
       display: grid;
@@ -104,6 +113,12 @@
     .btn.danger { background: rgba(239,68,68,0.14); border-color: rgba(239,68,68,0.5); }
     .btn.small { padding: 6px 10px; border-radius: 10px; font-size: 0.86rem; }
 
+    @media (max-width: 520px) {
+      .btn { border-radius: 14px; }
+      #btnSync { width: 100%; padding: 12px 14px; }
+      #btnPublish, #btnExportJson { display: none; }
+    }
+
     .list {
       max-height: 62vh;
       overflow: auto;
@@ -117,6 +132,9 @@
     }
     @media (min-width: 980px) {
       .project-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .project-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
     }
 
     .project-card {
@@ -149,6 +167,11 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+    @media (max-width: 520px) {
+      .project-card { border-radius: 16px; }
+      .project-card .overlay { inset: auto 6px 6px 6px; padding: 6px 8px; border-radius: 12px; font-size: 0.88rem; }
+      .project-card .count { display: none; }
     }
     .project-card .count {
       position: absolute;

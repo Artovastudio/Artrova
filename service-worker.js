@@ -1,4 +1,4 @@
-const CACHE_NAME = 'artrova-cache-v6';
+const CACHE_NAME = 'artrova-cache-v7';
 const URLS_TO_CACHE = [
   './',
   './index.html',
@@ -38,6 +38,32 @@ self.addEventListener('fetch', event => {
     const isCsvFile = path.toLowerCase().endsWith('.csv');
     if (req.method === 'GET' && isSameOrigin && (isDataFile || isCsvFile)) {
       event.respondWith(fetch(req));
+      return;
+    }
+
+    // Never cache portfolio images (or any site_images). This prevents stale UI after admin deletes/updates.
+    const lowerPath = path.toLowerCase();
+    const isSiteImage = lowerPath.includes('/assets/site_images/');
+    const isImageExt = /\.(png|jpe?g|webp|gif|svg)$/.test(lowerPath);
+    if (req.method === 'GET' && isSameOrigin && isSiteImage && isImageExt) {
+      event.respondWith(
+        fetch(req, { cache: 'reload' })
+          .then(async (res) => {
+            if (res && res.status === 404) {
+              try {
+                const cache = await caches.open(CACHE_NAME);
+                await cache.delete(req);
+              } catch (e) {}
+            }
+            return res;
+          })
+          .catch(async () => {
+            // If offline, fall back to any cached copy.
+            const cached = await caches.match(req);
+            if (cached) return cached;
+            throw new Error('offline');
+          })
+      );
       return;
     }
   } catch (e) {}

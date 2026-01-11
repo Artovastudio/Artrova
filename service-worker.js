@@ -1,4 +1,4 @@
-const CACHE_NAME = 'artrova-cache-v14';
+const CACHE_NAME = 'artrova-cache-v15';
 const URLS_TO_CACHE = [
   './',
   './index.html',

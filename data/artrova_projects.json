@@ -1,11 +1,11 @@
-﻿{
+{
   "source": "artrova_assets",
   "count": 4,
   "projects": [
     {
       "slug": "residential",
       "folder": "Residential",
-      "titleAr": "Ø³ÙƒÙ†ÙŠ",
+      "titleAr": "سكني",
       "titleEn": "Residential",
       "title": "Residential",
       "images": [
@@ -36,7 +36,7 @@
     {
       "slug": "commercial",
       "folder": "Commercial",
-      "titleAr": "ØªØ¬Ø§Ø±ÙŠ",
+      "titleAr": "تجاري",
       "titleEn": "Commercial",
       "title": "Commercial",
       "images": [
@@ -83,7 +83,7 @@
     {
       "slug": "hospitality",
       "folder": "Hospitality",
-      "titleAr": "Ø¶ÙŠØ§ÙØ©",
+      "titleAr": "ضيافة",
       "titleEn": "Hospitality",
       "title": "Hospitality",
       "images": [
@@ -108,7 +108,7 @@
     {
       "slug": "furniture",
       "folder": "Furniture",
-      "titleAr": "Ø£Ø«Ø§Ø«",
+      "titleAr": "أثاث",
       "titleEn": "Furniture",
       "title": "Furniture",
       "images": [

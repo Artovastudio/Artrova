@@ -46,7 +46,6 @@
         "assets/site_images/categories/Commercial/commercial-008.jpeg",
         "assets/site_images/categories/Commercial/commercial-009.jpeg",
         "assets/site_images/categories/Commercial/commercial-010.jpeg",
-        "assets/site_images/categories/Commercial/commercial-011.jpeg",
         "assets/site_images/categories/Commercial/commercial-012.jpeg",
         "assets/site_images/categories/Commercial/commercial-013.jpeg",
         "assets/site_images/categories/Commercial/commercial-014.jpeg",
@@ -74,7 +73,7 @@
         "assets/site_images/categories/Commercial/commercial-036.jpeg"
       ],
       "cover": "assets/site_images/categories/Commercial/commercial-004.jpeg",
-      "imageCount": 34
+      "imageCount": 33
     },
     {
       "slug": "hospitality",

@@ -2256,6 +2256,48 @@
         this.activeTab = tab;
         window.scrollTo({ top: 0, behavior: 'smooth' });
     },
+    applyLanguageToDocument(lang) {
+        const l = (String(lang || '').toLowerCase() === 'en') ? 'en' : 'ar';
+        try {
+            document.documentElement.setAttribute('lang', l);
+            document.documentElement.setAttribute('dir', l === 'en' ? 'ltr' : 'rtl');
+        } catch (e) {}
+    },
+    setLanguage(lang) {
+        const l = (String(lang || '').toLowerCase() === 'en') ? 'en' : 'ar';
+        this.language = l;
+        this.applyLanguageToDocument(l);
+        try { localStorage.setItem('artrova_lang', l); } catch (e) {}
+    },
+    goToSection(tab) {
+        this.setTab(tab);
+        try {
+            this.$nextTick(() => {
+                try {
+                    const el = document.getElementById(tab);
+                    if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } catch (e) {}
+            });
+        } catch (e) {}
+    },
+    initLanguageFromUrlOrStorage() {
+        try {
+            const params = new URLSearchParams(window.location.search || '');
+            const q = (params.get('lang') || '').toLowerCase();
+            if (q === 'ar' || q === 'en') {
+                this.setLanguage(q);
+                return;
+            }
+        } catch (e) {}
+        try {
+            const saved = (localStorage.getItem('artrova_lang') || '').toLowerCase();
+            if (saved === 'ar' || saved === 'en') {
+                this.setLanguage(saved);
+                return;
+            }
+        } catch (e) {}
+        this.applyLanguageToDocument(this.language);
+    },
     get filteredProjects() {
         return this.activeFilter === 'all' ? this.projects : this.projects.filter(p => p.category === this.activeFilter);
     },
@@ -2581,6 +2623,7 @@
         } catch (e) {}
     },
     init() {
+        this.initLanguageFromUrlOrStorage();
         const allowed = ['all', 'residential', 'commercial', 'hospitality', 'furniture'];
         let initial = 'all';
         try {
@@ -2654,8 +2697,8 @@
                 <a href="#" @click.prevent="setTab('contact')" class="btn btn-primary nav-cta" x-text="language === 'ar' ? 'ابدأ مشروعك' : 'Start Your Project'"></a>
 
                 <div class="language-switch">
-                    <button @click="language = 'ar'" :class="{'btn-primary': language === 'ar'}" class="lang-toggle" type="button">AR</button>
-                    <button @click="language = 'en'" :class="{'btn-primary': language === 'en'}" class="lang-toggle" type="button">EN</button>
+                    <button @click="setLanguage('ar')" :class="{'btn-primary': language === 'ar'}" class="lang-toggle" type="button">AR</button>
+                    <button @click="setLanguage('en')" :class="{'btn-primary': language === 'en'}" class="lang-toggle" type="button">EN</button>
                 </div>
             </nav>
 
@@ -2686,8 +2729,8 @@
             </div>
             <div class="mobile-nav-footer">
                 <div class="mobile-nav-lang">
-                    <button @click="language = 'ar'" type="button" class="lang-toggle" :class="{'btn-primary': language === 'ar'}">AR</button>
-                    <button @click="language = 'en'" type="button" class="lang-toggle" :class="{'btn-primary': language === 'en'}">EN</button>
+                    <button @click="setLanguage('ar')" type="button" class="lang-toggle" :class="{'btn-primary': language === 'ar'}">AR</button>
+                    <button @click="setLanguage('en')" type="button" class="lang-toggle" :class="{'btn-primary': language === 'en'}">EN</button>
                 </div>
             </div>
         </div>
@@ -3290,22 +3333,22 @@
                 <div class="footer-col">
                     <h4 x-text="language === 'ar' ? 'روابط سريعة' : 'Quick Links'"></h4>
                     <ul>
-                        <li><a href="#home" x-text="language === 'ar' ? 'الرئيسية' : 'Home'"></a></li>
-                        <li><a href="#about" x-text="language === 'ar' ? 'من نحن' : 'About'"></a></li>
-                        <li><a href="#services" x-text="language === 'ar' ? 'الخدمات' : 'Services'"></a></li>
-                        <li><a href="#portfolio" x-text="language === 'ar' ? 'أعمالنا' : 'Our Work'"></a></li>
-                        <li><a href="#contact" x-text="language === 'ar' ? 'تواصل معنا' : 'Contact Us'"></a></li>
+                        <li><a href="#" @click.prevent="goToSection('home')" x-text="language === 'ar' ? 'الرئيسية' : 'Home'"></a></li>
+                        <li><a href="#" @click.prevent="goToSection('about')" x-text="language === 'ar' ? 'من نحن' : 'About'"></a></li>
+                        <li><a href="#" @click.prevent="goToSection('services')" x-text="language === 'ar' ? 'الخدمات' : 'Services'"></a></li>
+                        <li><a href="#" @click.prevent="goToSection('portfolio')" x-text="language === 'ar' ? 'أعمالنا' : 'Our Work'"></a></li>
+                        <li><a href="#" @click.prevent="goToSection('contact')" x-text="language === 'ar' ? 'تواصل معنا' : 'Contact Us'"></a></li>
                     </ul>
                 </div>
 
                 <div class="footer-col">
                     <h4 x-text="language === 'ar' ? 'خدماتنا' : 'Our Services'"></h4>
                     <ul>
-                        <li x-text="language === 'ar' ? 'تصميم داخلي سكني' : 'Residential Interior Design'"></li>
-                        <li x-text="language === 'ar' ? 'تصميم تجاري' : 'Commercial Design'"></li>
-                        <li x-text="language === 'ar' ? 'تصميم الضيافة' : 'Hospitality Design'"></li>
-                        <li x-text="language === 'ar' ? 'أثاث مخصص' : 'Custom Furniture'"></li>
-                        <li x-text="language === 'ar' ? 'كرفانات' : 'Caravans'"></li>
+                        <li><a href="#" @click.prevent="goToSection('services')" x-text="language === 'ar' ? 'تصميم داخلي سكني' : 'Residential Interior Design'"></a></li>
+                        <li><a href="#" @click.prevent="goToSection('services')" x-text="language === 'ar' ? 'تصميم تجاري' : 'Commercial Design'"></a></li>
+                        <li><a href="#" @click.prevent="goToSection('services')" x-text="language === 'ar' ? 'تصميم الضيافة' : 'Hospitality Design'"></a></li>
+                        <li><a href="#" @click.prevent="goToSection('services')" x-text="language === 'ar' ? 'أثاث مخصص' : 'Custom Furniture'"></a></li>
+                        <li><a href="#" @click.prevent="goToSection('future')" x-text="language === 'ar' ? 'كرفانات' : 'Caravans'"></a></li>
                     </ul>
                 </div>
 

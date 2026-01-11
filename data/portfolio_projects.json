@@ -1,24 +1,24 @@
 {
   "source": "portfolio_projects",
-  "count": 45,
+  "count": 47,
   "projects": [
     {
       "slug": "residential",
-      "titleAr": null,
+      "titleAr": "سكني",
       "titleEn": "Residential",
       "title": "Residential",
       "images": [
+        "assets/site_images/categories/Residential/residential-001.jpeg",
+        "assets/site_images/categories/Residential/residential-002.webp",
         "assets/site_images/categories/Residential/residential-003.webp",
+        "assets/site_images/categories/Residential/residential-004.webp",
         "assets/site_images/categories/Residential/residential-005.webp",
-        "assets/site_images/categories/Residential/residential-012.webp",
         "assets/site_images/categories/Residential/residential-006.jpeg",
         "assets/site_images/categories/Residential/residential-008.webp",
-        "assets/site_images/categories/Residential/residential-004.webp",
-        "assets/site_images/categories/Residential/residential-002.webp",
-        "assets/site_images/categories/Residential/residential-001.jpeg",
         "assets/site_images/categories/Residential/residential-009.jpeg",
         "assets/site_images/categories/Residential/residential-010.webp",
         "assets/site_images/categories/Residential/residential-011.webp",
+        "assets/site_images/categories/Residential/residential-012.webp",
         "assets/site_images/categories/Residential/residential-013.jpeg",
         "assets/site_images/categories/Residential/residential-014.webp",
         "assets/site_images/categories/Residential/residential-015.jpeg",
@@ -29,25 +29,25 @@
         "assets/site_images/categories/Residential/residential-020.jpeg",
         "assets/site_images/categories/Residential/residential-021.jpeg"
       ],
-      "cover": "assets/site_images/categories/Residential/residential-003.webp",
+      "cover": "assets/site_images/categories/Residential/residential-001.jpeg",
       "imageCount": 20
     },
     {
       "slug": "commercial",
-      "titleAr": null,
+      "titleAr": "تجاري",
       "titleEn": "Commercial",
       "title": "Commercial",
       "images": [
+        "assets/site_images/categories/Commercial/commercial-001.jpeg",
+        "assets/site_images/categories/Commercial/commercial-002.jpeg",
         "assets/site_images/categories/Commercial/commercial-003.jpeg",
         "assets/site_images/categories/Commercial/commercial-004.jpeg",
-        "assets/site_images/categories/Commercial/commercial-002.jpeg",
-        "assets/site_images/categories/Commercial/commercial-007.jpeg",
-        "assets/site_images/categories/Commercial/commercial-010.jpeg",
-        "assets/site_images/categories/Commercial/commercial-001.jpeg",
         "assets/site_images/categories/Commercial/commercial-005.jpeg",
         "assets/site_images/categories/Commercial/commercial-006.jpeg",
+        "assets/site_images/categories/Commercial/commercial-007.jpeg",
         "assets/site_images/categories/Commercial/commercial-008.jpeg",
         "assets/site_images/categories/Commercial/commercial-009.jpeg",
+        "assets/site_images/categories/Commercial/commercial-010.jpeg",
         "assets/site_images/categories/Commercial/commercial-011.jpeg",
         "assets/site_images/categories/Commercial/commercial-012.jpeg",
         "assets/site_images/categories/Commercial/commercial-013.jpeg",
@@ -75,13 +75,13 @@
         "assets/site_images/categories/Commercial/commercial-035.jpeg",
         "assets/site_images/categories/Commercial/commercial-036.jpeg"
       ],
-      "cover": "assets/site_images/categories/Commercial/commercial-003.jpeg",
+      "cover": "assets/site_images/categories/Commercial/commercial-001.jpeg",
       "imageCount": 36
     },
     {
       "slug": "hospitality",
-      "titleAr": "Hospitality",
-      "titleEn": null,
+      "titleAr": "ضيافة",
+      "titleEn": "Hospitality",
       "title": "Hospitality",
       "images": [
         "assets/site_images/categories/Hospitality/hospitality-001.jpeg",
@@ -730,6 +730,18 @@
       "imageCount": 4
     },
     {
+      "slug": "new-project",
+      "titleAr": null,
+      "titleEn": null,
+      "title": "New Project",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/new-project/image001-30-721x720.jpg",
+        "assets/site_images/projects/portfolio_projects/new-project/image005-12-721x720.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/new-project/image001-30-721x720.jpg",
+      "imageCount": 2
+    },
+    {
       "slug": "palm-hills",
       "titleAr": null,
       "titleEn": null,
@@ -988,20 +1000,33 @@
       "imageCount": 6
     },
     {
+      "slug": "valore-studio-sodic",
+      "titleAr": null,
+      "titleEn": null,
+      "title": "Valore Studio Sodic",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/valore-studio-sodic/master-bedroom-7-2-720x720.jpg",
+        "assets/site_images/projects/portfolio_projects/valore-studio-sodic/master-bedroom-8-720x720.jpg",
+        "assets/site_images/projects/portfolio_projects/valore-studio-sodic/master-bedroom-9-720x720.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/valore-studio-sodic/master-bedroom-7-2-720x720.jpg",
+      "imageCount": 3
+    },
+    {
       "slug": "villa2",
       "titleAr": null,
       "titleEn": null,
       "title": "Villa2",
       "images": [
-        "assets/site_images/projects/portfolio_projects/villa2/image002-27-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/villa2/image004-24-721x720.jpg",
         "assets/site_images/projects/portfolio_projects/villa2/image001-31-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/villa2/image005-15-721x720.jpg",
+        "assets/site_images/projects/portfolio_projects/villa2/image002-27-721x720.jpg",
         "assets/site_images/projects/portfolio_projects/villa2/image003-25.jpg",
+        "assets/site_images/projects/portfolio_projects/villa2/image004-24-721x720.jpg",
+        "assets/site_images/projects/portfolio_projects/villa2/image005-15-721x720.jpg",
         "assets/site_images/projects/portfolio_projects/villa2/image006-12.jpg",
         "assets/site_images/projects/portfolio_projects/villa2/image007-12-150x150.jpg"
       ],
-      "cover": "assets/site_images/projects/portfolio_projects/villa2/image002-27-721x720.jpg",
+      "cover": "assets/site_images/projects/portfolio_projects/villa2/image001-31-721x720.jpg",
       "imageCount": 7
     },
     {

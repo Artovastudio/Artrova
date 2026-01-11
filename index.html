@@ -1,7 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
@@ -15,25 +16,25 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://artrovastudio.com/">
+    <meta property="og:url" content="https://artovastudio.github.io/Artrova/">
     <meta property="og:title" content="Artrova Studio | تصميم داخلي فاخر">
     <meta property="og:description" content="شركة تصميم داخلي ومعماري رائدة في السعودية ومصر">
-    <meta property="og:image" content="https://artrovastudio.com/images/hero-1.webp">
+    <meta property="og:image" content="https://artovastudio.github.io/Artrova/images/hero-1.webp">
     <meta property="og:locale" content="ar_SA">
     <meta property="og:locale:alternate" content="en_US">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://artrovastudio.com/">
+    <meta property="twitter:url" content="https://artovastudio.github.io/Artrova/">
     <meta property="twitter:title" content="Artrova Studio | تصميم داخلي فاخر">
     <meta property="twitter:description" content="شركة تصميم داخلي ومعماري رائدة في السعودية ومصر">
-    <meta property="twitter:image" content="https://artrovastudio.com/images/hero-1.webp">
+    <meta property="twitter:image" content="https://artovastudio.github.io/Artrova/images/hero-1.webp">
     
     <!-- Canonical & Alternate Links -->
-    <link rel="canonical" href="https://artrovastudio.com/">
-    <link rel="alternate" hreflang="ar" href="https://artrovastudio.com/?lang=ar">
-    <link rel="alternate" hreflang="en" href="https://artrovastudio.com/?lang=en">
-    <link rel="alternate" hreflang="x-default" href="https://artrovastudio.com/">
+    <link rel="canonical" href="https://artovastudio.github.io/Artrova/">
+    <link rel="alternate" hreflang="ar" href="https://artovastudio.github.io/Artrova/?lang=ar">
+    <link rel="alternate" hreflang="en" href="https://artovastudio.github.io/Artrova/?lang=en">
+    <link rel="alternate" hreflang="x-default" href="https://artovastudio.github.io/Artrova/">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -65,9 +66,9 @@
       "@type": "Organization",
       "name": "Artrova Studio",
       "description": "شركة تصميم داخلي ومعماري رائدة في السعودية ومصر",
-      "url": "https://artrovastudio.com",
-      "logo": "https://artrovastudio.com/assets/logo.svg",
-      "image": "https://artrovastudio.com/images/hero-1.webp",
+      "url": "https://artovastudio.github.io/Artrova/",
+      "logo": "https://artovastudio.github.io/Artrova/assets/artrova-logo.png",
+      "image": "https://artovastudio.github.io/Artrova/images/hero-1.webp",
       "telephone": "+966506534579",
       "email": "ArtrovaStudio@gmail.com",
       "address": [
@@ -102,8 +103,11 @@
             --transition: all 0.3s ease;
         }
 
+        [x-cloak] { display: none !important; }
+
         /* تنسيقات عامة */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { max-width: 100%; overflow-x: hidden; }
         body { font-family: 'Cairo', sans-serif; color: var(--text); line-height: 1.6; overflow-x: hidden; }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
@@ -297,6 +301,18 @@
             background: #333;
         }
 
+        .mobile-menu-toggle .label {
+            display: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.92);
+            margin-inline-start: 10px;
+            line-height: 1;
+        }
+        .scrolled .mobile-menu-toggle .label {
+            color: #111;
+        }
+
         /* قائمة الموبايل المنسدلة */
         .mobile-nav {
             position: fixed;
@@ -309,6 +325,34 @@
             padding: 14px 18px 18px;
             z-index: 990;
             display: none; /* تظهر فقط مع x-show وعلى الموبايل */
+        }
+        .mobile-nav-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .mobile-nav-title {
+            font-weight: 800;
+            color: #111;
+            font-size: 1.05rem;
+        }
+        .mobile-nav-close {
+            width: 48px;
+            height: 48px;
+            border-radius: 999px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        .mobile-nav-close:active {
+            transform: scale(0.98);
         }
         .mobile-nav-inner {
             display: flex;
@@ -345,19 +389,19 @@
         /* أنيميشن دخول/خروج قائمة الموبايل */
         .mobile-nav-enter {
             opacity: 0;
-            transform: translateY(-12px);
+            transform: translateX(18px);
         }
         .mobile-nav-enter-end {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0);
         }
         .mobile-nav-leave {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0);
         }
         .mobile-nav-leave-end {
             opacity: 0;
-            transform: translateY(-12px);
+            transform: translateX(18px);
         }
 
         .mobile-nav,
@@ -365,7 +409,7 @@
         .mobile-nav-enter-end,
         .mobile-nav-leave,
         .mobile-nav-leave-end {
-            transition: opacity 0.18s ease, transform 0.18s ease;
+            transition: opacity 0.24s ease, transform 0.24s ease;
         }
 
         .mobile-nav-backdrop {
@@ -374,6 +418,27 @@
             background: rgba(0,0,0,0.35);
             z-index: 980;
             display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                width: 44px;
+                height: 44px;
+            }
+            .mobile-nav {
+                top: 68px;
+                padding: 14px 18px 18px;
+                max-height: calc(100vh - 84px);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .mobile-nav-link {
+                padding: 12px 0;
+                font-size: 1.05rem;
+            }
+            .mobile-nav-backdrop {
+                background: rgba(0,0,0,0.45);
+            }
         }
 
         /* Top Bar مع أيقونات قابلة للنقر */
@@ -405,6 +470,75 @@
         .contact-links a:hover {
             opacity: 1;
             color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                background: rgba(18,18,18,0.96);
+                padding: 10px 0;
+                font-size: 14px;
+            }
+            .contact-links {
+                gap: 12px;
+            }
+            .contact-links a {
+                gap: 8px;
+                font-size: 14px;
+            }
+            .top-bar svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .main-header {
+                padding: 10px 0;
+                background: rgba(0,0,0,0.45);
+            }
+            .main-header.scrolled {
+                padding: 8px 0;
+            }
+            .logo img {
+                height: 42px;
+            }
+            .scrolled .logo img {
+                height: 38px;
+            }
+
+            .mobile-menu-toggle {
+                width: 48px;
+                height: 48px;
+            }
+            .mobile-menu-toggle span,
+            .mobile-menu-toggle span::before,
+            .mobile-menu-toggle span::after {
+                width: 20px;
+            }
+            .mobile-menu-toggle .label {
+                display: inline-block;
+            }
+
+            .mobile-nav {
+                top: 64px;
+                left: auto;
+                right: 0;
+                width: min(92vw, 420px);
+                border-radius: 18px 0 0 18px;
+                border: 1px solid rgba(0,0,0,0.06);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .top-bar .container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .contact-links {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
         }
 
         /* إحصائيات الهوم - شريط أرقام نظيف */
@@ -460,6 +594,73 @@
             color: #f5f5f5;
             opacity: 0.9;
             text-align: right;
+        }
+
+        .hero-new-swiper {
+            touch-action: pan-y;
+        }
+        .hero-new-overlay {
+            pointer-events: none;
+        }
+        .hero-new-content {
+            text-shadow: 0 8px 22px rgba(0,0,0,0.45);
+        }
+        .hero-new-content .hero-title,
+        .hero-new-content .hero-subtitle {
+            position: relative;
+            display: inline-block;
+        }
+        .hero-new-content .hero-title::before,
+        .hero-new-content .hero-subtitle::before {
+            content: '';
+            position: absolute;
+            inset: -10px -14px;
+            background: rgba(0,0,0,0.38);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 16px;
+            z-index: -1;
+        }
+
+        .hero-new .swiper-button-prev,
+        .hero-new .swiper-button-next {
+            width: 52px;
+            height: 52px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.85);
+            color: #111;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .hero-new .swiper-button-prev::after,
+        .hero-new .swiper-button-next::after {
+            font-size: 18px;
+            font-weight: 900;
+        }
+        .hero-new .swiper-button-prev {
+            left: 14px;
+            right: auto;
+        }
+        .hero-new .swiper-button-next {
+            right: 14px;
+            left: auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero-new .swiper-button-prev,
+            .hero-new .swiper-button-next {
+                width: 56px;
+                height: 56px;
+            }
+            .hero-new .swiper-button-prev { left: 12px; }
+            .hero-new .swiper-button-next { right: 12px; }
+            .hero-new .swiper-pagination-bullet {
+                width: 10px;
+                height: 10px;
+            }
+            .hero-new .swiper-pagination-bullet-active {
+                width: 22px;
+            }
         }
         .social-links {
             display: flex;
@@ -579,15 +780,21 @@
             min-height: 100vh;
             color: #ffffff;
             direction: rtl;
+            background: #111;
         }
         .hero-new .swiper {
             width: 100%;
             height: 100vh;
+            direction: ltr;
+            overflow: hidden;
+            background: #111;
         }
         .hero-new-slide {
             position: relative;
             width: 100%;
             height: 100%;
+            overflow: hidden;
+            background: #111;
         }
         .hero-new-slide img {
             width: 100%;
@@ -609,6 +816,7 @@
             padding-inline: 8vw;
             padding-block: 120px 80px;
             text-align: right;
+            direction: rtl;
             pointer-events: none;
         }
         .hero-new-content-inner {
@@ -1112,13 +1320,17 @@
             border-radius: 14px;
             overflow: hidden;
             background: #fff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
         }
         .portfolio-project-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 14px 40px rgba(0, 0, 0, 0.09);
+        }
+        .portfolio-project-card-media {
+            position: relative;
         }
         .portfolio-project-card img {
             width: 100%;
@@ -1127,25 +1339,100 @@
             display: block;
         }
         .portfolio-project-card-body {
-            padding: 14px 14px 16px;
+            display: none;
         }
         .portfolio-project-card-title {
-            font-weight: 800;
-            color: var(--dark);
             margin: 0;
-            font-size: 1rem;
+        }
+        .portfolio-project-card-title-overlay {
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.0) 0%, rgba(15, 23, 42, 0.82) 100%);
+            color: #fff;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            line-height: 1.25;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.18s ease, transform 0.18s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .portfolio-project-card:hover .portfolio-project-card-title-overlay,
+        .portfolio-project-card:focus .portfolio-project-card-title-overlay,
+        .portfolio-project-card:focus-within .portfolio-project-card-title-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-project-card img {
+                height: 210px;
+            }
+            .portfolio-project-card-title-overlay {
+                opacity: 1;
+                transform: none;
+                pointer-events: none;
+                white-space: normal;
+            }
         }
         .portfolio-project-view {
             margin-top: 12px;
         }
         .portfolio-project-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
             margin: 10px 0 18px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(15, 23, 42, 0.10);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
         }
-        .portfolio-back-btn {
+        @media (max-width: 640px) {
+            .portfolio-project-topbar {
+                position: static;
+                margin: 8px 0 14px;
+                padding: 10px;
+                border-radius: 12px;
+                gap: 10px;
+            }
+            .portfolio-topbar-spacer {
+                display: none;
+            }
+            .portfolio-topbar-title {
+                justify-content: flex-start;
+            }
+            .portfolio-project-title {
+                font-size: 1.05rem;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: unset;
+                line-height: 1.25;
+            }
+            .portfolio-topbar-pill {
+                display: none;
+            }
+            .portfolio-topbar-btn {
+                padding: 10px 14px;
+                min-height: 44px;
+                min-width: 44px;
+                white-space: nowrap;
+            }
+        }
+        .portfolio-topbar-btn {
             border: 1px solid rgba(15, 23, 42, 0.15);
             background: rgba(15, 23, 42, 0.04);
             color: var(--dark);
@@ -1154,12 +1441,38 @@
             font-weight: 800;
             cursor: pointer;
         }
+        .portfolio-topbar-btn.primary {
+            border-color: rgba(197, 160, 89, 0.35);
+            background: rgba(197, 160, 89, 0.14);
+        }
+        .portfolio-topbar-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex: 1;
+            justify-content: center;
+        }
+        .portfolio-topbar-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            background: rgba(15, 23, 42, 0.04);
+            font-weight: 800;
+            color: rgba(15, 23, 42, 0.75);
+            white-space: nowrap;
+        }
         .portfolio-project-title {
             font-size: 1.35rem;
             font-weight: 900;
             margin: 0;
             color: var(--dark);
             text-transform: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .portfolio-grid { 
             display: grid; 
@@ -1453,6 +1766,78 @@
             margin-bottom: 26px;
         }
 
+        .mobile-sticky-cta {
+            position: fixed;
+            left: 12px;
+            right: 12px;
+            bottom: 10px;
+            z-index: 1200;
+            display: none;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 16px;
+            background: rgba(17,17,17,0.86);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+        }
+        .mobile-sticky-cta a {
+            flex: 1;
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.98rem;
+        }
+        .mobile-sticky-cta .cta-primary {
+            background: var(--primary);
+            color: #111;
+        }
+        .mobile-sticky-cta .cta-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.16);
+        }
+
+        .back-to-top {
+            position: fixed;
+            left: 16px;
+            bottom: 86px;
+            width: 52px;
+            height: 52px;
+            border-radius: 999px;
+            background: var(--primary);
+            color: #111;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 900;
+            box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+            z-index: 1201;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .back-to-top:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 0;
+            }
+            .mobile-sticky-cta {
+                display: none;
+            }
+            .back-to-top {
+                display: inline-flex;
+                bottom: 16px;
+            }
+        }
+
         .submit-btn {
             width: 100%;
         }
@@ -1635,13 +2020,13 @@
                 display: none; 
             }
             .mobile-menu-toggle {
-                display: flex;
+                display: none;
             }
             .mobile-nav {
-                display: block;
+                display: none;
             }
             .mobile-nav-backdrop {
-                display: block;
+                display: none;
             }
             .hero-title { 
                 font-size: 2rem; 
@@ -1707,7 +2092,7 @@
                 flex-direction: column;
                 width: 100%;
             }
-            .btn {
+            .hero-buttons .btn {
                 width: 100%;
                 text-align: center;
             }
@@ -1726,8 +2111,9 @@
         }
     </style>
 </head>
-<body x-data="{ 
+<body x-cloak x-data="{
     scrolled: false,
+    backToTopVisible: false,
     language: 'ar',
     activeTab: 'home',
     activeFilter: 'all',
@@ -1910,6 +2296,13 @@
     },
     closePortfolioProject() {
         this.selectedPortfolioSlug = null;
+        try {
+            const el = document.getElementById('portfolio');
+            if (el && el.scrollIntoView) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
+        } catch (e) {}
         window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     openPortfolioLightbox(index) {
@@ -2187,15 +2580,23 @@
         this.activeFilter = initial;
         this.updateSeoForFilter(initial);
         this.updateUrlForFilter(initial);
-        this.loadPortfolioTags();
+        this.activeTab = initial;
         this.loadPortfolioProjects();
+
         window.addEventListener('keydown', (e) => this.onPortfolioKeydown(e));
+    },
+    scrollToTop() {
+        try {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (e) {
+            window.scrollTo(0, 0);
+        }
     },
     submitForm(event) {
         alert('شكراً لتواصلك معنا! سنرد عليك قريباً.');
         event.target.reset();
     }
-}" x-init="init()" @scroll.window="scrolled = (window.pageYOffset > 50)">
+}" x-init="init()" @scroll.window="scrolled = (window.pageYOffset > 50); backToTopVisible = (window.pageYOffset > 300)">
 
     <!-- Top Bar مع أيقونات قابلة للنقر -->
     <div class="top-bar">
@@ -2245,35 +2646,8 @@
                 </div>
             </nav>
 
-            <button type="button" class="mobile-menu-toggle" @click="mobileNavOpen = !mobileNavOpen" :class="{'is-open': mobileNavOpen}">
-                <span></span>
-            </button>
         </div>
     </header>
-
-    <!-- خلفية قائمة الموبايل -->
-    <div class="mobile-nav-backdrop" x-show="mobileNavOpen" @click="mobileNavOpen = false" x-transition.opacity.duration.150ms></div>
-
-    <!-- قائمة الموبايل -->
-    <div class="mobile-nav" x-show="mobileNavOpen" @click.outside="mobileNavOpen = false" x-transition:enter="mobile-nav-enter" x-transition:enter-end="mobile-nav-enter-end" x-transition:leave="mobile-nav-leave" x-transition:leave-end="mobile-nav-leave-end">
-        <div class="mobile-nav-inner">
-            <div class="mobile-nav-links">
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('home'); mobileNavOpen = false" x-text="language === 'ar' ? 'الرئيسية' : 'Home'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('about'); mobileNavOpen = false" x-text="language === 'ar' ? 'من نحن' : 'About'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('services'); mobileNavOpen = false" x-text="language === 'ar' ? 'خدماتنا' : 'Services'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('portfolio'); mobileNavOpen = false" x-text="language === 'ar' ? 'مشاريعنا' : 'Projects'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('future'); mobileNavOpen = false" x-text="language === 'ar' ? 'كرفانات' : 'Caravans'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('contact'); mobileNavOpen = false" x-text="language === 'ar' ? 'تواصل معنا' : 'Contact'"></a>
-            </div>
-            <div class="mobile-nav-footer">
-                <a href="#" @click.prevent="setTab('contact'); mobileNavOpen = false" class="btn btn-primary" style="flex:1; text-align:center;" x-text="language === 'ar' ? 'ابدأ مشروعك' : 'Start Your Project'"></a>
-                <div class="mobile-nav-lang">
-                    <button @click="language = 'ar'" type="button" class="lang-toggle" :class="{'btn-primary': language === 'ar'}">AR</button>
-                    <button @click="language = 'en'" type="button" class="lang-toggle" :class="{'btn-primary': language === 'en'}">EN</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- الهيرو الجديد - سلايدر كامل الشاشة -->
     <section id="home" class="hero-new" x-show="activeTab === 'home'">
@@ -2343,6 +2717,9 @@
                 </div>
             </div>
 
+            <div class="swiper-button-prev" aria-label="Previous"></div>
+            <div class="swiper-button-next" aria-label="Next"></div>
+
             <div class="hero-new-pagination swiper-pagination"></div>
         </div>
 
@@ -2351,87 +2728,6 @@
             <a href="https://www.facebook.com/profile.php?id=61574086439178" target="_blank" aria-label="Facebook">FB</a>
             <a href="https://wa.me/966506534579" target="_blank" aria-label="WhatsApp">WA</a>
         </div>
-    </section>
-
-    <!-- قسم محتوى SEO مخفي عن الزائر لكن قابل للقراءة من محركات البحث -->
-    <section class="seo-hidden" aria-hidden="true">
-        <h2>شركة تصميم داخلي وديكور في السعودية ومصر والخليج</h2>
-        <p>
-            Artrova Studio شركة تصميم داخلي وديكور متخصصة في تصميم الشقق والفلل والمكاتب والمحلات التجارية
-            والمطاعم والكافيهات والفنادق في السعودية ومصر ودول الخليج. نقدم خدمات مهندس ديكور في جدة، مهندس
-            ديكور في الرياض، مهندس ديكور في الدمام والخبر، ومصمم داخلي محترف في مكة والمدينة المنورة، مع وجود
-            فريق تصميم داخلي في القاهرة والتجمع الخامس والشيخ زايد و6 أكتوبر.
-        </p>
-        <p>
-            يعتمد فريق Artrova Studio على أحدث أساليب التصميم الداخلي المودرن والنيو كلاسيك والتصميم الكلاسيكي
-            الفاخر، مع خبرة في تصميم شقق صغيرة، تصميم استوديو، تصميم شقة عريس، تصميم فيلا كاملة، تصميم مجالس
-            رجال ونساء، تصميم مداخل فخمة، تصميم غرف نوم رئيسية، تصميم غرف أطفال، وتصميم غرف معيشة عملية تناسب
-            العائلات في المجتمع السعودي والمصري والخليجي.
-        </p>
-        <p>
-            نخدم عملاء من جدة، مكة، المدينة، الرياض، الدمام، الخبر، الظهران، أبها، خميس مشيط، الطائف، ومن القاهرة،
-            الجيزة، الشيخ زايد، 6 أكتوبر، التجمع الخامس، بالإضافة إلى عملاء من دبي وأبو ظبي والشارقة في الإمارات،
-            والدوحة في قطر، والكويت، والمنامة في البحرين، ومسقط في سلطنة عُمان. نركز على تصميم داخلي سكني، تصميم
-            داخلي تجاري، تصميم مطعم، تصميم كوفي شوب، تصميم مكتب شركة، تصميم عيادات طبية، وتصميم صالونات تجميل
-            وسبا.
-        </p>
-        <p>
-            من خلال أعمال Artrova Studio يمكن للعميل العثور على أفكار تصميم شقق مودرن، ديكور شقق صغيرة، ديكور
-            شقق كلاسيك، ديكور فيلا فاخرة، ديكور مجالس عربية، ديكور غرف نوم ماستر، ديكور غرف أطفال، ديكور مطابخ
-            حديثة، مع إمكانية تنفيذ التصميم والإشراف الهندسي الكامل حتى التسليم. كما نقدم حلول تصميم وحدات جاهزة
-            وكرفانات سكنية ومكتبية وحراسة واستقبال تناسب المشاريع في السعودية ومصر ودول الخليج.
-        </p>
-        <p>
-            إذا كنت تبحث عن أفضل مهندس ديكور في جدة أو مهندس ديكور في القاهرة أو مصمم داخلي في الخليج يساعدك على
-            تنظيم المساحة واستغلال كل متر في الشقة أو الفيلا أو المكتب، فإن أعمال Artrova Studio في قسم المشاريع
-            تعكس مستوى الاحترافية والجودة في التصميم الداخلي وتخطيط الفراغات واختيار الألوان والأثاث والإضاءة.
-        </p>
-        <h3>Interior designer in Saudi Arabia and Egypt</h3>
-        <p>
-            Artrova Studio offers interior design and decoration services for clients who search for interior designer in
-            Jeddah, interior designer in Riyadh, interior designer in Dammam, interior designer in Khobar, interior
-            designer in Makkah, Madinah, Abha, Taif, Tabuk, Jazan, Hail, Al Qassim, Al Ahsa, as well as interior designer
-            in Cairo, Giza, Sheikh Zayed, October City, New Cairo, Alexandria, Mansoura, Tanta, Zagazig, Ismailia,
-            Port Said, Suez, Luxor, Aswan and other Egyptian governorates.
-        </p>
-        <p>
-            نستهدف عملاء يبحثون عن مهندس ديكور في الإسكندرية، مهندس ديكور في المنصورة، مهندس ديكور في طنطا، مهندس
-            ديكور في الزقازيق، مهندس ديكور في بورسعيد، السويس، الإسماعيلية، دمياط، المنوفية، الشرقية، الغربية، كفر
-            الشيخ، البحيرة، بني سويف، الفيوم، المنيا، أسيوط، سوهاج، قنا، الأقصر، أسوان، مطروح، البحر الأحمر، الوادي
-            الجديد وشمال سيناء وجنوب سيناء، بالإضافة إلى جميع مناطق الرياض الكبرى، جدة الكبرى، الشرقية، عسير، جازان،
-            تبوك، حائل، الحدود الشمالية والباحة.
-        </p>
-        <p>
-            من خلال هذا الموقع يمكن العثور على خدمات: interior design for apartments in Cairo, interior design for
-            villas in Riyadh, luxury villa interior design in Jeddah, office interior design in Saudi Arabia, commercial
-            shop interior design in Egypt, restaurant and cafe interior design in Gulf region, modern apartment design in
-            Alexandria, classic villa design in New Cairo, small apartment interior design ideas and professional decor
-            services for families and businesses in the Middle East.
-        </p>
-        <p>
-            تشمل الكلمات المفتاحية التي نخدم من خلالها العملاء: مهندس ديكور شقق، مهندس ديكور فلل، مهندس ديكور
-            مكاتب، أفضل مكتب تصميم داخلي في جدة، أفضل مكتب تصميم داخلي في القاهرة، شركة تصميم ديكور بالرياض، شركة
-            تصميم ديكور في الدمام والخبر، مكتب تصميم ديكور في الإسكندرية، مكتب تصميم ديكور في التجمع الخامس، مكتب
-            تصميم داخلي في الشيخ زايد و6 أكتوبر، مكتب تصميم داخلي في المدينة المنورة ومكة والطائف.
-        </p>
-        <p>
-            كما نستهدف استفسارات مثل: تكلفة تصميم شقة في جدة، تكلفة تصميم شقة في القاهرة، سعر تصميم فيلا في الرياض،
-            سعر تصميم محل تجاري، أرخص مهندس ديكور مع جودة عالية، أفضل مصمم داخلي أونلاين، تصميم شقق مودرن 2025، أحدث
-            ديكورات شقق صغيرة، أفكار استغلال المساحات، تصميم غرف نوم مودرن، تصميم غرف أطفال، تصميم مطابخ أمريكان
-            مفتوحة على الصالة، وتصميم حمامات فندقية فخمة.
-        </p>
-        <p>
-            We also target English search queries such as: best interior designer in Saudi Arabia, interior design company
-            in Jeddah, interior design company in Riyadh, affordable interior designer in Cairo, online interior design
-            service for apartments, modern apartment interior design ideas, classic villa interior design, small apartment
-            space saving ideas, luxury interior design firm in Middle East, home decor services in Saudi Arabia and Egypt.
-        </p>
-        <p>
-            يبحث الكثير من العملاء عن عبارات مثل: تصميم ديكور شقة 100 متر، تصميم ديكور شقة 150 متر، تصميم ديكور فيلا
-            دوبليكس، تصميم ديكور روف، تصميم ديكور بدروم، تصميم ديكور كوفي شوب، تصميم ديكور مطعم برجر، تصميم ديكور
-            عيادة طبية، تصميم ديكور صالون نسائي، تصميم ديكور عبايات، تصميم ديكور محلات ملابس، وكلها من أنواع المشاريع
-            التي يمكن لـ Artrova Studio التعامل معها وتقديم حلول عملية وجذابة لها.
-        </p>
     </section>
 
     <!-- قسم الهيرو القديم (مخفي بصريًا لكن محتفظ به في الكود) -->
@@ -2704,9 +3000,12 @@
                 <template x-if="portfolioProjectsLoaded && !selectedPortfolioProject">
                     <div class="portfolio-project-grid">
                         <template x-for="p in portfolioProjects" :key="p.slug">
-                            <div class="portfolio-project-card" role="button" tabindex="0" @click="openPortfolioProject(p.slug)" @keydown.enter.prevent="openPortfolioProject(p.slug)" @keydown.space.prevent="openPortfolioProject(p.slug)">
-                                <img :src="p.cover" :alt="getPortfolioProjectTitle(p)" loading="lazy" decoding="async">
-                                <div class="portfolio-project-card-body">
+                            <div class="portfolio-project-card" x-data="{ coverOk: true }" x-show="coverOk" role="button" tabindex="0" @click="openPortfolioProject(p.slug)" @keydown.enter.prevent="openPortfolioProject(p.slug)" @keydown.space.prevent="openPortfolioProject(p.slug)">
+                                <div class="portfolio-project-card-media">
+                                    <img :src="p.cover" :alt="getPortfolioProjectTitle(p)" loading="lazy" decoding="async" @error="coverOk = false">
+                                    <p class="portfolio-project-card-title-overlay" x-text="getPortfolioProjectTitle(p)"></p>
+                                </div>
+                                <div class="portfolio-project-card-body" aria-hidden="true">
                                     <p class="portfolio-project-card-title" x-text="getPortfolioProjectTitle(p)"></p>
                                 </div>
                             </div>
@@ -2717,15 +3016,18 @@
                 <template x-if="portfolioProjectsLoaded && selectedPortfolioProject">
                     <div class="portfolio-project-view">
                         <div class="portfolio-project-topbar">
-                            <button type="button" class="portfolio-back-btn" @click="closePortfolioProject()" x-text="language === 'ar' ? 'رجوع' : 'Back'"></button>
-                            <h3 class="portfolio-project-title" x-text="getPortfolioProjectTitle(selectedPortfolioProject)"></h3>
-                            <div></div>
+                            <div class="portfolio-topbar-spacer" aria-hidden="true"></div>
+                            <div class="portfolio-topbar-title">
+                                <h3 class="portfolio-project-title" x-text="getPortfolioProjectTitle(selectedPortfolioProject)"></h3>
+                                <span class="portfolio-topbar-pill" x-text="(selectedPortfolioProject && Array.isArray(selectedPortfolioProject.images)) ? ((selectedPortfolioProject.images.length || 0) + (language === 'ar' ? ' صورة' : ' photos')) : ''"></span>
+                            </div>
+                            <button type="button" class="portfolio-topbar-btn primary" @click="closePortfolioProject()" x-text="language === 'ar' ? 'إغلاق' : 'Close'"></button>
                         </div>
 
                         <div class="portfolio-masonry">
                             <template x-for="(img, idx) in selectedPortfolioProject.images" :key="img">
                                 <div class="portfolio-item" role="article">
-                                    <img :src="img" alt="" loading="lazy" decoding="async" @click="openPortfolioLightbox(idx)">
+                                    <img :src="img" :alt="getPortfolioProjectTitle(selectedPortfolioProject) + ' - ' + (idx + 1)" loading="lazy" decoding="async" @click="openPortfolioLightbox(idx)">
                                 </div>
                             </template>
                         </div>
@@ -2735,7 +3037,7 @@
         </div>
     </section>
 
-    <div x-show="portfolioLightboxOpen" x-cloak class="portfolio-lightbox" @click.self="closePortfolioLightbox()" aria-modal="true" role="dialog">
+    <div x-show="portfolioLightboxOpen" x-cloak hidden x-bind:hidden="!portfolioLightboxOpen" class="portfolio-lightbox" style="display:none" @click.self="closePortfolioLightbox()" aria-modal="true" role="dialog">
         <div class="portfolio-lightbox-inner">
             <button type="button" class="portfolio-lightbox-btn prev" @click.stop="prevPortfolioLightbox()" aria-label="Previous">
                 <span aria-hidden="true">‹</span>
@@ -2746,7 +3048,7 @@
             <button type="button" class="portfolio-lightbox-close" @click.stop="closePortfolioLightbox()" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
-            <img :src="portfolioLightboxItems[portfolioLightboxIndex] ? portfolioLightboxItems[portfolioLightboxIndex].image : ''" alt="" loading="eager">
+            <img :src="portfolioLightboxItems[portfolioLightboxIndex] ? portfolioLightboxItems[portfolioLightboxIndex].image : ''" :alt="selectedPortfolioProject ? (getPortfolioProjectTitle(selectedPortfolioProject) + ' - ' + (portfolioLightboxIndex + 1)) : ''" loading="eager">
         </div>
     </div>
 
@@ -2985,6 +3287,7 @@
             </div>
         </div>
     </footer>
+    <button type="button" class="back-to-top" x-show="backToTopVisible" x-transition.opacity.duration.150ms @click="scrollToTop()" :aria-label="language === 'ar' ? 'العودة للأعلى' : 'Back to top'">↑</button>
 
     <!-- واتساب عائم -->
     <a href="https://wa.me/966506534579" class="whatsapp-float" target="_blank" rel="noopener" title="تواصل عبر واتساب">
@@ -2992,7 +3295,6 @@
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
         </svg>
     </a>
-
     <!-- Swiper JS -->
     <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
 
@@ -3006,9 +3308,16 @@
                         delay: 5000,
                         disableOnInteraction: false,
                     },
+                    simulateTouch: true,
+                    touchStartPreventDefault: false,
+                    touchReleaseOnEdges: true,
                     pagination: {
                         el: '.hero-new-pagination',
                         clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
                     },
                     effect: 'slide',
                     grabCursor: true,
@@ -3070,18 +3379,17 @@
                 skillsObserver.observe(skillsSection);
             }
 
-            // Service Worker registration
-            document.addEventListener('DOMContentLoaded', function() {
-                if ('serviceWorker' in navigator && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
-                    navigator.serviceWorker.register('service-worker.js')
-                        .catch(function (err) {
-                            console.warn('Service worker registration failed', err);
-                        });
-                }
-            });
+            try {
+                document.body && document.body.removeAttribute && document.body.removeAttribute('x-cloak');
+            } catch (e) {}
+
+            if ('serviceWorker' in navigator && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+                navigator.serviceWorker.register('service-worker.js')
+                    .catch(function (err) {
+                        console.warn('Service worker registration failed', err);
+                    });
+            }
         });
     </script>
-
 </body>
 </html>
-

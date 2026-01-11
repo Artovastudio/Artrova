@@ -105,27 +105,64 @@
     .btn.small { padding: 6px 10px; border-radius: 10px; font-size: 0.86rem; }
 
     .list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
       max-height: 62vh;
       overflow: auto;
       padding-right: 6px;
     }
-    .item {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: rgba(2,6,23,0.35);
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
-      cursor: pointer;
     }
-    .item.active { border-color: rgba(240,138,192,0.6); box-shadow: 0 0 0 3px rgba(240,138,192,0.12); }
-    .item .title { font-weight: 900; }
-    .item .meta { color: var(--muted); font-size: 0.85rem; }
+    @media (min-width: 980px) {
+      .project-grid { grid-template-columns: 1fr; }
+    }
+
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(2,6,23,0.35);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .project-card.active { border-color: rgba(240,138,192,0.6); box-shadow: 0 0 0 3px rgba(240,138,192,0.12); }
+    .project-card .thumb {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: rgba(255,255,255,0.04);
+      overflow: hidden;
+    }
+    .project-card .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .project-card .overlay {
+      position: absolute;
+      inset: auto 8px 8px 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.0), rgba(15, 23, 42, 0.86));
+      color: rgba(255,255,255,0.96);
+      font-weight: 900;
+      line-height: 1.25;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .project-card .count {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.35);
+      color: rgba(255,255,255,0.96);
+      font-weight: 900;
+      font-size: 0.85rem;
+      backdrop-filter: blur(8px);
+    }
 
     .notice {
       padding: 10px 12px;
@@ -140,8 +177,14 @@
 
     .imgs {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 820px) {
+      .imgs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 520px) {
+      .imgs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     .img-card {
       border: 1px solid var(--border);
@@ -150,18 +193,43 @@
       background: rgba(2,6,23,0.3);
       display: flex;
       flex-direction: column;
+      position: relative;
     }
     .img-card .thumb {
       width: 100%;
-      height: 120px;
+      aspect-ratio: 1 / 1;
       background: rgba(255,255,255,0.04);
       display: grid;
       place-items: center;
       overflow: hidden;
     }
     .img-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .img-card .body { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .img-card .body { padding: 10px; display: none; flex-direction: column; gap: 8px; }
+    .img-card.open .body { display: flex; }
     .img-card .flags { display: flex; justify-content: space-between; gap: 8px; }
+    .img-actions {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      gap: 8px;
+      z-index: 2;
+    }
+    .img-action-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.35);
+      color: rgba(255,255,255,0.96);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      font-weight: 900;
+    }
+    .img-action-btn.danger { border-color: rgba(239,68,68,0.45); background: rgba(239,68,68,0.28); }
+    .img-action-btn:active { transform: scale(0.98); }
 
     .pill {
       display: inline-flex;
@@ -174,6 +242,55 @@
       background: rgba(255,255,255,0.06);
       color: var(--muted);
     }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      z-index: 9999;
+    }
+    .modal-card {
+      width: min(920px, 100%);
+      max-height: 86vh;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+    }
+    .modal-card .panel-header { position: sticky; top: 0; z-index: 1; }
+    .reorder-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .reorder-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(2,6,23,0.35);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 120px auto;
+    }
+    .reorder-item .thumb { height: 120px; overflow: hidden; background: rgba(255,255,255,0.04); }
+    .reorder-item .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .reorder-item .info { padding: 10px; display: grid; gap: 8px; }
+    .reorder-item .handle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      cursor: grab;
+      user-select: none;
+    }
+    .reorder-item.dragging { opacity: 0.6; outline: 2px solid rgba(240,138,192,0.45); }
 
     .hidden { display: none !important; }
   </style>
@@ -236,7 +353,7 @@
             <button class="btn ok" id="btnAddProject">إضافة مشروع</button>
           </div>
 
-          <div class="list" id="projectList"></div>
+          <div class="project-grid list" id="projectList"></div>
         </div>
       </div>
 
@@ -290,6 +407,9 @@
             <div class="panel-header">
               <h2 style="margin:0; font-size:0.92rem;">قائمة الصور (داخل المشروع)</h2>
               <span class="pill" id="imgCount">0</span>
+              <div class="row">
+                <button class="btn small" id="btnReorder" disabled>ترتيب الصور</button>
+              </div>
             </div>
             <div class="panel-body">
               <div class="imgs" id="existingImages"></div>
@@ -327,10 +447,17 @@
                 </div>
                 <button class="btn" id="btnReloadData" type="button">تحديث البيانات</button>
                 <button class="btn ok" id="btnPublish" disabled>نشر التعديلات</button>
+                <button class="btn primary" id="btnSync" disabled>حفظ + رفع على GitHub</button>
                 <button class="btn" id="btnExportJson" disabled>Export JSON</button>
               </div>
 
               <div class="notice" id="statusBox" style="margin-top: 10px;">جاهز.</div>
+              <div id="progressWrap" class="hidden" style="margin-top:10px;">
+                <div class="notice" style="margin:0 0 8px 0;">التقدم: <span id="progressText">0%</span></div>
+                <div style="border:1px solid var(--border); border-radius:999px; overflow:hidden; background: rgba(2,6,23,0.35); height: 12px;">
+                  <div id="progressBar" style="height:100%; width:0%; background: linear-gradient(90deg, rgba(240,138,192,0.7), rgba(56,189,248,0.6));"></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -338,6 +465,25 @@
       </div>
     </div>
 
+  </div>
+
+  <div id="reorderModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card panel">
+      <div class="panel-header">
+        <h2>ترتيب الصور</h2>
+        <div class="row">
+          <button class="btn small" id="btnReorderAuto" type="button">ترتيب تلقائي (حسب الاسم)</button>
+          <button class="btn ok small" id="btnReorderSave" type="button">حفظ الترتيب</button>
+          <button class="btn danger small" id="btnReorderClose" type="button">إغلاق</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="notice" style="margin-bottom:10px;">
+          اسحب الكروت من أيقونة السحب لترتيب الصور. أول صورة ستكون الغلاف.
+        </div>
+        <div id="reorderList" class="reorder-list"></div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -351,27 +497,19 @@
     // غيّرها مرة واحدة ثم ارفع الملف على GitHub
     const GITHUB_OWNER = 'Artovastudio';
     const GITHUB_REPO = 'Artrova';
-    const GITHUB_BRANCH = 'gh-pages';
+    const GITHUB_BRANCH = 'main';
 
     // ملاحظة: لا نستخدم localStorage/sessionStorage لتجنب قيود المتصفح (Tracking Prevention)
-    let authed = false;
-
-    // ====== STATE ======
-    let data = { source: 'portfolio_projects', count: 0, projects: [] };
-    let selectedSlug = null;
-
-    // existing images changes
-    const deleteSet = new Set(); // image paths marked for deletion
-
-    // rename plan (for existing images): oldPath -> newPath
-    const renameMap = new Map();
-
-    // drag & drop reorder
-    let dragExistingIndex = null;
-
-    // uploads
-    /** @type {Array<{file: File, previewUrl: string, name: string, targetPath: (string|null), appliedPath: (string|null), projectSlug: (string|null)}>} */
-    let uploads = [];
+    const state = {
+      authed: false,
+      data: { source: 'portfolio_projects', count: 0, projects: [] },
+      selectedSlug: null,
+      deleteSet: new Set(),
+      renameMap: new Map(),
+      dragExistingIndex: null,
+      /** @type {Array<{file: File, previewUrl: string, name: string, targetPath: (string|null), appliedPath: (string|null), projectSlug: (string|null)}>} */
+      uploads: []
+    };
 
     // ====== UTILS ======
     const $ = (id) => document.getElementById(id);
@@ -400,11 +538,11 @@
     }
 
     function getProjectBySlug(slug) {
-      return (data.projects || []).find(p => p.slug === slug) || null;
+      return (state.data.projects || []).find(p => p.slug === slug) || null;
     }
 
     function findProjectByImagePath(path) {
-      const projects = data && Array.isArray(data.projects) ? data.projects : [];
+      const projects = state.data && Array.isArray(state.data.projects) ? state.data.projects : [];
       for (const p of projects) {
         if (p && Array.isArray(p.images) && p.images.includes(path)) return p;
       }
@@ -421,10 +559,10 @@
     }
 
     function updateCounts() {
-      $('projectCount').textContent = String((data.projects || []).length);
-      const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
+      $('projectCount').textContent = String((state.data.projects || []).length);
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       $('imgCount').textContent = p && Array.isArray(p.images) ? String(p.images.length) : '0';
-      $('uploadCount').textContent = String(uploads.length);
+      $('uploadCount').textContent = String(state.uploads.length);
     }
 
     function setStatus(text, kind) {
@@ -433,6 +571,38 @@
       box.classList.remove('danger', 'ok');
       if (kind === 'danger') box.classList.add('danger');
       if (kind === 'ok') box.classList.add('ok');
+    }
+
+    function setProgress(current, total) {
+      const wrap = $('progressWrap');
+      const bar = $('progressBar');
+      const text = $('progressText');
+      const pct = total ? Math.max(0, Math.min(100, Math.round((current / total) * 100))) : 0;
+      wrap.classList.remove('hidden');
+      bar.style.width = `${pct}%`;
+      text.textContent = `${pct}% (${current}/${total})`;
+    }
+
+    function clearProgress() {
+      const wrap = $('progressWrap');
+      const bar = $('progressBar');
+      const text = $('progressText');
+      wrap.classList.add('hidden');
+      bar.style.width = '0%';
+      text.textContent = '0%';
+    }
+
+    function formatError(e) {
+      if (!e) return 'Unknown error';
+      if (typeof e === 'string') return e;
+      const msg = e && e.message ? String(e.message) : String(e);
+      const status = e && e.status ? ` (HTTP ${e.status})` : '';
+      return `${msg}${status}`;
+    }
+
+    function handleError(userPrefix, e) {
+      try { console.error(userPrefix, e); } catch (_) {}
+      setStatus(`${userPrefix}: ${formatError(e)}`, 'danger');
     }
 
     function downloadText(filename, content) {
@@ -451,20 +621,19 @@
     function renderProjects() {
       const list = $('projectList');
       list.innerHTML = '';
-      const projects = (data.projects || []).slice().sort((a,b) => String(getProjectTitle(a)).localeCompare(String(getProjectTitle(b))));
+      const projects = (state.data.projects || []).slice().sort((a,b) => String(getProjectTitle(a)).localeCompare(String(getProjectTitle(b))));
 
       for (const p of projects) {
         const div = document.createElement('div');
-        div.className = 'item' + (p.slug === selectedSlug ? ' active' : '');
+        div.className = 'project-card' + (p.slug === state.selectedSlug ? ' active' : '');
+        const cover = (p && p.cover) ? String(p.cover) : ((p && Array.isArray(p.images) && p.images[0]) ? String(p.images[0]) : '');
+        const count = (p && Array.isArray(p.images)) ? p.images.length : 0;
         div.innerHTML = `
-          <div>
-            <div class="title"></div>
-            <div class="meta"></div>
-          </div>
-          <div class="pill">${Array.isArray(p.images) ? p.images.length : 0}</div>
+          <div class="thumb">${cover ? `<img src="${cover.replace(/"/g,'&quot;')}" alt="" loading="lazy" decoding="async" />` : ''}</div>
+          <div class="count">${count}</div>
+          <div class="overlay"></div>
         `;
-        div.querySelector('.title').textContent = getProjectTitle(p);
-        div.querySelector('.meta').textContent = p.slug;
+        div.querySelector('.overlay').textContent = getProjectTitle(p);
         div.addEventListener('click', () => selectProject(p.slug));
         list.appendChild(div);
       }
@@ -475,13 +644,12 @@
     function renderExistingImages() {
       const wrap = $('existingImages');
       wrap.innerHTML = '';
-      const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       const imgs = p && Array.isArray(p.images) ? p.images : [];
 
       for (let idx = 0; idx < imgs.length; idx++) {
         const path = imgs[idx];
         const originalPath = path;
-        const marked = deleteSet.has(path);
         const currentFile = String(path).split('/').pop() || '';
         const currentDir = String(path).split('/').slice(0, -1).join('/');
         const card = document.createElement('div');
@@ -490,6 +658,10 @@
         card.dataset.idx = String(idx);
         card.innerHTML = `
           <div class="thumb"></div>
+          <div class="img-actions">
+            <button class="img-action-btn" data-act="edit" type="button" aria-label="تعديل الاسم">✎</button>
+            <button class="img-action-btn danger" data-act="delete" type="button" aria-label="حذف">×</button>
+          </div>
           <div class="body">
             <div class="col">
               <label>اسم الملف (تغيير الاسم يحدّث JSON فقط)</label>
@@ -497,7 +669,7 @@
             </div>
             <div class="flags">
               <span class="btn small" style="cursor:grab; user-select:none;">اسحب لترتيب</span>
-              <button class="btn small ${marked ? 'ok' : 'danger'}" data-act="toggleDel">${marked ? 'إلغاء حذف' : 'حذف'}</button>
+              <button class="btn small" data-act="close" type="button">إغلاق</button>
             </div>
           </div>
         `;
@@ -516,28 +688,39 @@
           const newPath = (currentDir ? `${currentDir}/${newName}` : newName);
           const fromPath = originalPath;
           if (!newPath || newPath === fromPath) {
-            renameMap.delete(fromPath);
+            state.renameMap.delete(fromPath);
             return;
           }
 
           imgs[idx] = newPath;
-          renameMap.set(fromPath, newPath);
+          state.renameMap.set(fromPath, newPath);
 
           // if it was marked delete, move mark to new path
-          if (deleteSet.has(fromPath)) {
-            deleteSet.delete(fromPath);
-            deleteSet.add(newPath);
+          if (state.deleteSet.has(fromPath)) {
+            state.deleteSet.delete(fromPath);
+            state.deleteSet.add(newPath);
           }
         });
 
-        card.querySelector('[data-act="toggleDel"]').addEventListener('click', () => toggleDelete(imgs[idx]));
+        card.querySelector('[data-act="edit"]').addEventListener('click', (e) => {
+          e.preventDefault();
+          card.classList.toggle('open');
+          try { if (card.classList.contains('open')) nameInput.focus(); } catch (e) {}
+        });
+        card.querySelector('[data-act="close"]').addEventListener('click', (e) => {
+          e.preventDefault();
+          card.classList.remove('open');
+        });
+        card.querySelector('[data-act="delete"]').addEventListener('click', async () => {
+          await deleteImage(imgs[idx]);
+        });
 
         card.addEventListener('dragstart', () => {
-          dragExistingIndex = idx;
+          state.dragExistingIndex = idx;
           try { card.style.opacity = '0.6'; } catch (e) {}
         });
         card.addEventListener('dragend', () => {
-          dragExistingIndex = null;
+          state.dragExistingIndex = null;
           try { card.style.opacity = '1'; } catch (e) {}
         });
         card.addEventListener('dragover', (ev) => {
@@ -545,9 +728,9 @@
         });
         card.addEventListener('drop', (ev) => {
           ev.preventDefault();
-          if (dragExistingIndex === null || dragExistingIndex === idx) return;
-          reorderExisting(dragExistingIndex, idx);
-          dragExistingIndex = null;
+          if (state.dragExistingIndex === null || state.dragExistingIndex === idx) return;
+          reorderExisting(state.dragExistingIndex, idx);
+          state.dragExistingIndex = null;
           renderExistingImages();
         });
 
@@ -561,7 +744,7 @@
       const wrap = $('uploadPreview');
       wrap.innerHTML = '';
 
-      uploads.forEach((u, idx) => {
+      state.uploads.forEach((u, idx) => {
         const card = document.createElement('div');
         card.className = 'img-card';
         card.innerHTML = `
@@ -586,11 +769,11 @@
         const input = card.querySelector('input');
         input.addEventListener('input', (e) => {
           const newName = sanitizeFilename(e.target.value);
-          uploads[idx].name = newName;
+          state.uploads[idx].name = newName;
 
           // If already applied to project, keep JSON + targetPath in sync
-          const applied = uploads[idx].appliedPath;
-          const target = uploads[idx].targetPath;
+          const applied = state.uploads[idx].appliedPath;
+          const target = state.uploads[idx].targetPath;
           if (applied && target) {
             const dir = String(target).split('/').slice(0, -1).join('/');
             const newPath = dir ? `${dir}/${newName}` : newName;
@@ -606,8 +789,8 @@
               }
             }
 
-            uploads[idx].targetPath = newPath;
-            uploads[idx].appliedPath = newPath;
+            state.uploads[idx].targetPath = newPath;
+            state.uploads[idx].appliedPath = newPath;
             renderUploadPreview();
           }
         });
@@ -630,10 +813,10 @@
 
     // ====== ACTIONS ======
     function selectProject(slug) {
-      selectedSlug = slug;
-      deleteSet.clear();
-      uploads.forEach(u => URL.revokeObjectURL(u.previewUrl));
-      uploads = [];
+      state.selectedSlug = slug;
+      state.deleteSet.clear();
+      state.uploads.forEach(u => URL.revokeObjectURL(u.previewUrl));
+      state.uploads = [];
 
       const p = getProjectBySlug(slug);
       $('selectedTitle').textContent = p ? getProjectTitle(p) : 'اختر مشروع';
@@ -643,22 +826,124 @@
     }
 
     function updateActionsEnabled() {
-      const hasProject = !!selectedSlug && !!getProjectBySlug(selectedSlug);
+      const hasProject = !!state.selectedSlug && !!getProjectBySlug(state.selectedSlug);
       $('btnDeleteProject').disabled = !hasProject;
       $('imagePicker').disabled = !hasProject;
-      $('btnAutoNames').disabled = !hasProject || uploads.length === 0;
-      $('btnApplyUploads').disabled = !hasProject || uploads.length === 0;
+      $('btnAutoNames').disabled = !hasProject || state.uploads.length === 0;
+      $('btnApplyUploads').disabled = !hasProject || state.uploads.length === 0;
+      if ($('btnReorder')) $('btnReorder').disabled = !hasProject;
       if ($('editTitleAr')) $('editTitleAr').disabled = !hasProject;
       if ($('editTitleEn')) $('editTitleEn').disabled = !hasProject;
       if ($('btnSaveProjectTitles')) $('btnSaveProjectTitles').disabled = !hasProject;
 
-      const canExport = !!(data && Array.isArray(data.projects));
+      const canExport = !!(state.data && Array.isArray(state.data.projects));
       $('btnExportJson').disabled = !canExport;
       $('btnPublish').disabled = !canExport;
+      if ($('btnSync')) $('btnSync').disabled = !canExport;
+    }
+
+    function openReorderModal() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p || !Array.isArray(p.images) || !p.images.length) {
+        alert('لا يوجد صور لترتيبها');
+        return;
+      }
+      state.reorderDraft = p.images.slice();
+      $('reorderModal').classList.remove('hidden');
+      renderReorderList();
+    }
+
+    function closeReorderModal() {
+      $('reorderModal').classList.add('hidden');
+      state.reorderDraft = null;
+    }
+
+    function autoSortReorderDraft() {
+      if (!Array.isArray(state.reorderDraft)) return;
+      const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+      state.reorderDraft.sort((a, b) => {
+        const aa = String(a).split('/').pop() || '';
+        const bb = String(b).split('/').pop() || '';
+        return collator.compare(aa, bb);
+      });
+      renderReorderList();
+    }
+
+    function renderReorderList() {
+      const list = $('reorderList');
+      list.innerHTML = '';
+      const draft = Array.isArray(state.reorderDraft) ? state.reorderDraft : [];
+      let dragIndex = null;
+
+      for (let i = 0; i < draft.length; i++) {
+        const path = draft[i];
+        const file = String(path).split('/').pop() || '';
+        const card = document.createElement('div');
+        card.className = 'reorder-item';
+        card.draggable = true;
+        card.dataset.idx = String(i);
+        card.innerHTML = `
+          <div class="thumb"><img src="${path}" alt="" loading="lazy" decoding="async" /></div>
+          <div class="info">
+            <div class="row" style="justify-content:space-between; align-items:center;">
+              <span class="pill">${i === 0 ? 'غلاف' : String(i + 1)}</span>
+              <span class="handle" title="اسحب">⇅</span>
+            </div>
+            <div class="notice" style="margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${file}</div>
+          </div>
+        `;
+
+        card.addEventListener('dragstart', (ev) => {
+          dragIndex = i;
+          card.classList.add('dragging');
+          try { ev.dataTransfer.effectAllowed = 'move'; } catch (e) {}
+        });
+        card.addEventListener('dragend', () => {
+          dragIndex = null;
+          card.classList.remove('dragging');
+        });
+        card.addEventListener('dragover', (ev) => {
+          ev.preventDefault();
+          try { ev.dataTransfer.dropEffect = 'move'; } catch (e) {}
+        });
+        card.addEventListener('drop', (ev) => {
+          ev.preventDefault();
+          const toIndex = parseInt(card.dataset.idx, 10);
+          if (dragIndex === null || Number.isNaN(toIndex) || dragIndex === toIndex) return;
+          const arr = state.reorderDraft;
+          const [moved] = arr.splice(dragIndex, 1);
+          arr.splice(toIndex, 0, moved);
+          renderReorderList();
+        });
+
+        list.appendChild(card);
+      }
+    }
+
+    function saveReorderDraft() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p || !Array.isArray(state.reorderDraft) || !state.reorderDraft.length) return;
+      p.images = state.reorderDraft.slice();
+      p.cover = p.images[0] || '';
+      p.imageCount = p.images.length;
+      closeReorderModal();
+      refreshUI();
+      setStatus('تم حفظ ترتيب الصور محليًا. اضغط "حفظ + رفع على GitHub" لتحديث الموقع.', 'ok');
+    }
+
+    async function syncNow() {
+      const token = $('ghToken').value.trim();
+      if (!token) {
+        alert('الصق GitHub Token');
+        return;
+      }
+      const pendingNoTarget = state.uploads.filter(u => !!u && !!u.file && !u.targetPath);
+      if (pendingNoTarget.length) applyUploadsToProject();
+      await publish();
     }
 
     function saveProjectTitles() {
-      const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       if (!p) return;
       const ar = String($('editTitleAr').value || '').trim();
       const en = String($('editTitleEn').value || '').trim();
@@ -703,7 +988,7 @@
         alert('اكتب اسم المشروع عربي أو إنجليزي.');
         return;
       }
-      if ((data.projects || []).some(p => p.slug === slug)) {
+      if ((state.data.projects || []).some(p => p.slug === slug)) {
         alert('Slug موجود بالفعل. غيّر الـ slug.');
         return;
       }
@@ -718,8 +1003,8 @@
         imageCount: 0
       };
 
-      data.projects.push(proj);
-      data.count = data.projects.length;
+      state.data.projects.push(proj);
+      state.data.count = state.data.projects.length;
 
       $('newTitleAr').value = '';
       $('newTitleEn').value = '';
@@ -729,7 +1014,7 @@
     }
 
     function deleteProject() {
-      const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       if (!p) return;
 
       const ok = confirm(`تأكيد حذف المشروع: ${getProjectTitle(p)} ؟`);
@@ -737,25 +1022,98 @@
 
       // mark all images for deletion so you can export a delete list
       if (Array.isArray(p.images)) {
-        for (const img of p.images) deleteSet.add(img);
+        for (const img of p.images) state.deleteSet.add(img);
       }
 
-      data.projects = (data.projects || []).filter(x => x.slug !== p.slug);
-      data.count = data.projects.length;
-      selectedSlug = null;
+      state.data.projects = (state.data.projects || []).filter(x => x.slug !== p.slug);
+      state.data.count = state.data.projects.length;
+      state.selectedSlug = null;
       $('selectedTitle').textContent = 'اختر مشروع';
 
       refreshUI();
     }
 
-    function toggleDelete(path) {
-      if (deleteSet.has(path)) deleteSet.delete(path);
-      else deleteSet.add(path);
+    async function deleteImage(path) {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p || !Array.isArray(p.images)) return;
+
+      const ok = confirm('تأكيد حذف الصورة نهائيًا من المشروع؟ (سيتم حذفها من GitHub عند نشر التعديلات)');
+      if (!ok) return;
+
+      const token = $('ghToken') ? $('ghToken').value.trim() : '';
+
+      const prevImages = Array.isArray(p.images) ? p.images.slice() : [];
+      const prevCover = p.cover;
+      const prevCount = p.imageCount;
+      const prevDeleteHad = state.deleteSet.has(path);
+
+      // Remove from current project JSON immediately
+      p.images = p.images.filter(x => x !== path);
+      p.cover = (p.images || [])[0] || '';
+      p.imageCount = (p.images || []).length;
+
+      // Ensure it gets deleted on publish
+      state.deleteSet.add(path);
+
+      // If this path is involved in a pending rename, remove that plan and delete both sides just in case
+      for (const [fromSite, toSite] of Array.from(state.renameMap.entries())) {
+        if (fromSite === path || toSite === path) {
+          state.deleteSet.add(fromSite);
+          state.deleteSet.add(toSite);
+          state.renameMap.delete(fromSite);
+        }
+      }
+
       renderExistingImages();
+      renderProjects();
+      updateCounts();
+
+      if (!token) {
+        setStatus('تم حذف الصورة من المشروع محليًا. الصق GitHub Token ثم اضغط "نشر التعديلات" للحذف النهائي من GitHub.', 'ok');
+        return;
+      }
+
+      const owner = GITHUB_OWNER;
+      const repo = GITHUB_REPO;
+      const branch = GITHUB_BRANCH;
+      const gh = createGithubClient(owner, repo, branch, token);
+
+      try {
+        const repoPath = sitePathToRepoPath(path);
+        setStatus(`حذف من GitHub: ${repoPath}`, '');
+        setProgress(1, 2);
+
+        // Delete the file from repo
+        const meta = await gh.getFileMeta(repoPath, branch, true);
+        if (!meta || !meta.sha) throw new Error('تعذر الحصول على SHA للملف قبل الحذف');
+        await gh.deleteFile(repoPath, `Delete portfolio image: ${repoPath}`, meta.sha);
+
+        // Update JSON on GitHub so the deletion is reflected immediately
+        setStatus('تحديث data/portfolio_projects.json ...', '');
+        setProgress(2, 2);
+        const payload = {
+          source: 'portfolio_projects',
+          count: (state.data.projects || []).length,
+          projects: state.data.projects
+        };
+        await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
+
+        clearProgress();
+        setStatus('تم حذف الصورة نهائيًا من GitHub وتحديث البيانات ✅', 'ok');
+      } catch (e) {
+        clearProgress();
+        // Revert local state so there is no hidden/pending mismatch
+        p.images = prevImages;
+        p.cover = prevCover;
+        p.imageCount = prevCount;
+        if (!prevDeleteHad) state.deleteSet.delete(path);
+        refreshUI();
+        handleError('فشل حذف الصورة من GitHub', e);
+      }
     }
 
     function moveExisting(index, delta) {
-      const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       if (!p || !Array.isArray(p.images)) return;
       const next = index + delta;
       if (next < 0 || next >= p.images.length) return;
@@ -769,7 +1127,7 @@
     }
 
     function reorderExisting(fromIndex, toIndex) {
-      const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       if (!p || !Array.isArray(p.images)) return;
       const arr = p.images;
       if (fromIndex < 0 || fromIndex >= arr.length) return;
@@ -786,7 +1144,7 @@
 
       for (const f of picked) {
         const url = URL.createObjectURL(f);
-        uploads.push({ file: f, previewUrl: url, name: sanitizeFilename(f.name), targetPath: null, appliedPath: null, projectSlug: null });
+        state.uploads.push({ file: f, previewUrl: url, name: sanitizeFilename(f.name), targetPath: null, appliedPath: null, projectSlug: null });
       }
 
       renderUploadPreview();
@@ -795,23 +1153,23 @@
 
     function moveUpload(index, delta) {
       const next = index + delta;
-      if (next < 0 || next >= uploads.length) return;
-      const tmp = uploads[index];
-      uploads[index] = uploads[next];
-      uploads[next] = tmp;
+      if (next < 0 || next >= state.uploads.length) return;
+      const tmp = state.uploads[index];
+      state.uploads[index] = state.uploads[next];
+      state.uploads[next] = tmp;
       renderUploadPreview();
     }
 
     function removeUpload(index) {
-      const u = uploads[index];
+      const u = state.uploads[index];
       if (u) URL.revokeObjectURL(u.previewUrl);
-      uploads.splice(index, 1);
+      state.uploads.splice(index, 1);
       renderUploadPreview();
       updateActionsEnabled();
     }
 
     function autoNameUploads() {
-      const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       if (!p) return;
 
       const extFrom = (fileName) => {
@@ -833,24 +1191,24 @@
         }
       }
 
-      for (let i = 0; i < uploads.length; i++) {
-        const u = uploads[i];
+      for (let i = 0; i < state.uploads.length; i++) {
+        const u = state.uploads[i];
         const ext = extFrom(u.name || u.file.name);
         const num = String(start + i).padStart(3, '0');
-        uploads[i].name = sanitizeFilename(`${p.slug}-${num}${ext}`);
+        state.uploads[i].name = sanitizeFilename(`${p.slug}-${num}${ext}`);
       }
 
       renderUploadPreview();
     }
 
     function applyUploadsToProject() {
-      const p = selectedSlug ? getProjectBySlug(selectedSlug) : null;
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       if (!p) return;
 
       const baseDir = `assets/site_images/projects/portfolio_projects/${p.slug}`;
 
       const used = new Set((p.images || []).map(x => String(x).split('/').pop() || ''));
-      const pendingUploads = uploads.filter(u => !!u && !!u.file && !u.targetPath);
+      const pendingUploads = state.uploads.filter(u => !!u && !!u.file && !u.targetPath);
       for (const u of pendingUploads) {
         let fileName = sanitizeFilename(u.name);
         if (!fileName) fileName = sanitizeFilename(u.file.name);
@@ -883,71 +1241,62 @@
     function exportJson() {
       const payload = {
         source: 'portfolio_projects',
-        count: (data.projects || []).length,
-        projects: data.projects
+        count: (state.data.projects || []).length,
+        projects: state.data.projects
       };
       downloadText('portfolio_projects.json', JSON.stringify(payload, null, 2));
     }
 
-    // ====== GITHUB API (Simplified) ======
-    function ghHeaders(token) {
-      return {
+    function createGithubClient(owner, repo, branch, token) {
+      const headers = () => ({
         'Accept': 'application/vnd.github+json',
         'Authorization': `Bearer ${token}`
-      };
-    }
-
-    async function ghGetJson(url, token) {
-      const res = await fetch(url, { headers: ghHeaders(token) });
-      const text = await res.text();
-      let body = null;
-      try { body = text ? JSON.parse(text) : null; } catch (e) {}
-      if (!res.ok) {
-        const msg = body && body.message ? body.message : text;
-        const err = new Error(msg || `GitHub error: ${res.status}`);
-        err.status = res.status;
-        err.body = body;
-        throw err;
-      }
-      return body;
-    }
-
-    async function ghRequest(url, token, method, payload) {
-      const res = await fetch(url, {
-        method,
-        headers: { ...ghHeaders(token), 'Content-Type': 'application/json' },
-        body: payload ? JSON.stringify(payload) : undefined
       });
-      const text = await res.text();
-      let body = null;
-      try { body = text ? JSON.parse(text) : null; } catch (e) {}
-      if (!res.ok) {
-        const msg = body && body.message ? body.message : text;
-        const err = new Error(msg || `GitHub error: ${res.status}`);
-        err.status = res.status;
-        err.body = body;
-        throw err;
-      }
-      return body;
+
+      const contentsUrl = (path, ref, bustCache) => {
+        const enc = encodeURIComponent(path).replace(/%2F/g, '/');
+        const qs = [];
+        if (ref) qs.push(`ref=${encodeURIComponent(ref)}`);
+        if (bustCache) qs.push(`ts=${Date.now()}`);
+        return `https://api.github.com/repos/${owner}/${repo}/contents/${enc}` + (qs.length ? `?${qs.join('&')}` : '');
+      };
+
+      const requestJson = async (url, method, payload) => {
+        const res = await fetch(url, {
+          method,
+          cache: 'no-store',
+          headers: payload ? { ...headers(), 'Content-Type': 'application/json' } : headers(),
+          body: payload ? JSON.stringify(payload) : undefined
+        });
+        const text = await res.text();
+        let body = null;
+        try { body = text ? JSON.parse(text) : null; } catch (e) {}
+        if (!res.ok) {
+          const msg = body && body.message ? body.message : text;
+          const err = new Error(msg || `GitHub error: ${res.status}`);
+          err.status = res.status;
+          err.body = body;
+          throw err;
+        }
+        return body;
+      };
+
+      const getFileMeta = (path, ref, bustCache) => requestJson(contentsUrl(path, ref, bustCache), 'GET');
+      const putFile = (path, message, contentBase64, sha) => requestJson(contentsUrl(path, null), 'PUT', { message, content: contentBase64, branch, sha });
+      const deleteFile = (path, message, sha) => requestJson(contentsUrl(path, null), 'DELETE', { message, branch, sha });
+      const downloadToBase64 = async (downloadUrl) => {
+        if (!downloadUrl) throw new Error('Missing download_url');
+        const res = await fetch(downloadUrl, { headers: headers() });
+        if (!res.ok) throw new Error(`Download failed: ${res.status}`);
+        const buf = await res.arrayBuffer();
+        return arrayBufferToBase64(buf);
+      };
+
+      return { getFileMeta, putFile, deleteFile, downloadToBase64 };
     }
 
-    function ghContentsUrl(owner, repo, path, ref) {
-      const enc = encodeURIComponent(path).replace(/%2F/g, '/');
-      return `https://api.github.com/repos/${owner}/${repo}/contents/${enc}` + (ref ? `?ref=${encodeURIComponent(ref)}` : '');
-    }
-
-    async function ghGetFileMeta(owner, repo, path, ref, token) {
-      return ghGetJson(ghContentsUrl(owner, repo, path, ref), token);
-    }
-
-    async function ghPutFile(owner, repo, path, branch, token, message, contentBase64, sha) {
-      const url = ghContentsUrl(owner, repo, path, null);
-      return ghRequest(url, token, 'PUT', { message, content: contentBase64, branch, sha });
-    }
-
-    async function ghDeleteFile(owner, repo, path, branch, token, message, sha) {
-      const url = ghContentsUrl(owner, repo, path, null);
-      return ghRequest(url, token, 'DELETE', { message, branch, sha });
+    function delay(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
     function arrayBufferToBase64(buffer) {
@@ -964,7 +1313,7 @@
 
     async function ghDownloadToBase64(downloadUrl, token) {
       if (!downloadUrl) throw new Error('Missing download_url');
-      const res = await fetch(downloadUrl, { headers: ghHeaders(token) });
+      const res = await fetch(downloadUrl, { headers: { 'Accept': 'application/vnd.github+json', 'Authorization': `Bearer ${token}` } });
       if (!res.ok) throw new Error(`Download failed: ${res.status}`);
       const buf = await res.arrayBuffer();
       return arrayBufferToBase64(buf);
@@ -978,6 +1327,29 @@
       return String(sitePath || '').replace(/^\//, '');
     }
 
+    async function putPortfolioProjectsJsonWithRetry(gh, payload, branch) {
+      const jsonPath = 'data/portfolio_projects.json';
+      const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
+
+      for (let attempt = 1; attempt <= 6; attempt++) {
+        try {
+          let jsonSha = undefined;
+          try {
+            const meta = await gh.getFileMeta(jsonPath, branch, true);
+            if (meta && meta.sha) jsonSha = meta.sha;
+          } catch (e) {}
+
+          await gh.putFile(jsonPath, 'Update portfolio projects data', jsonB64, jsonSha);
+          return;
+        } catch (e) {
+          const msg = String(e && e.message ? e.message : e);
+          const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
+          if (!isShaMismatch || attempt === 6) throw e;
+          await delay(450 * attempt * attempt);
+        }
+      }
+    }
+
     async function publish() {
       const token = $('ghToken').value.trim();
       if (!token) {
@@ -985,7 +1357,7 @@
         return;
       }
 
-      const pendingNoTarget = uploads.filter(u => !!u && !!u.file && !u.targetPath);
+      const pendingNoTarget = state.uploads.filter(u => !!u && !!u.file && !u.targetPath);
       if (pendingNoTarget.length) {
         alert('في صور تم اختيارها من الجهاز لكن لم يتم إضافتها للمشروع بعد. اضغط "إضافة الصور للمشروع" أولاً.');
         return;
@@ -995,30 +1367,34 @@
       const repo = GITHUB_REPO;
       const branch = GITHUB_BRANCH;
 
+      const gh = createGithubClient(owner, repo, branch, token);
+
       setStatus('بدء النشر... (قد يأخذ وقت حسب عدد الصور)', '');
+      clearProgress();
 
       try {
         // 1) Upload new files (bound to targetPath after "إضافة الصور للمشروع")
-        const uploadOps = uploads.filter(u => !!u && !!u.file && !!u.targetPath);
+        const uploadOps = state.uploads.filter(u => !!u && !!u.file && !!u.targetPath);
         if (uploadOps.length) {
           for (let i = 0; i < uploadOps.length; i++) {
             const u = uploadOps[i];
             const repoPath = sitePathToRepoPath(u.targetPath);
             setStatus(`رفع صورة ${i + 1}/${uploadOps.length}: ${repoPath}`, '');
+            setProgress(i + 1, uploadOps.length);
 
             let sha = undefined;
             try {
-              const meta = await ghGetFileMeta(owner, repo, repoPath, branch, token);
+              const meta = await gh.getFileMeta(repoPath, branch);
               if (meta && meta.sha) sha = meta.sha;
-            } catch (e) {}
+            } catch (e) { try { console.warn('getFileMeta failed', repoPath, e); } catch (_) {} }
 
             const b64 = await fileToBase64(u.file);
-            await ghPutFile(owner, repo, repoPath, branch, token, `Update portfolio image: ${repoPath}`, b64, sha);
+            await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, sha);
           }
         }
 
         // 2) Rename files (copy content to new path then delete old)
-        const renames = Array.from(renameMap.entries());
+        const renames = Array.from(state.renameMap.entries());
         if (renames.length) {
           for (let i = 0; i < renames.length; i++) {
             const [fromSite, toSite] = renames[i];
@@ -1026,10 +1402,11 @@
             const toPath = sitePathToRepoPath(toSite);
             if (fromPath === toPath) continue;
             setStatus(`إعادة تسمية ${i + 1}/${renames.length}: ${fromPath} -> ${toPath}`, '');
+            setProgress(i + 1, renames.length);
 
             let fromMeta = null;
             try {
-              fromMeta = await ghGetFileMeta(owner, repo, fromPath, branch, token);
+              fromMeta = await gh.getFileMeta(fromPath, branch);
             } catch (e) {
               continue;
             }
@@ -1049,73 +1426,55 @@
 
             let toSha = undefined;
             try {
-              const toMeta = await ghGetFileMeta(owner, repo, toPath, branch, token);
+              const toMeta = await gh.getFileMeta(toPath, branch);
               if (toMeta && toMeta.sha) toSha = toMeta.sha;
-            } catch (e) {}
+            } catch (e) { try { console.warn('getFileMeta failed', toPath, e); } catch (_) {} }
 
-            await ghPutFile(owner, repo, toPath, branch, token, `Rename portfolio image: ${toPath}`, fromB64, toSha);
-            await ghDeleteFile(owner, repo, fromPath, branch, token, `Delete old portfolio image: ${fromPath}`, fromMeta.sha);
+            await gh.putFile(toPath, `Rename portfolio image: ${toPath}`, fromB64, toSha);
+            await gh.deleteFile(fromPath, `Delete old portfolio image: ${fromPath}`, fromMeta.sha);
           }
         }
 
         // 3) Delete marked images
-        const dels = Array.from(deleteSet.values()).map(sitePathToRepoPath);
+        const dels = Array.from(state.deleteSet.values()).map(sitePathToRepoPath);
         if (dels.length) {
           for (let i = 0; i < dels.length; i++) {
             const rp = dels[i];
             setStatus(`حذف صورة ${i + 1}/${dels.length}: ${rp}`, '');
+            setProgress(i + 1, dels.length);
             try {
-              const meta = await ghGetFileMeta(owner, repo, rp, branch, token);
+              const meta = await gh.getFileMeta(rp, branch);
               if (meta && meta.sha) {
-                await ghDeleteFile(owner, repo, rp, branch, token, `Delete portfolio image: ${rp}`, meta.sha);
+                await gh.deleteFile(rp, `Delete portfolio image: ${rp}`, meta.sha);
               }
             } catch (e) {
-              // ignore
+              try { console.warn('delete failed', rp, e); } catch (_) {}
             }
           }
         }
 
-        // 4) Update JSON (smart retry on SHA mismatch)
+        // 4) Update JSON (strong retry on SHA mismatch)
         setStatus('تحديث data/portfolio_projects.json ...', '');
-        const jsonPath = 'data/portfolio_projects.json';
 
         const payload = {
           source: 'portfolio_projects',
-          count: (data.projects || []).length,
-          projects: data.projects
+          count: (state.data.projects || []).length,
+          projects: state.data.projects
         };
-        const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
 
-        let lastErr = null;
-        for (let attempt = 1; attempt <= 3; attempt++) {
-          try {
-            let jsonSha = undefined;
-            try {
-              const meta = await ghGetFileMeta(owner, repo, jsonPath, branch, token);
-              if (meta && meta.sha) jsonSha = meta.sha;
-            } catch (e) {}
+        await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
 
-            await ghPutFile(owner, repo, jsonPath, branch, token, 'Update portfolio projects data', jsonB64, jsonSha);
-            lastErr = null;
-            break;
-          } catch (e) {
-            lastErr = e;
-            const msg = String(e && e.message ? e.message : e);
-            const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
-            if (!isShaMismatch || attempt === 3) throw e;
-            setStatus(`تعارض في النسخة (SHA). إعادة المحاولة ${attempt}/3...`, '');
-          }
-        }
-
-        deleteSet.clear();
-        renameMap.clear();
-        uploads.forEach(u => URL.revokeObjectURL(u.previewUrl));
-        uploads = [];
+        state.deleteSet.clear();
+        state.renameMap.clear();
+        state.uploads.forEach(u => URL.revokeObjectURL(u.previewUrl));
+        state.uploads = [];
+        clearProgress();
 
         setStatus('تم النشر بنجاح ✅', 'ok');
         refreshUI();
       } catch (e) {
-        setStatus(`فشل النشر: ${e && e.message ? e.message : e}`, 'danger');
+        clearProgress();
+        handleError('فشل النشر', e);
       }
     }
 
@@ -1127,9 +1486,9 @@
       if (!res.ok) throw new Error('data/portfolio_projects.json not found');
       const j = await res.json();
       if (!j || !Array.isArray(j.projects)) throw new Error('Invalid JSON structure');
-      data = j;
-      data.projects = data.projects || [];
-      data.count = data.projects.length;
+      state.data = j;
+      state.data.projects = state.data.projects || [];
+      state.data.count = state.data.projects.length;
     }
 
     async function reloadData() {
@@ -1138,17 +1497,17 @@
         setStatus('تم تحديث البيانات من الموقع. (آخر نسخة)', 'ok');
         refreshUI();
       } catch (e) {
-        setStatus(`تعذر تحديث البيانات: ${e && e.message ? e.message : e}`, 'danger');
+        handleError('تعذر تحديث البيانات', e);
       }
     }
 
     // ====== AUTH ======
     function isAuthed() {
-      return !!authed;
+      return !!state.authed;
     }
 
     function setAuthed(val) {
-      authed = !!val;
+      state.authed = !!val;
     }
 
     function showApp() {
@@ -1198,12 +1557,18 @@
 
       $('btnExportJson').addEventListener('click', exportJson);
       $('btnPublish').addEventListener('click', publish);
+      if ($('btnSync')) $('btnSync').addEventListener('click', syncNow);
+
+      if ($('btnReorder')) $('btnReorder').addEventListener('click', openReorderModal);
+      if ($('btnReorderClose')) $('btnReorderClose').addEventListener('click', closeReorderModal);
+      if ($('btnReorderSave')) $('btnReorderSave').addEventListener('click', saveReorderDraft);
+      if ($('btnReorderAuto')) $('btnReorderAuto').addEventListener('click', autoSortReorderDraft);
 
       try {
         await loadPortfolioJson(true);
         setStatus('تم تحميل بيانات المشاريع.', 'ok');
       } catch (e) {
-        setStatus(`تعذر تحميل data/portfolio_projects.json: ${e && e.message ? e.message : e}`, 'danger');
+        handleError('تعذر تحميل data/portfolio_projects.json', e);
       }
 
       refreshUI();

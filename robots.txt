@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://artovastudio.github.io/Artrova/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1

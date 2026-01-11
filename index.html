@@ -300,6 +300,18 @@
             background: #333;
         }
 
+        .mobile-menu-toggle .label {
+            display: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.92);
+            margin-inline-start: 10px;
+            line-height: 1;
+        }
+        .scrolled .mobile-menu-toggle .label {
+            color: #111;
+        }
+
         /* قائمة الموبايل المنسدلة */
         .mobile-nav {
             position: fixed;
@@ -312,6 +324,34 @@
             padding: 14px 18px 18px;
             z-index: 990;
             display: none; /* تظهر فقط مع x-show وعلى الموبايل */
+        }
+        .mobile-nav-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .mobile-nav-title {
+            font-weight: 800;
+            color: #111;
+            font-size: 1.05rem;
+        }
+        .mobile-nav-close {
+            width: 48px;
+            height: 48px;
+            border-radius: 999px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        .mobile-nav-close:active {
+            transform: scale(0.98);
         }
         .mobile-nav-inner {
             display: flex;
@@ -348,19 +388,19 @@
         /* أنيميشن دخول/خروج قائمة الموبايل */
         .mobile-nav-enter {
             opacity: 0;
-            transform: translateY(-12px);
+            transform: translateX(18px);
         }
         .mobile-nav-enter-end {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0);
         }
         .mobile-nav-leave {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0);
         }
         .mobile-nav-leave-end {
             opacity: 0;
-            transform: translateY(-12px);
+            transform: translateX(18px);
         }
 
         .mobile-nav,
@@ -368,7 +408,7 @@
         .mobile-nav-enter-end,
         .mobile-nav-leave,
         .mobile-nav-leave-end {
-            transition: opacity 0.18s ease, transform 0.18s ease;
+            transition: opacity 0.24s ease, transform 0.24s ease;
         }
 
         .mobile-nav-backdrop {
@@ -429,6 +469,75 @@
         .contact-links a:hover {
             opacity: 1;
             color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                background: rgba(18,18,18,0.96);
+                padding: 10px 0;
+                font-size: 14px;
+            }
+            .contact-links {
+                gap: 12px;
+            }
+            .contact-links a {
+                gap: 8px;
+                font-size: 14px;
+            }
+            .top-bar svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .main-header {
+                padding: 10px 0;
+                background: rgba(0,0,0,0.45);
+            }
+            .main-header.scrolled {
+                padding: 8px 0;
+            }
+            .logo img {
+                height: 42px;
+            }
+            .scrolled .logo img {
+                height: 38px;
+            }
+
+            .mobile-menu-toggle {
+                width: 48px;
+                height: 48px;
+            }
+            .mobile-menu-toggle span,
+            .mobile-menu-toggle span::before,
+            .mobile-menu-toggle span::after {
+                width: 20px;
+            }
+            .mobile-menu-toggle .label {
+                display: inline-block;
+            }
+
+            .mobile-nav {
+                top: 64px;
+                left: auto;
+                right: 0;
+                width: min(92vw, 420px);
+                border-radius: 18px 0 0 18px;
+                border: 1px solid rgba(0,0,0,0.06);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .top-bar .container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .contact-links {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
         }
 
         /* إحصائيات الهوم - شريط أرقام نظيف */
@@ -2383,6 +2492,7 @@
 
             <button type="button" class="mobile-menu-toggle" @click="mobileNavOpen = !mobileNavOpen" :class="{'is-open': mobileNavOpen}" :aria-expanded="mobileNavOpen ? 'true' : 'false'" aria-controls="mobileNav" :aria-label="mobileNavOpen ? (language === 'ar' ? 'إغلاق القائمة' : 'Close menu') : (language === 'ar' ? 'فتح القائمة' : 'Open menu')">
                 <span></span>
+                <span class="label" x-text="language === 'ar' ? 'القائمة' : 'Menu'"></span>
             </button>
         </div>
     </header>
@@ -2392,6 +2502,10 @@
 
     <!-- قائمة الموبايل -->
     <div id="mobileNav" class="mobile-nav" x-show="mobileNavOpen" @click.outside="mobileNavOpen = false" x-transition:enter="mobile-nav-enter" x-transition:enter-end="mobile-nav-enter-end" x-transition:leave="mobile-nav-leave" x-transition:leave-end="mobile-nav-leave-end">
+        <div class="mobile-nav-head">
+            <div class="mobile-nav-title" x-text="language === 'ar' ? 'القائمة' : 'Menu'"></div>
+            <button type="button" class="mobile-nav-close" @click="mobileNavOpen = false" :aria-label="language === 'ar' ? 'إغلاق القائمة' : 'Close menu'">×</button>
+        </div>
         <div class="mobile-nav-inner">
             <div class="mobile-nav-links">
                 <a href="#" class="mobile-nav-link" @click.prevent="setTab('home'); mobileNavOpen = false" x-text="language === 'ar' ? 'الرئيسية' : 'Home'"></a>

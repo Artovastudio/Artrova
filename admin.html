@@ -175,6 +175,55 @@
       color: var(--muted);
     }
 
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      z-index: 9999;
+    }
+    .modal-card {
+      width: min(920px, 100%);
+      max-height: 86vh;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+    }
+    .modal-card .panel-header { position: sticky; top: 0; z-index: 1; }
+    .reorder-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .reorder-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(2,6,23,0.35);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: 120px auto;
+    }
+    .reorder-item .thumb { height: 120px; overflow: hidden; background: rgba(255,255,255,0.04); }
+    .reorder-item .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .reorder-item .info { padding: 10px; display: grid; gap: 8px; }
+    .reorder-item .handle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      cursor: grab;
+      user-select: none;
+    }
+    .reorder-item.dragging { opacity: 0.6; outline: 2px solid rgba(240,138,192,0.45); }
+
     .hidden { display: none !important; }
   </style>
 </head>
@@ -290,6 +339,9 @@
             <div class="panel-header">
               <h2 style="margin:0; font-size:0.92rem;">قائمة الصور (داخل المشروع)</h2>
               <span class="pill" id="imgCount">0</span>
+              <div class="row">
+                <button class="btn small" id="btnReorder" disabled>ترتيب الصور</button>
+              </div>
             </div>
             <div class="panel-body">
               <div class="imgs" id="existingImages"></div>
@@ -327,6 +379,7 @@
                 </div>
                 <button class="btn" id="btnReloadData" type="button">تحديث البيانات</button>
                 <button class="btn ok" id="btnPublish" disabled>نشر التعديلات</button>
+                <button class="btn primary" id="btnSync" disabled>حفظ + رفع على GitHub</button>
                 <button class="btn" id="btnExportJson" disabled>Export JSON</button>
               </div>
 
@@ -344,6 +397,25 @@
       </div>
     </div>
 
+  </div>
+
+  <div id="reorderModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card panel">
+      <div class="panel-header">
+        <h2>ترتيب الصور</h2>
+        <div class="row">
+          <button class="btn small" id="btnReorderAuto" type="button">ترتيب تلقائي (حسب الاسم)</button>
+          <button class="btn ok small" id="btnReorderSave" type="button">حفظ الترتيب</button>
+          <button class="btn danger small" id="btnReorderClose" type="button">إغلاق</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="notice" style="margin-bottom:10px;">
+          اسحب الكروت من أيقونة السحب لترتيب الصور. أول صورة ستكون الغلاف.
+        </div>
+        <div id="reorderList" class="reorder-list"></div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -679,6 +751,7 @@
       $('imagePicker').disabled = !hasProject;
       $('btnAutoNames').disabled = !hasProject || state.uploads.length === 0;
       $('btnApplyUploads').disabled = !hasProject || state.uploads.length === 0;
+      if ($('btnReorder')) $('btnReorder').disabled = !hasProject;
       if ($('editTitleAr')) $('editTitleAr').disabled = !hasProject;
       if ($('editTitleEn')) $('editTitleEn').disabled = !hasProject;
       if ($('btnSaveProjectTitles')) $('btnSaveProjectTitles').disabled = !hasProject;
@@ -686,6 +759,107 @@
       const canExport = !!(state.data && Array.isArray(state.data.projects));
       $('btnExportJson').disabled = !canExport;
       $('btnPublish').disabled = !canExport;
+      if ($('btnSync')) $('btnSync').disabled = !canExport;
+    }
+
+    function openReorderModal() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p || !Array.isArray(p.images) || !p.images.length) {
+        alert('لا يوجد صور لترتيبها');
+        return;
+      }
+      state.reorderDraft = p.images.slice();
+      $('reorderModal').classList.remove('hidden');
+      renderReorderList();
+    }
+
+    function closeReorderModal() {
+      $('reorderModal').classList.add('hidden');
+      state.reorderDraft = null;
+    }
+
+    function autoSortReorderDraft() {
+      if (!Array.isArray(state.reorderDraft)) return;
+      const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+      state.reorderDraft.sort((a, b) => {
+        const aa = String(a).split('/').pop() || '';
+        const bb = String(b).split('/').pop() || '';
+        return collator.compare(aa, bb);
+      });
+      renderReorderList();
+    }
+
+    function renderReorderList() {
+      const list = $('reorderList');
+      list.innerHTML = '';
+      const draft = Array.isArray(state.reorderDraft) ? state.reorderDraft : [];
+      let dragIndex = null;
+
+      for (let i = 0; i < draft.length; i++) {
+        const path = draft[i];
+        const file = String(path).split('/').pop() || '';
+        const card = document.createElement('div');
+        card.className = 'reorder-item';
+        card.draggable = true;
+        card.dataset.idx = String(i);
+        card.innerHTML = `
+          <div class="thumb"><img src="${path}" alt="" loading="lazy" decoding="async" /></div>
+          <div class="info">
+            <div class="row" style="justify-content:space-between; align-items:center;">
+              <span class="pill">${i === 0 ? 'غلاف' : String(i + 1)}</span>
+              <span class="handle" title="اسحب">⇅</span>
+            </div>
+            <div class="notice" style="margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${file}</div>
+          </div>
+        `;
+
+        card.addEventListener('dragstart', (ev) => {
+          dragIndex = i;
+          card.classList.add('dragging');
+          try { ev.dataTransfer.effectAllowed = 'move'; } catch (e) {}
+        });
+        card.addEventListener('dragend', () => {
+          dragIndex = null;
+          card.classList.remove('dragging');
+        });
+        card.addEventListener('dragover', (ev) => {
+          ev.preventDefault();
+          try { ev.dataTransfer.dropEffect = 'move'; } catch (e) {}
+        });
+        card.addEventListener('drop', (ev) => {
+          ev.preventDefault();
+          const toIndex = parseInt(card.dataset.idx, 10);
+          if (dragIndex === null || Number.isNaN(toIndex) || dragIndex === toIndex) return;
+          const arr = state.reorderDraft;
+          const [moved] = arr.splice(dragIndex, 1);
+          arr.splice(toIndex, 0, moved);
+          renderReorderList();
+        });
+
+        list.appendChild(card);
+      }
+    }
+
+    function saveReorderDraft() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p || !Array.isArray(state.reorderDraft) || !state.reorderDraft.length) return;
+      p.images = state.reorderDraft.slice();
+      p.cover = p.images[0] || '';
+      p.imageCount = p.images.length;
+      closeReorderModal();
+      refreshUI();
+      setStatus('تم حفظ ترتيب الصور محليًا. اضغط "حفظ + رفع على GitHub" لتحديث الموقع.', 'ok');
+    }
+
+    async function syncNow() {
+      const token = $('ghToken').value.trim();
+      if (!token) {
+        alert('الصق GitHub Token');
+        return;
+      }
+      const pendingNoTarget = state.uploads.filter(u => !!u && !!u.file && !u.targetPath);
+      if (pendingNoTarget.length) applyUploadsToProject();
+      await publish();
     }
 
     function saveProjectTitles() {
@@ -1320,6 +1494,12 @@
 
       $('btnExportJson').addEventListener('click', exportJson);
       $('btnPublish').addEventListener('click', publish);
+      if ($('btnSync')) $('btnSync').addEventListener('click', syncNow);
+
+      if ($('btnReorder')) $('btnReorder').addEventListener('click', openReorderModal);
+      if ($('btnReorderClose')) $('btnReorderClose').addEventListener('click', closeReorderModal);
+      if ($('btnReorderSave')) $('btnReorderSave').addEventListener('click', saveReorderDraft);
+      if ($('btnReorderAuto')) $('btnReorderAuto').addEventListener('click', autoSortReorderDraft);
 
       try {
         await loadPortfolioJson(true);

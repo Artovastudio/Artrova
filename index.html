@@ -102,6 +102,8 @@
             --transition: all 0.3s ease;
         }
 
+        [x-cloak] { display: none !important; }
+
         /* تنسيقات عامة */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Cairo', sans-serif; color: var(--text); line-height: 1.6; overflow-x: hidden; }
@@ -1139,13 +1141,21 @@
             margin-top: 12px;
         }
         .portfolio-project-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
             margin: 10px 0 18px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(15, 23, 42, 0.10);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
         }
-        .portfolio-back-btn {
+        .portfolio-topbar-btn {
             border: 1px solid rgba(15, 23, 42, 0.15);
             background: rgba(15, 23, 42, 0.04);
             color: var(--dark);
@@ -1154,12 +1164,38 @@
             font-weight: 800;
             cursor: pointer;
         }
+        .portfolio-topbar-btn.primary {
+            border-color: rgba(197, 160, 89, 0.35);
+            background: rgba(197, 160, 89, 0.14);
+        }
+        .portfolio-topbar-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex: 1;
+            justify-content: center;
+        }
+        .portfolio-topbar-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(15, 23, 42, 0.12);
+            background: rgba(15, 23, 42, 0.04);
+            font-weight: 800;
+            color: rgba(15, 23, 42, 0.75);
+            white-space: nowrap;
+        }
         .portfolio-project-title {
             font-size: 1.35rem;
             font-weight: 900;
             margin: 0;
             color: var(--dark);
             text-transform: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .portfolio-grid { 
             display: grid; 
@@ -1726,7 +1762,7 @@
         }
     </style>
 </head>
-<body x-data="{ 
+<body x-cloak x-data="{
     scrolled: false,
     language: 'ar',
     activeTab: 'home',
@@ -1910,6 +1946,13 @@
     },
     closePortfolioProject() {
         this.selectedPortfolioSlug = null;
+        try {
+            const el = document.getElementById('portfolio');
+            if (el && el.scrollIntoView) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
+        } catch (e) {}
         window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     openPortfolioLightbox(index) {
@@ -2717,9 +2760,12 @@
                 <template x-if="portfolioProjectsLoaded && selectedPortfolioProject">
                     <div class="portfolio-project-view">
                         <div class="portfolio-project-topbar">
-                            <button type="button" class="portfolio-back-btn" @click="closePortfolioProject()" x-text="language === 'ar' ? 'رجوع' : 'Back'"></button>
-                            <h3 class="portfolio-project-title" x-text="getPortfolioProjectTitle(selectedPortfolioProject)"></h3>
-                            <div></div>
+                            <button type="button" class="portfolio-topbar-btn" @click="closePortfolioProject()" x-text="language === 'ar' ? 'رجوع للقائمة' : 'Back to list'"></button>
+                            <div class="portfolio-topbar-title">
+                                <h3 class="portfolio-project-title" x-text="getPortfolioProjectTitle(selectedPortfolioProject)"></h3>
+                                <span class="portfolio-topbar-pill" x-text="(selectedPortfolioProject && Array.isArray(selectedPortfolioProject.images)) ? ((selectedPortfolioProject.images.length || 0) + (language === 'ar' ? ' صورة' : ' photos')) : ''"></span>
+                            </div>
+                            <button type="button" class="portfolio-topbar-btn primary" @click="closePortfolioProject()" x-text="language === 'ar' ? 'إغلاق' : 'Close'"></button>
                         </div>
 
                         <div class="portfolio-masonry">
@@ -3070,18 +3116,17 @@
                 skillsObserver.observe(skillsSection);
             }
 
-            // Service Worker registration
-            document.addEventListener('DOMContentLoaded', function() {
-                if ('serviceWorker' in navigator && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
-                    navigator.serviceWorker.register('service-worker.js')
-                        .catch(function (err) {
-                            console.warn('Service worker registration failed', err);
-                        });
-                }
-            });
+            try {
+                document.body && document.body.removeAttribute && document.body.removeAttribute('x-cloak');
+            } catch (e) {}
+
+            if ('serviceWorker' in navigator && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+                navigator.serviceWorker.register('service-worker.js')
+                    .catch(function (err) {
+                        console.warn('Service worker registration failed', err);
+                    });
+            }
         });
     </script>
-
 </body>
 </html>
-

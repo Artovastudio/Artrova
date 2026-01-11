@@ -2760,7 +2760,7 @@
                 <template x-if="portfolioProjectsLoaded && selectedPortfolioProject">
                     <div class="portfolio-project-view">
                         <div class="portfolio-project-topbar">
-                            <button type="button" class="portfolio-topbar-btn" @click="closePortfolioProject()" x-text="language === 'ar' ? 'رجوع للقائمة' : 'Back to list'"></button>
+                            <div style="width: 120px;"></div>
                             <div class="portfolio-topbar-title">
                                 <h3 class="portfolio-project-title" x-text="getPortfolioProjectTitle(selectedPortfolioProject)"></h3>
                                 <span class="portfolio-topbar-pill" x-text="(selectedPortfolioProject && Array.isArray(selectedPortfolioProject.images)) ? ((selectedPortfolioProject.images.length || 0) + (language === 'ar' ? ' صورة' : ' photos')) : ''"></span>

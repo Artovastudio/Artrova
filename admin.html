@@ -359,6 +359,28 @@
     }
     .reorder-item.dragging { opacity: 0.6; outline: 2px solid rgba(240,138,192,0.45); }
 
+    .mobile-actionbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px 12px;
+      background: rgba(2, 6, 23, 0.78);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+      display: none;
+    }
+    .mobile-actionbar .btn {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+    }
+    @media (max-width: 520px) {
+      body { padding-bottom: 76px; }
+      .mobile-actionbar { display: block; }
+    }
+
     .hidden { display: none !important; }
   </style>
 </head>
@@ -532,6 +554,10 @@
       </div>
     </div>
 
+  </div>
+
+  <div class="mobile-actionbar" role="region" aria-label="الإجراء الرئيسي">
+    <button class="btn primary" type="button" id="mobilePrimarySync">حفظ + رفع على GitHub</button>
   </div>
 
   <div id="reorderModal" class="modal hidden" role="dialog" aria-modal="true">
@@ -752,8 +778,13 @@
         thumb.appendChild(img);
 
         const nameInput = card.querySelector('input');
+        const filenameBadge = card.querySelector('.img-filename');
         nameInput.addEventListener('input', (e) => {
           const newName = sanitizeFilename(e.target.value);
+          try {
+            e.target.value = newName;
+            if (filenameBadge) filenameBadge.textContent = newName;
+          } catch (e) {}
           const newPath = (currentDir ? `${currentDir}/${newName}` : newName);
           const fromPath = originalPath;
           if (!newPath || newPath === fromPath) {
@@ -843,9 +874,14 @@
         `;
 
         const input = card.querySelector('input');
+        const filenameBadge = card.querySelector('.img-filename');
         input.addEventListener('input', (e) => {
           const newName = sanitizeFilename(e.target.value);
           state.uploads[idx].name = newName;
+          try {
+            e.target.value = newName;
+            if (filenameBadge) filenameBadge.textContent = newName;
+          } catch (e) {}
 
           // If already applied to project, keep JSON + targetPath in sync
           const applied = state.uploads[idx].appliedPath;
@@ -1617,6 +1653,14 @@
     }
 
     async function init() {
+      const mobileSyncBtn = $('mobilePrimarySync');
+      if (mobileSyncBtn) {
+        mobileSyncBtn.addEventListener('click', () => {
+          const btn = $('btnSync');
+          if (btn) btn.click();
+        });
+      }
+
       $('btnLogout').addEventListener('click', () => {
         setAuthed(false);
         showLogin();

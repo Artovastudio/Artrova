@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -233,6 +233,9 @@
             padding: 2px;
             border-radius: 999px;
             background: rgba(0,0,0,0.35);
+            position: relative;
+            z-index: 1101;
+            pointer-events: auto;
         }
         .scrolled .language-switch {
             background: #f7f7f7;
@@ -247,6 +250,9 @@
             color: rgba(255,255,255,0.8);
             cursor: pointer;
             transition: var(--transition);
+            position: relative;
+            z-index: 1102;
+            pointer-events: auto;
         }
         .lang-toggle.btn-primary {
             background: var(--primary);
@@ -385,6 +391,9 @@
         .mobile-nav-lang {
             display: flex;
             gap: 6px;
+            position: relative;
+            z-index: 1102;
+            pointer-events: auto;
         }
 
         /* أنيميشن دخول/خروج قائمة الموبايل */

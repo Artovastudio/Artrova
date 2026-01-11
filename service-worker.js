@@ -1,4 +1,4 @@
-const CACHE_NAME = 'artrova-cache-v15';
+const CACHE_NAME = 'artrova-cache-v16';
 const URLS_TO_CACHE = [
   './',
   './index.html',
@@ -47,22 +47,32 @@ self.addEventListener('fetch', event => {
     const isImageExt = /\.(png|jpe?g|webp|gif|svg)$/.test(lowerPath);
     if (req.method === 'GET' && isSameOrigin && isSiteImage && isImageExt) {
       event.respondWith(
-        fetch(req, { cache: 'reload' })
-          .then(async (res) => {
+        (async () => {
+          const cached = await caches.match(req);
+          try {
+            const res = await fetch(req);
+
             if (res && res.status === 404) {
               try {
                 const cache = await caches.open(CACHE_NAME);
                 await cache.delete(req);
               } catch (e) {}
+              return res;
             }
+
+            if (res && res.ok) {
+              try {
+                const cache = await caches.open(CACHE_NAME);
+                await cache.put(req, res.clone());
+              } catch (e) {}
+            }
+
             return res;
-          })
-          .catch(async () => {
-            // If offline, fall back to any cached copy.
-            const cached = await caches.match(req);
+          } catch (e) {
             if (cached) return cached;
-            throw new Error('offline');
-          })
+            throw e;
+          }
+        })()
       );
       return;
     }

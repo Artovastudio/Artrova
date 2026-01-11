@@ -34,13 +34,12 @@
     },
     {
       "slug": "commercial",
-      "titleAr": "تجاري",
+      "titleAr": null,
       "titleEn": "Commercial",
       "title": "Commercial",
       "images": [
         "assets/site_images/categories/Commercial/commercial-004.jpeg",
         "assets/site_images/categories/Commercial/commercial-002.jpeg",
-        "assets/site_images/categories/Commercial/commercial-003.jpeg",
         "assets/site_images/categories/Commercial/commercial-005.jpeg",
         "assets/site_images/categories/Commercial/commercial-006.jpeg",
         "assets/site_images/categories/Commercial/commercial-007.jpeg",
@@ -75,7 +74,7 @@
         "assets/site_images/categories/Commercial/commercial-036.jpeg"
       ],
       "cover": "assets/site_images/categories/Commercial/commercial-004.jpeg",
-      "imageCount": 35
+      "imageCount": 34
     },
     {
       "slug": "hospitality",

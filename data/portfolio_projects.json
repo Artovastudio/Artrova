@@ -4,7 +4,7 @@
   "projects": [
     {
       "slug": "residential",
-      "titleAr": "سكني",
+      "titleAr": null,
       "titleEn": "Residential",
       "title": "Residential",
       "images": [
@@ -77,7 +77,7 @@
     },
     {
       "slug": "hospitality",
-      "titleAr": "ضيافة",
+      "titleAr": null,
       "titleEn": "Hospitality",
       "title": "Hospitality",
       "images": [

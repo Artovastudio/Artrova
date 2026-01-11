@@ -1,6 +1,6 @@
 {
   "source": "portfolio_projects",
-  "count": 46,
+  "count": 47,
   "projects": [
     {
       "slug": "residential",
@@ -1027,6 +1027,17 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/white-italian-villa/23r-1.jpg",
       "imageCount": 5
+    },
+    {
+      "slug": "home",
+      "titleAr": "HOME",
+      "titleEn": null,
+      "title": "HOME",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/home/WhatsApp-Image-2026-01-01-at-7.39.27-PM.jpeg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/home/WhatsApp-Image-2026-01-01-at-7.39.27-PM.jpeg",
+      "imageCount": 1
     }
   ]
 }

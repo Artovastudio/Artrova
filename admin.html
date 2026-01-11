@@ -363,7 +363,7 @@
       position: fixed;
       left: 0;
       right: 0;
-      bottom: 0;
+      bottom: 64px;
       padding: 10px 12px;
       background: rgba(2, 6, 23, 0.78);
       border-top: 1px solid var(--border);
@@ -377,8 +377,66 @@
       border-radius: 14px;
     }
     @media (max-width: 520px) {
-      body { padding-bottom: 76px; }
-      .mobile-actionbar { display: block; }
+      body { padding-bottom: 140px; }
+    }
+
+    .admin-bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 64px;
+      padding: 10px 12px;
+      background: rgba(2, 6, 23, 0.86);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: none;
+    }
+    .admin-bottom-nav .inner {
+      max-width: 1220px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      height: 100%;
+      align-items: center;
+    }
+    .admin-bottom-nav .navbtn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border-radius: 14px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 900;
+      cursor: pointer;
+      user-select: none;
+    }
+    .admin-bottom-nav .navbtn.active {
+      border-color: rgba(240,138,192,0.6);
+      background: rgba(240,138,192,0.18);
+      box-shadow: 0 0 0 3px rgba(240,138,192,0.12);
+    }
+    .admin-bottom-nav .ico { width: 22px; height: 22px; display: inline-block; }
+    @media (max-width: 520px) {
+      body.admin-authed .admin-bottom-nav { display: block; }
+      body.admin-authed.admin-view-publish .mobile-actionbar { display: block; }
+      body.admin-view-projects #panelEditor { display: none; }
+      body.admin-view-projects #panelProjects { display: block; }
+
+      body.admin-view-edit #panelProjects { display: none; }
+      body.admin-view-edit #panelEditor { display: block; }
+      body.admin-view-edit #sectionPublish { display: none; }
+      body.admin-view-edit #sectionEdit { display: block; }
+
+      body.admin-view-publish #panelProjects { display: none; }
+      body.admin-view-publish #panelEditor { display: block; }
+      body.admin-view-publish #sectionEdit { display: none; }
+      body.admin-view-publish #sectionPublish { display: block; }
     }
 
     .hidden { display: none !important; }
@@ -418,7 +476,7 @@
     </div>
 
     <div id="app" class="grid hidden">
-      <div class="panel">
+      <div class="panel" id="panelProjects">
         <div class="panel-header">
           <h2>المشاريع</h2>
           <span class="pill" id="projectCount">0</span>
@@ -446,7 +504,7 @@
         </div>
       </div>
 
-      <div class="panel">
+      <div class="panel" id="panelEditor">
         <div class="panel-header">
           <h2 id="selectedTitle">اختر مشروع</h2>
           <div class="row">
@@ -454,6 +512,7 @@
           </div>
         </div>
         <div class="panel-body">
+          <div id="sectionEdit">
           <div id="fileProtoNotice" class="notice danger hidden" style="margin-bottom: 10px;">
             لن تعمل قراءة الملفات/الرفع عند فتح الصفحة عبر <code>file://</code>. شغّل Live Server أو افتح عبر <code>http://localhost</code>.
           </div>
@@ -515,7 +574,9 @@
             </div>
           </div>
 
-          <div class="panel" style="border-radius: 12px; margin-top: 12px;">
+          </div>
+
+          <div id="sectionPublish" class="panel" style="border-radius: 12px; margin-top: 12px;">
             <div class="panel-header">
               <h2 style="margin:0; font-size:0.92rem;">نشر التعديلات</h2>
               <span class="pill">GitHub</span>
@@ -558,6 +619,23 @@
 
   <div class="mobile-actionbar" role="region" aria-label="الإجراء الرئيسي">
     <button class="btn primary" type="button" id="mobilePrimarySync">حفظ + رفع على GitHub</button>
+  </div>
+
+  <div class="admin-bottom-nav" role="navigation" aria-label="تنقل الأدمن">
+    <div class="inner">
+      <button class="navbtn" type="button" data-view="projects">
+        <span class="ico">📁</span>
+        <span>المشاريع</span>
+      </button>
+      <button class="navbtn" type="button" data-view="edit">
+        <span class="ico">🖼️</span>
+        <span>تعديل</span>
+      </button>
+      <button class="navbtn" type="button" data-view="publish">
+        <span class="ico">⬆️</span>
+        <span>نشر</span>
+      </button>
+    </div>
   </div>
 
   <div id="reorderModal" class="modal hidden" role="dialog" aria-modal="true">
@@ -1645,11 +1723,13 @@
     function showApp() {
       $('loginPanel').classList.add('hidden');
       $('app').classList.remove('hidden');
+      try { document.body.classList.add('admin-authed'); } catch (e) {}
     }
 
     function showLogin() {
       $('app').classList.add('hidden');
       $('loginPanel').classList.remove('hidden');
+      try { document.body.classList.remove('admin-authed'); } catch (e) {}
     }
 
     async function init() {
@@ -1659,6 +1739,36 @@
           const btn = $('btnSync');
           if (btn) btn.click();
         });
+      }
+
+      function setAdminView(view) {
+        const v = String(view || 'edit');
+        document.body.classList.remove('admin-view-projects', 'admin-view-edit', 'admin-view-publish');
+        document.body.classList.add(`admin-view-${v}`);
+
+        try { localStorage.setItem('artrova_admin_view', v); } catch (e) {}
+
+        try {
+          document.querySelectorAll('.admin-bottom-nav .navbtn').forEach((b) => {
+            b.classList.toggle('active', b.getAttribute('data-view') === v);
+          });
+        } catch (e) {}
+
+        try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { try { window.scrollTo(0, 0); } catch (_) {} }
+      }
+
+      try {
+        document.querySelectorAll('.admin-bottom-nav .navbtn').forEach((b) => {
+          b.addEventListener('click', () => setAdminView(b.getAttribute('data-view')));
+        });
+      } catch (e) {}
+
+      // default view
+      try {
+        const saved = localStorage.getItem('artrova_admin_view');
+        setAdminView(saved || 'edit');
+      } catch (e) {
+        setAdminView('edit');
       }
 
       $('btnLogout').addEventListener('click', () => {

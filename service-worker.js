@@ -1,4 +1,4 @@
-const CACHE_NAME = 'artrova-cache-v2';
+const CACHE_NAME = 'artrova-cache-v3';
 const URLS_TO_CACHE = [
   './',
   './index.html',
@@ -27,6 +27,20 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   const req = event.request;
+
+  // Never cache content that should update frequently.
+  // This ensures admin edits to data/portfolio_projects.json reflect immediately.
+  try {
+    const url = new URL(req.url);
+    const path = url.pathname || '';
+    const isSameOrigin = url.origin === self.location.origin;
+    const isDataFile = path.includes('/data/') && path.toLowerCase().endsWith('.json');
+    const isCsvFile = path.toLowerCase().endsWith('.csv');
+    if (req.method === 'GET' && isSameOrigin && (isDataFile || isCsvFile)) {
+      event.respondWith(fetch(req));
+      return;
+    }
+  } catch (e) {}
 
   if (req.mode === 'navigate') {
     event.respondWith(

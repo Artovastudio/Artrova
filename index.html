@@ -2580,7 +2580,7 @@
         this.activeFilter = initial;
         this.updateSeoForFilter(initial);
         this.updateUrlForFilter(initial);
-        this.activeTab = initial;
+        this.activeTab = (initial && initial !== 'all') ? 'portfolio' : 'home';
         this.loadPortfolioProjects();
 
         window.addEventListener('keydown', (e) => this.onPortfolioKeydown(e));

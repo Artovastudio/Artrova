@@ -80,8 +80,8 @@
     },
     {
       "slug": "hospitality",
-      "titleAr": null,
-      "titleEn": "Hospitality",
+      "titleAr": "Hospitality",
+      "titleEn": null,
       "title": "Hospitality",
       "images": [
         "assets/site_images/categories/Hospitality/hospitality-001.jpeg",

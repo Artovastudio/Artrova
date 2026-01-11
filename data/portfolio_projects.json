@@ -1,6 +1,6 @@
 {
   "source": "portfolio_projects",
-  "count": 47,
+  "count": 46,
   "projects": [
     {
       "slug": "residential",
@@ -997,19 +997,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/twin-house/image001-29-721x720.jpg",
       "imageCount": 6
-    },
-    {
-      "slug": "valore-studio-sodic",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Valore Studio Sodic",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/valore-studio-sodic/master-bedroom-7-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/valore-studio-sodic/master-bedroom-8-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/valore-studio-sodic/master-bedroom-9-720x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/valore-studio-sodic/master-bedroom-7-2-720x720.jpg",
-      "imageCount": 3
     },
     {
       "slug": "villa2",

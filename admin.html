@@ -1011,30 +1011,12 @@
         // Update JSON on GitHub so the deletion is reflected immediately
         setStatus('تحديث data/portfolio_projects.json ...', '');
         setProgress(2, 2);
-        const jsonPath = 'data/portfolio_projects.json';
         const payload = {
           source: 'portfolio_projects',
           count: (state.data.projects || []).length,
           projects: state.data.projects
         };
-        const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
-
-        for (let attempt = 1; attempt <= 3; attempt++) {
-          try {
-            let jsonSha = undefined;
-            try {
-              const jsonMeta = await gh.getFileMeta(jsonPath, branch, true);
-              if (jsonMeta && jsonMeta.sha) jsonSha = jsonMeta.sha;
-            } catch (e) {}
-            await gh.putFile(jsonPath, 'Update portfolio projects data', jsonB64, jsonSha);
-            break;
-          } catch (e) {
-            const msg = String(e && e.message ? e.message : e);
-            const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
-            if (!isShaMismatch || attempt === 3) throw e;
-            await delay(450 * attempt);
-          }
-        }
+        await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
 
         clearProgress();
         setStatus('تم حذف الصورة نهائيًا من GitHub وتحديث البيانات ✅', 'ok');
@@ -1265,6 +1247,29 @@
       return String(sitePath || '').replace(/^\//, '');
     }
 
+    async function putPortfolioProjectsJsonWithRetry(gh, payload, branch) {
+      const jsonPath = 'data/portfolio_projects.json';
+      const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
+
+      for (let attempt = 1; attempt <= 6; attempt++) {
+        try {
+          let jsonSha = undefined;
+          try {
+            const meta = await gh.getFileMeta(jsonPath, branch, true);
+            if (meta && meta.sha) jsonSha = meta.sha;
+          } catch (e) {}
+
+          await gh.putFile(jsonPath, 'Update portfolio projects data', jsonB64, jsonSha);
+          return;
+        } catch (e) {
+          const msg = String(e && e.message ? e.message : e);
+          const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
+          if (!isShaMismatch || attempt === 6) throw e;
+          await delay(450 * attempt * attempt);
+        }
+      }
+    }
+
     async function publish() {
       const token = $('ghToken').value.trim();
       if (!token) {
@@ -1368,38 +1373,16 @@
           }
         }
 
-        // 4) Update JSON (smart retry on SHA mismatch)
+        // 4) Update JSON (strong retry on SHA mismatch)
         setStatus('تحديث data/portfolio_projects.json ...', '');
-        const jsonPath = 'data/portfolio_projects.json';
 
         const payload = {
           source: 'portfolio_projects',
           count: (state.data.projects || []).length,
           projects: state.data.projects
         };
-        const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
 
-        let lastErr = null;
-        for (let attempt = 1; attempt <= 3; attempt++) {
-          try {
-            let jsonSha = undefined;
-            try {
-              const meta = await gh.getFileMeta(jsonPath, branch, true);
-              if (meta && meta.sha) jsonSha = meta.sha;
-            } catch (e) {}
-
-            await gh.putFile(jsonPath, 'Update portfolio projects data', jsonB64, jsonSha);
-            lastErr = null;
-            break;
-          } catch (e) {
-            lastErr = e;
-            const msg = String(e && e.message ? e.message : e);
-            const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
-            if (!isShaMismatch || attempt === 3) throw e;
-            setStatus(`تعارض في النسخة (SHA). إعادة المحاولة ${attempt}/3...`, '');
-            await delay(450 * attempt);
-          }
-        }
+        await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
 
         state.deleteSet.clear();
         state.renameMap.clear();

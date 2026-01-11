@@ -119,6 +119,8 @@
       #btnPublish, #btnExportJson { display: none; }
     }
 
+    #btnPublish, #btnSync { display: none; }
+
     .list {
       max-height: 62vh;
       overflow: auto;
@@ -648,6 +650,7 @@
                   <button class="btn" id="btnRememberToken" type="button">تذكّر التوكن على هذا الجهاز</button>
                 </div>
                 <button class="btn" id="btnReloadData" type="button">تحديث البيانات</button>
+                <button class="btn primary" id="btnOneClickPublish" disabled>رفع + نشر فوري</button>
                 <button class="btn ok" id="btnPublish" disabled>نشر التعديلات</button>
                 <button class="btn primary" id="btnSync" disabled>حفظ + رفع على GitHub</button>
                 <button class="btn" id="btnExportJson" disabled>Export JSON</button>
@@ -670,7 +673,7 @@
   </div>
 
   <div class="mobile-actionbar" role="region" aria-label="الإجراء الرئيسي">
-    <button class="btn primary" type="button" id="mobilePrimarySync">حفظ + رفع على GitHub</button>
+    <button class="btn primary" type="button" id="mobilePrimarySync">رفع + نشر فوري</button>
   </div>
 
   <div class="admin-bottom-nav" role="navigation" aria-label="تنقل الأدمن">
@@ -721,6 +724,7 @@
     const GITHUB_OWNER = 'Artovastudio';
     const GITHUB_REPO = 'Artrova';
     const GITHUB_BRANCH = 'main';
+    const GITHUB_PUBLISH_BRANCHES = ['main', 'gh-pages'];
 
     // ملاحظة: لا نستخدم localStorage/sessionStorage لتجنب قيود المتصفح (Tracking Prevention)
     const state = {
@@ -1108,6 +1112,7 @@
       $('btnExportJson').disabled = !canExport;
       $('btnPublish').disabled = !canExport;
       if ($('btnSync')) $('btnSync').disabled = !canExport;
+      if ($('btnOneClickPublish')) $('btnOneClickPublish').disabled = !canExport;
     }
 
     function openReorderModal() {
@@ -1671,98 +1676,9 @@
         return;
       }
 
-      const owner = GITHUB_OWNER;
-      const repo = GITHUB_REPO;
-      const branch = GITHUB_BRANCH;
-
-      const gh = createGithubClient(owner, repo, branch, token);
-
-      setStatus('بدء النشر... (قد يأخذ وقت حسب عدد الصور)', '');
-      clearProgress();
-
       try {
-        // 1) Upload new files (bound to targetPath after "إضافة الصور للمشروع")
-        const uploadOps = state.uploads.filter(u => !!u && !!u.file && !!u.targetPath);
-        if (uploadOps.length) {
-          for (let i = 0; i < uploadOps.length; i++) {
-            const u = uploadOps[i];
-            const repoPath = sitePathToRepoPath(u.targetPath);
-            setStatus(`رفع صورة ${i + 1}/${uploadOps.length}: ${repoPath}`, '');
-            setProgress(i + 1, uploadOps.length);
-
-            let sha = undefined;
-            try {
-              const meta = await gh.getFileMeta(repoPath, branch);
-              if (meta && meta.sha) sha = meta.sha;
-            } catch (e) { try { console.warn('getFileMeta failed', repoPath, e); } catch (_) {} }
-
-            const b64 = await fileToBase64(u.file);
-            await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, sha);
-          }
-        }
-
-        // 2) Rename files (copy content to new path then delete old)
-        const renames = Array.from(state.renameMap.entries());
-        if (renames.length) {
-          for (let i = 0; i < renames.length; i++) {
-            const [fromSite, toSite] = renames[i];
-            const fromPath = sitePathToRepoPath(fromSite);
-            const toPath = sitePathToRepoPath(toSite);
-            if (fromPath === toPath) continue;
-            setStatus(`إعادة تسمية ${i + 1}/${renames.length}: ${fromPath} -> ${toPath}`, '');
-            setProgress(i + 1, renames.length);
-
-            let fromMeta = null;
-            try {
-              fromMeta = await gh.getFileMeta(fromPath, branch);
-            } catch (e) {
-              continue;
-            }
-            if (!fromMeta || !fromMeta.sha) continue;
-
-            let fromB64 = null;
-            try {
-              if (fromMeta.content && String(fromMeta.encoding || '').toLowerCase() === 'base64') {
-                fromB64 = String(fromMeta.content).replace(/\n/g, '');
-              } else if (fromMeta.download_url) {
-                fromB64 = await ghDownloadToBase64(fromMeta.download_url, token);
-              }
-            } catch (e) {
-              fromB64 = null;
-            }
-            if (!fromB64) continue;
-
-            let toSha = undefined;
-            try {
-              const toMeta = await gh.getFileMeta(toPath, branch);
-              if (toMeta && toMeta.sha) toSha = toMeta.sha;
-            } catch (e) { try { console.warn('getFileMeta failed', toPath, e); } catch (_) {} }
-
-            await gh.putFile(toPath, `Rename portfolio image: ${toPath}`, fromB64, toSha);
-            await gh.deleteFile(fromPath, `Delete old portfolio image: ${fromPath}`, fromMeta.sha);
-          }
-        }
-
-        // 3) Delete marked images
-        const dels = Array.from(state.deleteSet.values()).map(sitePathToRepoPath);
-        if (dels.length) {
-          for (let i = 0; i < dels.length; i++) {
-            const rp = dels[i];
-            setStatus(`حذف صورة ${i + 1}/${dels.length}: ${rp}`, '');
-            setProgress(i + 1, dels.length);
-            try {
-              const meta = await gh.getFileMeta(rp, branch);
-              if (meta && meta.sha) {
-                await gh.deleteFile(rp, `Delete portfolio image: ${rp}`, meta.sha);
-              }
-            } catch (e) {
-              try { console.warn('delete failed', rp, e); } catch (_) {}
-            }
-          }
-        }
-
-        // 4) Update JSON (strong retry on SHA mismatch)
-        setStatus('تحديث data/portfolio_projects.json ...', '');
+        const owner = GITHUB_OWNER;
+        const repo = GITHUB_REPO;
 
         const payload = {
           source: 'portfolio_projects',
@@ -1770,7 +1686,100 @@
           projects: state.data.projects
         };
 
-        await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
+        const branches = Array.isArray(GITHUB_PUBLISH_BRANCHES) && GITHUB_PUBLISH_BRANCHES.length
+          ? GITHUB_PUBLISH_BRANCHES
+          : [GITHUB_BRANCH];
+
+        for (let bi = 0; bi < branches.length; bi++) {
+          const branch = branches[bi];
+          const gh = createGithubClient(owner, repo, branch, token);
+          setStatus(`بدء النشر على ${branch}... (قد يأخذ وقت حسب عدد الصور)`, '');
+          clearProgress();
+
+          // 1) Upload new files (bound to targetPath after "إضافة الصور للمشروع")
+          const uploadOps = state.uploads.filter(u => !!u && !!u.file && !!u.targetPath);
+          if (uploadOps.length) {
+            for (let i = 0; i < uploadOps.length; i++) {
+              const u = uploadOps[i];
+              const repoPath = sitePathToRepoPath(u.targetPath);
+              setStatus(`(${branch}) رفع صورة ${i + 1}/${uploadOps.length}: ${repoPath}`, '');
+              setProgress(i + 1, uploadOps.length);
+
+              let sha = undefined;
+              try {
+                const meta = await gh.getFileMeta(repoPath, branch);
+                if (meta && meta.sha) sha = meta.sha;
+              } catch (e) { try { console.warn('getFileMeta failed', repoPath, e); } catch (_) {} }
+
+              const b64 = await fileToBase64(u.file);
+              await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, sha);
+            }
+          }
+
+          // 2) Rename files (copy content to new path then delete old)
+          const renames = Array.from(state.renameMap.entries());
+          if (renames.length) {
+            for (let i = 0; i < renames.length; i++) {
+              const [fromSite, toSite] = renames[i];
+              const fromPath = sitePathToRepoPath(fromSite);
+              const toPath = sitePathToRepoPath(toSite);
+              if (fromPath === toPath) continue;
+              setStatus(`(${branch}) إعادة تسمية ${i + 1}/${renames.length}: ${fromPath} -> ${toPath}`, '');
+              setProgress(i + 1, renames.length);
+
+              let fromMeta = null;
+              try {
+                fromMeta = await gh.getFileMeta(fromPath, branch);
+              } catch (e) {
+                continue;
+              }
+              if (!fromMeta || !fromMeta.sha) continue;
+
+              let fromB64 = null;
+              try {
+                if (fromMeta.content && String(fromMeta.encoding || '').toLowerCase() === 'base64') {
+                  fromB64 = String(fromMeta.content).replace(/\n/g, '');
+                } else if (fromMeta.download_url) {
+                  fromB64 = await ghDownloadToBase64(fromMeta.download_url, token);
+                }
+              } catch (e) {
+                fromB64 = null;
+              }
+              if (!fromB64) continue;
+
+              let toSha = undefined;
+              try {
+                const toMeta = await gh.getFileMeta(toPath, branch);
+                if (toMeta && toMeta.sha) toSha = toMeta.sha;
+              } catch (e) { try { console.warn('getFileMeta failed', toPath, e); } catch (_) {} }
+
+              await gh.putFile(toPath, `Rename portfolio image: ${toPath}`, fromB64, toSha);
+              await gh.deleteFile(fromPath, `Delete old portfolio image: ${fromPath}`, fromMeta.sha);
+            }
+          }
+
+          // 3) Delete marked images
+          const dels = Array.from(state.deleteSet.values()).map(sitePathToRepoPath);
+          if (dels.length) {
+            for (let i = 0; i < dels.length; i++) {
+              const rp = dels[i];
+              setStatus(`(${branch}) حذف صورة ${i + 1}/${dels.length}: ${rp}`, '');
+              setProgress(i + 1, dels.length);
+              try {
+                const meta = await gh.getFileMeta(rp, branch);
+                if (meta && meta.sha) {
+                  await gh.deleteFile(rp, `Delete portfolio image: ${rp}`, meta.sha);
+                }
+              } catch (e) {
+                try { console.warn('delete failed', rp, e); } catch (_) {}
+              }
+            }
+          }
+
+          // 4) Update JSON (strong retry on SHA mismatch)
+          setStatus(`(${branch}) تحديث data/portfolio_projects.json ...`, '');
+          await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
+        }
 
         state.deleteSet.clear();
         state.renameMap.clear();
@@ -1778,7 +1787,7 @@
         state.uploads = [];
         clearProgress();
 
-        setStatus('تم النشر بنجاح ✅', 'ok');
+        setStatus('تم الرفع + النشر على GitHub Pages بنجاح ✅', 'ok');
         refreshUI();
       } catch (e) {
         clearProgress();
@@ -1834,7 +1843,7 @@
       const mobileSyncBtn = $('mobilePrimarySync');
       if (mobileSyncBtn) {
         mobileSyncBtn.addEventListener('click', () => {
-          const btn = $('btnSync');
+          const btn = $('btnOneClickPublish') || $('btnSync');
           if (btn) btn.click();
         });
       }
@@ -1914,6 +1923,7 @@
       $('btnExportJson').addEventListener('click', exportJson);
       $('btnPublish').addEventListener('click', publish);
       if ($('btnSync')) $('btnSync').addEventListener('click', syncNow);
+      if ($('btnOneClickPublish')) $('btnOneClickPublish').addEventListener('click', publish);
 
       if ($('btnReorder')) $('btnReorder').addEventListener('click', openReorderModal);
       if ($('btnReorderClose')) $('btnReorderClose').addEventListener('click', closeReorderModal);

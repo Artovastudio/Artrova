@@ -3,45 +3,45 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://artrovastudio.com/</loc>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://artrovastudio.com/?lang=ar"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://artrovastudio.com/?lang=en"/>
-    <lastmod>2024-01-04</lastmod>
+    <loc>https://artovastudio.github.io/Artrova/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://artovastudio.github.io/Artrova/?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://artovastudio.github.io/Artrova/?lang=en"/>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
-    <loc>https://artrovastudio.com/#about</loc>
-    <lastmod>2024-01-04</lastmod>
+    <loc>https://artovastudio.github.io/Artrova/#about</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://artrovastudio.com/#services</loc>
-    <lastmod>2024-01-04</lastmod>
+    <loc>https://artovastudio.github.io/Artrova/#services</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://artrovastudio.com/#portfolio</loc>
-    <lastmod>2024-01-04</lastmod>
+    <loc>https://artovastudio.github.io/Artrova/#portfolio</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://artrovastudio.com/#future</loc>
-    <lastmod>2024-01-04</lastmod>
+    <loc>https://artovastudio.github.io/Artrova/#future</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://artrovastudio.com/#contact</loc>
-    <lastmod>2024-01-04</lastmod>
+    <loc>https://artovastudio.github.io/Artrova/#contact</loc>
+    <lastmod>2026-01-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

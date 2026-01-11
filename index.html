@@ -15,25 +15,25 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://artrovastudio.com/">
+    <meta property="og:url" content="https://artovastudio.github.io/Artrova/">
     <meta property="og:title" content="Artrova Studio | تصميم داخلي فاخر">
     <meta property="og:description" content="شركة تصميم داخلي ومعماري رائدة في السعودية ومصر">
-    <meta property="og:image" content="https://artrovastudio.com/images/hero-1.webp">
+    <meta property="og:image" content="https://artovastudio.github.io/Artrova/images/hero-1.webp">
     <meta property="og:locale" content="ar_SA">
     <meta property="og:locale:alternate" content="en_US">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://artrovastudio.com/">
+    <meta property="twitter:url" content="https://artovastudio.github.io/Artrova/">
     <meta property="twitter:title" content="Artrova Studio | تصميم داخلي فاخر">
     <meta property="twitter:description" content="شركة تصميم داخلي ومعماري رائدة في السعودية ومصر">
-    <meta property="twitter:image" content="https://artrovastudio.com/images/hero-1.webp">
+    <meta property="twitter:image" content="https://artovastudio.github.io/Artrova/images/hero-1.webp">
     
     <!-- Canonical & Alternate Links -->
-    <link rel="canonical" href="https://artrovastudio.com/">
-    <link rel="alternate" hreflang="ar" href="https://artrovastudio.com/?lang=ar">
-    <link rel="alternate" hreflang="en" href="https://artrovastudio.com/?lang=en">
-    <link rel="alternate" hreflang="x-default" href="https://artrovastudio.com/">
+    <link rel="canonical" href="https://artovastudio.github.io/Artrova/">
+    <link rel="alternate" hreflang="ar" href="https://artovastudio.github.io/Artrova/?lang=ar">
+    <link rel="alternate" hreflang="en" href="https://artovastudio.github.io/Artrova/?lang=en">
+    <link rel="alternate" hreflang="x-default" href="https://artovastudio.github.io/Artrova/">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -65,9 +65,9 @@
       "@type": "Organization",
       "name": "Artrova Studio",
       "description": "شركة تصميم داخلي ومعماري رائدة في السعودية ومصر",
-      "url": "https://artrovastudio.com",
-      "logo": "https://artrovastudio.com/assets/logo.svg",
-      "image": "https://artrovastudio.com/images/hero-1.webp",
+      "url": "https://artovastudio.github.io/Artrova/",
+      "logo": "https://artovastudio.github.io/Artrova/assets/artrova-logo.png",
+      "image": "https://artovastudio.github.io/Artrova/images/hero-1.webp",
       "telephone": "+966506534579",
       "email": "ArtrovaStudio@gmail.com",
       "address": [
@@ -2288,7 +2288,7 @@
                 </div>
             </nav>
 
-            <button type="button" class="mobile-menu-toggle" @click="mobileNavOpen = !mobileNavOpen" :class="{'is-open': mobileNavOpen}">
+            <button type="button" class="mobile-menu-toggle" @click="mobileNavOpen = !mobileNavOpen" :class="{'is-open': mobileNavOpen}" :aria-expanded="mobileNavOpen ? 'true' : 'false'" aria-controls="mobileNav" :aria-label="mobileNavOpen ? (language === 'ar' ? 'إغلاق القائمة' : 'Close menu') : (language === 'ar' ? 'فتح القائمة' : 'Open menu')">
                 <span></span>
             </button>
         </div>
@@ -2298,7 +2298,7 @@
     <div class="mobile-nav-backdrop" x-show="mobileNavOpen" @click="mobileNavOpen = false" x-transition.opacity.duration.150ms></div>
 
     <!-- قائمة الموبايل -->
-    <div class="mobile-nav" x-show="mobileNavOpen" @click.outside="mobileNavOpen = false" x-transition:enter="mobile-nav-enter" x-transition:enter-end="mobile-nav-enter-end" x-transition:leave="mobile-nav-leave" x-transition:leave-end="mobile-nav-leave-end">
+    <div id="mobileNav" class="mobile-nav" x-show="mobileNavOpen" @click.outside="mobileNavOpen = false" x-transition:enter="mobile-nav-enter" x-transition:enter-end="mobile-nav-enter-end" x-transition:leave="mobile-nav-leave" x-transition:leave-end="mobile-nav-leave-end">
         <div class="mobile-nav-inner">
             <div class="mobile-nav-links">
                 <a href="#" class="mobile-nav-link" @click.prevent="setTab('home'); mobileNavOpen = false" x-text="language === 'ar' ? 'الرئيسية' : 'Home'"></a>
@@ -2394,87 +2394,6 @@
             <a href="https://www.facebook.com/profile.php?id=61574086439178" target="_blank" aria-label="Facebook">FB</a>
             <a href="https://wa.me/966506534579" target="_blank" aria-label="WhatsApp">WA</a>
         </div>
-    </section>
-
-    <!-- قسم محتوى SEO مخفي عن الزائر لكن قابل للقراءة من محركات البحث -->
-    <section class="seo-hidden" aria-hidden="true">
-        <h2>شركة تصميم داخلي وديكور في السعودية ومصر والخليج</h2>
-        <p>
-            Artrova Studio شركة تصميم داخلي وديكور متخصصة في تصميم الشقق والفلل والمكاتب والمحلات التجارية
-            والمطاعم والكافيهات والفنادق في السعودية ومصر ودول الخليج. نقدم خدمات مهندس ديكور في جدة، مهندس
-            ديكور في الرياض، مهندس ديكور في الدمام والخبر، ومصمم داخلي محترف في مكة والمدينة المنورة، مع وجود
-            فريق تصميم داخلي في القاهرة والتجمع الخامس والشيخ زايد و6 أكتوبر.
-        </p>
-        <p>
-            يعتمد فريق Artrova Studio على أحدث أساليب التصميم الداخلي المودرن والنيو كلاسيك والتصميم الكلاسيكي
-            الفاخر، مع خبرة في تصميم شقق صغيرة، تصميم استوديو، تصميم شقة عريس، تصميم فيلا كاملة، تصميم مجالس
-            رجال ونساء، تصميم مداخل فخمة، تصميم غرف نوم رئيسية، تصميم غرف أطفال، وتصميم غرف معيشة عملية تناسب
-            العائلات في المجتمع السعودي والمصري والخليجي.
-        </p>
-        <p>
-            نخدم عملاء من جدة، مكة، المدينة، الرياض، الدمام، الخبر، الظهران، أبها، خميس مشيط، الطائف، ومن القاهرة،
-            الجيزة، الشيخ زايد، 6 أكتوبر، التجمع الخامس، بالإضافة إلى عملاء من دبي وأبو ظبي والشارقة في الإمارات،
-            والدوحة في قطر، والكويت، والمنامة في البحرين، ومسقط في سلطنة عُمان. نركز على تصميم داخلي سكني، تصميم
-            داخلي تجاري، تصميم مطعم، تصميم كوفي شوب، تصميم مكتب شركة، تصميم عيادات طبية، وتصميم صالونات تجميل
-            وسبا.
-        </p>
-        <p>
-            من خلال أعمال Artrova Studio يمكن للعميل العثور على أفكار تصميم شقق مودرن، ديكور شقق صغيرة، ديكور
-            شقق كلاسيك، ديكور فيلا فاخرة، ديكور مجالس عربية، ديكور غرف نوم ماستر، ديكور غرف أطفال، ديكور مطابخ
-            حديثة، مع إمكانية تنفيذ التصميم والإشراف الهندسي الكامل حتى التسليم. كما نقدم حلول تصميم وحدات جاهزة
-            وكرفانات سكنية ومكتبية وحراسة واستقبال تناسب المشاريع في السعودية ومصر ودول الخليج.
-        </p>
-        <p>
-            إذا كنت تبحث عن أفضل مهندس ديكور في جدة أو مهندس ديكور في القاهرة أو مصمم داخلي في الخليج يساعدك على
-            تنظيم المساحة واستغلال كل متر في الشقة أو الفيلا أو المكتب، فإن أعمال Artrova Studio في قسم المشاريع
-            تعكس مستوى الاحترافية والجودة في التصميم الداخلي وتخطيط الفراغات واختيار الألوان والأثاث والإضاءة.
-        </p>
-        <h3>Interior designer in Saudi Arabia and Egypt</h3>
-        <p>
-            Artrova Studio offers interior design and decoration services for clients who search for interior designer in
-            Jeddah, interior designer in Riyadh, interior designer in Dammam, interior designer in Khobar, interior
-            designer in Makkah, Madinah, Abha, Taif, Tabuk, Jazan, Hail, Al Qassim, Al Ahsa, as well as interior designer
-            in Cairo, Giza, Sheikh Zayed, October City, New Cairo, Alexandria, Mansoura, Tanta, Zagazig, Ismailia,
-            Port Said, Suez, Luxor, Aswan and other Egyptian governorates.
-        </p>
-        <p>
-            نستهدف عملاء يبحثون عن مهندس ديكور في الإسكندرية، مهندس ديكور في المنصورة، مهندس ديكور في طنطا، مهندس
-            ديكور في الزقازيق، مهندس ديكور في بورسعيد، السويس، الإسماعيلية، دمياط، المنوفية، الشرقية، الغربية، كفر
-            الشيخ، البحيرة، بني سويف، الفيوم، المنيا، أسيوط، سوهاج، قنا، الأقصر، أسوان، مطروح، البحر الأحمر، الوادي
-            الجديد وشمال سيناء وجنوب سيناء، بالإضافة إلى جميع مناطق الرياض الكبرى، جدة الكبرى، الشرقية، عسير، جازان،
-            تبوك، حائل، الحدود الشمالية والباحة.
-        </p>
-        <p>
-            من خلال هذا الموقع يمكن العثور على خدمات: interior design for apartments in Cairo, interior design for
-            villas in Riyadh, luxury villa interior design in Jeddah, office interior design in Saudi Arabia, commercial
-            shop interior design in Egypt, restaurant and cafe interior design in Gulf region, modern apartment design in
-            Alexandria, classic villa design in New Cairo, small apartment interior design ideas and professional decor
-            services for families and businesses in the Middle East.
-        </p>
-        <p>
-            تشمل الكلمات المفتاحية التي نخدم من خلالها العملاء: مهندس ديكور شقق، مهندس ديكور فلل، مهندس ديكور
-            مكاتب، أفضل مكتب تصميم داخلي في جدة، أفضل مكتب تصميم داخلي في القاهرة، شركة تصميم ديكور بالرياض، شركة
-            تصميم ديكور في الدمام والخبر، مكتب تصميم ديكور في الإسكندرية، مكتب تصميم ديكور في التجمع الخامس، مكتب
-            تصميم داخلي في الشيخ زايد و6 أكتوبر، مكتب تصميم داخلي في المدينة المنورة ومكة والطائف.
-        </p>
-        <p>
-            كما نستهدف استفسارات مثل: تكلفة تصميم شقة في جدة، تكلفة تصميم شقة في القاهرة، سعر تصميم فيلا في الرياض،
-            سعر تصميم محل تجاري، أرخص مهندس ديكور مع جودة عالية، أفضل مصمم داخلي أونلاين، تصميم شقق مودرن 2025، أحدث
-            ديكورات شقق صغيرة، أفكار استغلال المساحات، تصميم غرف نوم مودرن، تصميم غرف أطفال، تصميم مطابخ أمريكان
-            مفتوحة على الصالة، وتصميم حمامات فندقية فخمة.
-        </p>
-        <p>
-            We also target English search queries such as: best interior designer in Saudi Arabia, interior design company
-            in Jeddah, interior design company in Riyadh, affordable interior designer in Cairo, online interior design
-            service for apartments, modern apartment interior design ideas, classic villa interior design, small apartment
-            space saving ideas, luxury interior design firm in Middle East, home decor services in Saudi Arabia and Egypt.
-        </p>
-        <p>
-            يبحث الكثير من العملاء عن عبارات مثل: تصميم ديكور شقة 100 متر، تصميم ديكور شقة 150 متر، تصميم ديكور فيلا
-            دوبليكس، تصميم ديكور روف، تصميم ديكور بدروم، تصميم ديكور كوفي شوب، تصميم ديكور مطعم برجر، تصميم ديكور
-            عيادة طبية، تصميم ديكور صالون نسائي، تصميم ديكور عبايات، تصميم ديكور محلات ملابس، وكلها من أنواع المشاريع
-            التي يمكن لـ Artrova Studio التعامل معها وتقديم حلول عملية وجذابة لها.
-        </p>
     </section>
 
     <!-- قسم الهيرو القديم (مخفي بصريًا لكن محتفظ به في الكود) -->
@@ -2771,7 +2690,7 @@
                         <div class="portfolio-masonry">
                             <template x-for="(img, idx) in selectedPortfolioProject.images" :key="img">
                                 <div class="portfolio-item" role="article">
-                                    <img :src="img" alt="" loading="lazy" decoding="async" @click="openPortfolioLightbox(idx)">
+                                    <img :src="img" :alt="getPortfolioProjectTitle(selectedPortfolioProject) + ' - ' + (idx + 1)" loading="lazy" decoding="async" @click="openPortfolioLightbox(idx)">
                                 </div>
                             </template>
                         </div>
@@ -2792,7 +2711,7 @@
             <button type="button" class="portfolio-lightbox-close" @click.stop="closePortfolioLightbox()" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
-            <img :src="portfolioLightboxItems[portfolioLightboxIndex] ? portfolioLightboxItems[portfolioLightboxIndex].image : ''" alt="" loading="eager">
+            <img :src="portfolioLightboxItems[portfolioLightboxIndex] ? portfolioLightboxItems[portfolioLightboxIndex].image : ''" :alt="selectedPortfolioProject ? (getPortfolioProjectTitle(selectedPortfolioProject) + ' - ' + (portfolioLightboxIndex + 1)) : ''" loading="eager">
         </div>
     </div>
 

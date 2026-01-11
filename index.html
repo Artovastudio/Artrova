@@ -1971,6 +1971,23 @@
             { key: 'furniture', ar: 'أثاث', en: 'Furniture' }
         ];
 
+        // If portfolioProjects are loaded from data/portfolio_projects.json,
+        // use them as the source of truth for category titles.
+        const titleByKey = new Map();
+        (this.portfolioProjects || []).forEach(p => {
+            if (!p || !p.slug) return;
+            const ar = String(p.titleAr || '').trim();
+            const en = String(p.titleEn || '').trim();
+            const any = String(p.title || '').trim();
+            if (ar || en || any) {
+                titleByKey.set(String(p.slug), {
+                    ar: ar || null,
+                    en: en || null,
+                    any: any || null
+                });
+            }
+        });
+
         const keys = this.activeFilter && this.activeFilter !== 'all'
             ? [this.activeFilter]
             : defs.map(d => d.key);
@@ -1979,8 +1996,8 @@
             .filter(d => keys.includes(d.key))
             .map(d => ({
                 key: d.key,
-                titleAr: d.ar,
-                titleEn: d.en,
+                titleAr: (titleByKey.get(d.key) && titleByKey.get(d.key).ar) ? titleByKey.get(d.key).ar : d.ar,
+                titleEn: (titleByKey.get(d.key) && titleByKey.get(d.key).en) ? titleByKey.get(d.key).en : d.en,
                 items: this.projects.filter(p => p.category === d.key)
             }))
             .filter(g => g.items.length);

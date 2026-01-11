@@ -1,4 +1,4 @@
-﻿{
+{
   "source": "portfolio_projects",
   "count": 47,
   "projects": [
@@ -104,15 +104,15 @@
     },
     {
       "slug": "furniture",
-      "titleAr": "أثاث",
+      "titleAr": null,
       "titleEn": "Furniture",
       "title": "Furniture",
       "images": [
+        "assets/site_images/categories/Furniture/furniture-005.jpeg",
         "assets/site_images/categories/Furniture/furniture-001.jpeg",
-        "assets/site_images/categories/Furniture/furniture-002.jpeg",
         "assets/site_images/categories/Furniture/furniture-003.jpeg",
         "assets/site_images/categories/Furniture/furniture-004.jpeg",
-        "assets/site_images/categories/Furniture/furniture-005.jpeg",
+        "assets/site_images/categories/Furniture/furniture-002.jpeg",
         "assets/site_images/categories/Furniture/furniture-006.jpeg",
         "assets/site_images/categories/Furniture/furniture-007.jpeg",
         "assets/site_images/categories/Furniture/furniture-008.jpeg",
@@ -129,7 +129,7 @@
         "assets/site_images/categories/Furniture/furniture-021.jpeg",
         "assets/site_images/categories/Furniture/furniture-022.jpeg"
       ],
-      "cover": "assets/site_images/categories/Furniture/furniture-001.jpeg",
+      "cover": "assets/site_images/categories/Furniture/furniture-005.jpeg",
       "imageCount": 20
     },
     {

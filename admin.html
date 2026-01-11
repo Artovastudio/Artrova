@@ -325,6 +325,7 @@
                   <label>&nbsp;</label>
                   <button class="btn" id="btnRememberToken" type="button">تذكّر التوكن على هذا الجهاز</button>
                 </div>
+                <button class="btn" id="btnReloadData" type="button">تحديث البيانات</button>
                 <button class="btn ok" id="btnPublish" disabled>نشر التعديلات</button>
                 <button class="btn" id="btnExportJson" disabled>Export JSON</button>
               </div>
@@ -865,7 +866,10 @@
       try { body = text ? JSON.parse(text) : null; } catch (e) {}
       if (!res.ok) {
         const msg = body && body.message ? body.message : text;
-        throw new Error(msg || `GitHub error: ${res.status}`);
+        const err = new Error(msg || `GitHub error: ${res.status}`);
+        err.status = res.status;
+        err.body = body;
+        throw err;
       }
       return body;
     }
@@ -881,7 +885,10 @@
       try { body = text ? JSON.parse(text) : null; } catch (e) {}
       if (!res.ok) {
         const msg = body && body.message ? body.message : text;
-        throw new Error(msg || `GitHub error: ${res.status}`);
+        const err = new Error(msg || `GitHub error: ${res.status}`);
+        err.status = res.status;
+        err.body = body;
+        throw err;
       }
       return body;
     }
@@ -1010,14 +1017,9 @@
           }
         }
 
-        // 4) Update JSON
+        // 4) Update JSON (smart retry on SHA mismatch)
         setStatus('تحديث data/portfolio_projects.json ...', '');
         const jsonPath = 'data/portfolio_projects.json';
-        let jsonSha = undefined;
-        try {
-          const meta = await ghGetFileMeta(owner, repo, jsonPath, branch, token);
-          if (meta && meta.sha) jsonSha = meta.sha;
-        } catch (e) {}
 
         const payload = {
           source: 'portfolio_projects',
@@ -1025,7 +1027,27 @@
           projects: data.projects
         };
         const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
-        await ghPutFile(owner, repo, jsonPath, branch, token, 'Update portfolio projects data', jsonB64, jsonSha);
+
+        let lastErr = null;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          try {
+            let jsonSha = undefined;
+            try {
+              const meta = await ghGetFileMeta(owner, repo, jsonPath, branch, token);
+              if (meta && meta.sha) jsonSha = meta.sha;
+            } catch (e) {}
+
+            await ghPutFile(owner, repo, jsonPath, branch, token, 'Update portfolio projects data', jsonB64, jsonSha);
+            lastErr = null;
+            break;
+          } catch (e) {
+            lastErr = e;
+            const msg = String(e && e.message ? e.message : e);
+            const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
+            if (!isShaMismatch || attempt === 3) throw e;
+            setStatus(`تعارض في النسخة (SHA). إعادة المحاولة ${attempt}/3...`, '');
+          }
+        }
 
         deleteSet.clear();
         renameMap.clear();
@@ -1040,15 +1062,26 @@
     }
 
     // ====== LOAD DATA ======
-    async function loadPortfolioJson() {
+    async function loadPortfolioJson(bustCache) {
       // on GitHub pages/static server, this will work.
-      const res = await fetch('data/portfolio_projects.json', { cache: 'no-store' });
+      const url = bustCache ? `data/portfolio_projects.json?ts=${Date.now()}` : 'data/portfolio_projects.json';
+      const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error('data/portfolio_projects.json not found');
       const j = await res.json();
       if (!j || !Array.isArray(j.projects)) throw new Error('Invalid JSON structure');
       data = j;
       data.projects = data.projects || [];
       data.count = data.projects.length;
+    }
+
+    async function reloadData() {
+      try {
+        await loadPortfolioJson(true);
+        setStatus('تم تحديث البيانات من الموقع. (آخر نسخة)', 'ok');
+        refreshUI();
+      } catch (e) {
+        setStatus(`تعذر تحديث البيانات: ${e && e.message ? e.message : e}`, 'danger');
+      }
     }
 
     // ====== AUTH ======
@@ -1102,13 +1135,14 @@
 
       if ($('btnSaveProjectTitles')) $('btnSaveProjectTitles').addEventListener('click', saveProjectTitles);
       if ($('btnRememberToken')) $('btnRememberToken').addEventListener('click', rememberToken);
+      if ($('btnReloadData')) $('btnReloadData').addEventListener('click', reloadData);
       tryLoadRememberedToken();
 
       $('btnExportJson').addEventListener('click', exportJson);
       $('btnPublish').addEventListener('click', publish);
 
       try {
-        await loadPortfolioJson();
+        await loadPortfolioJson(true);
         setStatus('تم تحميل بيانات المشاريع.', 'ok');
       } catch (e) {
         setStatus(`تعذر تحميل data/portfolio_projects.json: ${e && e.message ? e.message : e}`, 'danger');

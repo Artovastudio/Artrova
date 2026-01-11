@@ -1,4 +1,4 @@
-﻿{
+{
   "source": "portfolio_projects",
   "count": 47,
   "projects": [
@@ -104,7 +104,7 @@
     },
     {
       "slug": "furniture",
-      "titleAr": "أثاث",
+      "titleAr": null,
       "titleEn": "Furniture",
       "title": "Furniture",
       "images": [

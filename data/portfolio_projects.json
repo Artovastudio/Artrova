@@ -4,7 +4,7 @@
   "projects": [
     {
       "slug": "residential",
-      "titleAr": "Ø³ÙƒÙ†ÙŠ",
+      "titleAr": "سكني",
       "titleEn": "Residential",
       "title": "Residential",
       "images": [
@@ -34,7 +34,7 @@
     },
     {
       "slug": "commercial",
-      "titleAr": "ØªØ¬Ø§Ø±ÙŠ",
+      "titleAr": "تجاري",
       "titleEn": "Commercial",
       "title": "Commercial",
       "images": [
@@ -80,7 +80,7 @@
     },
     {
       "slug": "hospitality",
-      "titleAr": "Ø¶ÙŠØ§ÙØ©",
+      "titleAr": "ضيافة",
       "titleEn": "Hospitality",
       "title": "Hospitality",
       "images": [
@@ -104,7 +104,7 @@
     },
     {
       "slug": "furniture",
-      "titleAr": "Ø£Ø«Ø§Ø«",
+      "titleAr": "أثاث",
       "titleEn": "Furniture",
       "title": "Furniture",
       "images": [
@@ -340,7 +340,7 @@
         "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/gg-719x720.jpg",
         "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/tt-719x720.jpg",
         "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/wefw-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/Ø¨Ø±ÙŠ-719x720.jpg"
+        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/بري-719x720.jpg"
       ],
       "cover": "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/6-2-720x720.jpg",
       "imageCount": 10
@@ -846,7 +846,7 @@
         "assets/site_images/projects/portfolio_projects/residential-apart-alex/rere.jpg",
         "assets/site_images/projects/portfolio_projects/residential-apart-alex/t4334.jpg",
         "assets/site_images/projects/portfolio_projects/residential-apart-alex/t4343.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/Ø¨Ù„Ø¨.jpg"
+        "assets/site_images/projects/portfolio_projects/residential-apart-alex/بلب.jpg"
       ],
       "cover": "assets/site_images/projects/portfolio_projects/residential-apart-alex/344-1.jpg",
       "imageCount": 11

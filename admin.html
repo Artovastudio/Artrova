@@ -437,6 +437,46 @@
       body.admin-view-publish #panelEditor { display: block; }
       body.admin-view-publish #sectionEdit { display: none; }
       body.admin-view-publish #sectionPublish { display: block; }
+
+      body.admin-view-edit #sectionEdit {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      body.admin-view-edit #editContextBar { order: 0; }
+      body.admin-view-edit #uploadControls { order: 1; }
+      body.admin-view-edit #uploadPreviewPanel { order: 2; }
+      body.admin-view-edit #existingImagesPanel { order: 3; }
+      body.admin-view-edit #projectMetaPanel { order: 4; }
+      body.admin-view-edit #editHintNotice { order: 5; }
+    }
+
+    .edit-context {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(2, 6, 23, 0.55);
+      position: sticky;
+      top: 64px;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+    }
+    .edit-context .left { display: grid; gap: 4px; min-width: 0; }
+    .edit-context .title {
+      font-weight: 1000;
+      font-size: 0.98rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .edit-context .meta { display: flex; gap: 8px; flex-wrap: wrap; }
+    .edit-context .meta .pill { font-size: 0.8rem; }
+    @media (max-width: 520px) {
+      body.admin-authed.admin-view-edit .edit-context { display: flex; }
     }
 
     .hidden { display: none !important; }
@@ -513,11 +553,23 @@
         </div>
         <div class="panel-body">
           <div id="sectionEdit">
+          <div class="edit-context" id="editContextBar">
+            <div class="left">
+              <div class="title" id="selectedTitleMobile">اختر مشروع</div>
+              <div class="meta">
+                <span class="pill">صور: <span id="imgCountMobile">0</span></span>
+                <span class="pill">جديدة: <span id="uploadCountMobile">0</span></span>
+              </div>
+            </div>
+            <div class="row" style="gap:8px;">
+              <button class="btn small" id="btnReorderMobile" type="button" disabled>ترتيب</button>
+            </div>
+          </div>
           <div id="fileProtoNotice" class="notice danger hidden" style="margin-bottom: 10px;">
             لن تعمل قراءة الملفات/الرفع عند فتح الصفحة عبر <code>file://</code>. شغّل Live Server أو افتح عبر <code>http://localhost</code>.
           </div>
 
-          <div class="row" style="margin-bottom: 10px;">
+          <div class="row" id="uploadControls" style="margin-bottom: 10px;">
             <div class="col" style="flex:1; min-width: 240px;">
               <label>رفع صور للمشروع (اختيار متعدد)</label>
               <input id="imagePicker" type="file" accept="image/*" multiple disabled />
@@ -526,7 +578,7 @@
             <button class="btn" id="btnApplyUploads" disabled>إضافة الصور للمشروع</button>
           </div>
 
-          <div class="panel" style="border-radius: 12px; margin-bottom: 12px;">
+          <div class="panel" id="projectMetaPanel" style="border-radius: 12px; margin-bottom: 12px;">
             <div class="panel-header">
               <h2 style="margin:0; font-size:0.92rem;">بيانات المشروع</h2>
               <span class="pill">تعديل الاسم</span>
@@ -547,11 +599,11 @@
             </div>
           </div>
 
-          <div class="notice" style="margin-bottom: 10px;">
+          <div class="notice" id="editHintNotice" style="margin-bottom: 10px;">
             عدّل الصور هنا (ترتيب/حذف/إعادة تسمية)، ثم صدّر الملفات المطلوبة.
           </div>
 
-          <div class="panel" style="border-radius: 12px; margin-bottom: 12px;">
+          <div class="panel" id="existingImagesPanel" style="border-radius: 12px; margin-bottom: 12px;">
             <div class="panel-header">
               <h2 style="margin:0; font-size:0.92rem;">قائمة الصور (داخل المشروع)</h2>
               <span class="pill" id="imgCount">0</span>
@@ -564,7 +616,7 @@
             </div>
           </div>
 
-          <div class="panel" style="border-radius: 12px;">
+          <div class="panel" id="uploadPreviewPanel" style="border-radius: 12px;">
             <div class="panel-header">
               <h2 style="margin:0; font-size:0.92rem;">صور جديدة (Preview قبل الإضافة)</h2>
               <span class="pill" id="uploadCount">0</span>
@@ -732,8 +784,13 @@
     function updateCounts() {
       $('projectCount').textContent = String((state.data.projects || []).length);
       const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
-      $('imgCount').textContent = p && Array.isArray(p.images) ? String(p.images.length) : '0';
-      $('uploadCount').textContent = String(state.uploads.length);
+      const imgCount = p && Array.isArray(p.images) ? String(p.images.length) : '0';
+      const uploadCount = String(state.uploads.length);
+      $('imgCount').textContent = imgCount;
+      $('uploadCount').textContent = uploadCount;
+      if ($('imgCountMobile')) $('imgCountMobile').textContent = imgCount;
+      if ($('uploadCountMobile')) $('uploadCountMobile').textContent = uploadCount;
+      if ($('btnReorderMobile')) $('btnReorderMobile').disabled = !p || !(p.images || []).length;
     }
 
     function setStatus(text, kind) {
@@ -1030,6 +1087,7 @@
 
       const p = getProjectBySlug(slug);
       $('selectedTitle').textContent = p ? getProjectTitle(p) : 'اختر مشروع';
+      if ($('selectedTitleMobile')) $('selectedTitleMobile').textContent = p ? getProjectTitle(p) : 'اختر مشروع';
       if ($('editTitleAr')) $('editTitleAr').value = p ? (p.titleAr || '') : '';
       if ($('editTitleEn')) $('editTitleEn').value = p ? (p.titleEn || '') : '';
       refreshUI();
@@ -1161,8 +1219,9 @@
       p.titleEn = en || null;
       p.title = (en || ar || p.slug);
       $('selectedTitle').textContent = getProjectTitle(p);
+      if ($('selectedTitleMobile')) $('selectedTitleMobile').textContent = getProjectTitle(p);
       renderProjects();
-      setStatus('تم حفظ الاسم محليًا. اضغط "نشر التعديلات" لتحديث GitHub.', 'ok');
+      setStatus('تم حفظ الاسم محليًا. اضغط "حفظ + رفع على GitHub" لتحديث الموقع.', 'ok');
     }
 
     function tryLoadRememberedToken() {
@@ -1737,6 +1796,14 @@
       if (mobileSyncBtn) {
         mobileSyncBtn.addEventListener('click', () => {
           const btn = $('btnSync');
+          if (btn) btn.click();
+        });
+      }
+
+      const mobileReorderBtn = $('btnReorderMobile');
+      if (mobileReorderBtn) {
+        mobileReorderBtn.addEventListener('click', () => {
+          const btn = $('btnReorder');
           if (btn) btn.click();
         });
       }

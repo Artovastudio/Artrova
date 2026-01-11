@@ -95,7 +95,10 @@ Get-ChildItem -Force -LiteralPath $worktreeDir | Where-Object { $_.Name -ne '.gi
 $publishFiles = @(
   'index.html',
   'admin.html',
+  'service-worker.js',
   'manifest.json',
+  'robots.txt',
+  'sitemap.xml',
   'assets',
   'data',
   'images'

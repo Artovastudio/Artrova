@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -780,15 +780,21 @@
             min-height: 100vh;
             color: #ffffff;
             direction: rtl;
+            background: #111;
         }
         .hero-new .swiper {
             width: 100%;
             height: 100vh;
+            direction: ltr;
+            overflow: hidden;
+            background: #111;
         }
         .hero-new-slide {
             position: relative;
             width: 100%;
             height: 100%;
+            overflow: hidden;
+            background: #111;
         }
         .hero-new-slide img {
             width: 100%;
@@ -810,6 +816,7 @@
             padding-inline: 8vw;
             padding-block: 120px 80px;
             text-align: right;
+            direction: rtl;
             pointer-events: none;
         }
         .hero-new-content-inner {
@@ -1820,13 +1827,14 @@
 
         @media (max-width: 768px) {
             body {
-                padding-bottom: 92px;
+                padding-bottom: 0;
             }
             .mobile-sticky-cta {
-                display: flex;
+                display: none;
             }
             .back-to-top {
                 display: inline-flex;
+                bottom: 16px;
             }
         }
 
@@ -2012,13 +2020,13 @@
                 display: none; 
             }
             .mobile-menu-toggle {
-                display: flex;
+                display: none;
             }
             .mobile-nav {
-                display: block;
+                display: none;
             }
             .mobile-nav-backdrop {
-                display: block;
+                display: none;
             }
             .hero-title { 
                 font-size: 2rem; 
@@ -2638,40 +2646,8 @@
                 </div>
             </nav>
 
-            <button type="button" class="mobile-menu-toggle" @click="mobileNavOpen = !mobileNavOpen" :class="{'is-open': mobileNavOpen}" :aria-expanded="mobileNavOpen ? 'true' : 'false'" aria-controls="mobileNav" :aria-label="mobileNavOpen ? (language === 'ar' ? 'إغلاق القائمة' : 'Close menu') : (language === 'ar' ? 'فتح القائمة' : 'Open menu')">
-                <span></span>
-                <span class="label" x-text="language === 'ar' ? 'القائمة' : 'Menu'"></span>
-            </button>
         </div>
     </header>
-
-    <!-- خلفية قائمة الموبايل -->
-    <div class="mobile-nav-backdrop" x-show="mobileNavOpen" @click="mobileNavOpen = false" x-transition.opacity.duration.150ms></div>
-
-    <!-- قائمة الموبايل -->
-    <div id="mobileNav" class="mobile-nav" x-show="mobileNavOpen" @click.outside="mobileNavOpen = false" x-transition:enter="mobile-nav-enter" x-transition:enter-end="mobile-nav-enter-end" x-transition:leave="mobile-nav-leave" x-transition:leave-end="mobile-nav-leave-end">
-        <div class="mobile-nav-head">
-            <div class="mobile-nav-title" x-text="language === 'ar' ? 'القائمة' : 'Menu'"></div>
-            <button type="button" class="mobile-nav-close" @click="mobileNavOpen = false" :aria-label="language === 'ar' ? 'إغلاق القائمة' : 'Close menu'">×</button>
-        </div>
-        <div class="mobile-nav-inner">
-            <div class="mobile-nav-links">
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('home'); mobileNavOpen = false" x-text="language === 'ar' ? 'الرئيسية' : 'Home'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('about'); mobileNavOpen = false" x-text="language === 'ar' ? 'من نحن' : 'About'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('services'); mobileNavOpen = false" x-text="language === 'ar' ? 'خدماتنا' : 'Services'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('portfolio'); mobileNavOpen = false" x-text="language === 'ar' ? 'مشاريعنا' : 'Projects'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('future'); mobileNavOpen = false" x-text="language === 'ar' ? 'كرفانات' : 'Caravans'"></a>
-                <a href="#" class="mobile-nav-link" @click.prevent="setTab('contact'); mobileNavOpen = false" x-text="language === 'ar' ? 'تواصل معنا' : 'Contact'"></a>
-            </div>
-            <div class="mobile-nav-footer">
-                <a href="#" @click.prevent="setTab('contact'); mobileNavOpen = false" class="btn btn-primary" style="flex:1; text-align:center;" x-text="language === 'ar' ? 'ابدأ مشروعك' : 'Start Your Project'"></a>
-                <div class="mobile-nav-lang">
-                    <button @click="language = 'ar'" type="button" class="lang-toggle" :class="{'btn-primary': language === 'ar'}">AR</button>
-                    <button @click="language = 'en'" type="button" class="lang-toggle" :class="{'btn-primary': language === 'en'}">EN</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- الهيرو الجديد - سلايدر كامل الشاشة -->
     <section id="home" class="hero-new" x-show="activeTab === 'home'">
@@ -3311,12 +3287,6 @@
             </div>
         </div>
     </footer>
-
-    <div class="mobile-sticky-cta" x-show="activeTab !== 'contact'" x-transition.opacity.duration.150ms>
-        <a class="cta-secondary" href="https://wa.me/966506534579" target="_blank" rel="noopener" x-text="language === 'ar' ? 'واتساب' : 'WhatsApp'"></a>
-        <a class="cta-primary" href="#" @click.prevent="setTab('contact')" x-text="language === 'ar' ? 'تواصل الآن' : 'Contact now'"></a>
-    </div>
-
     <button type="button" class="back-to-top" x-show="backToTopVisible" x-transition.opacity.duration.150ms @click="scrollToTop()" :aria-label="language === 'ar' ? 'العودة للأعلى' : 'Back to top'">↑</button>
 
     <!-- واتساب عائم -->
@@ -3325,7 +3295,6 @@
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
         </svg>
     </a>
-
     <!-- Swiper JS -->
     <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
 

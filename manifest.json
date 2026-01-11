@@ -1,0 +1,29 @@
+{
+  "name": "Artrova Studio",
+  "short_name": "Artrova",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/artrova-landing/index.html",
+  "scope": "/artrova-landing/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#c5a059",
+  "description": "Artrova Studio - شركة تصميم داخلي ومعماري رائدة في السعودية ومصر.",
+  "icons": [
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ]
+}

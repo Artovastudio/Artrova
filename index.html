@@ -2052,7 +2052,10 @@
                 return;
             }
             const res = await fetch('rename-plan.csv', { cache: 'no-store' });
-            if (!res.ok) throw new Error('rename-plan.csv not found');
+            if (!res.ok) {
+                this.portfolioTagsLoaded = false;
+                return;
+            }
             const text = await res.text();
             const lines = text.split(/\r?\n/).filter(Boolean);
             if (lines.length < 2) return;

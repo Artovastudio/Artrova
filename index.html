@@ -594,6 +594,73 @@
             opacity: 0.9;
             text-align: right;
         }
+
+        .hero-new-swiper {
+            touch-action: pan-y;
+        }
+        .hero-new-overlay {
+            pointer-events: none;
+        }
+        .hero-new-content {
+            text-shadow: 0 8px 22px rgba(0,0,0,0.45);
+        }
+        .hero-new-content .hero-title,
+        .hero-new-content .hero-subtitle {
+            position: relative;
+            display: inline-block;
+        }
+        .hero-new-content .hero-title::before,
+        .hero-new-content .hero-subtitle::before {
+            content: '';
+            position: absolute;
+            inset: -10px -14px;
+            background: rgba(0,0,0,0.38);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 16px;
+            z-index: -1;
+        }
+
+        .hero-new .swiper-button-prev,
+        .hero-new .swiper-button-next {
+            width: 52px;
+            height: 52px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.85);
+            color: #111;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .hero-new .swiper-button-prev::after,
+        .hero-new .swiper-button-next::after {
+            font-size: 18px;
+            font-weight: 900;
+        }
+        .hero-new .swiper-button-prev {
+            left: 14px;
+            right: auto;
+        }
+        .hero-new .swiper-button-next {
+            right: 14px;
+            left: auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero-new .swiper-button-prev,
+            .hero-new .swiper-button-next {
+                width: 56px;
+                height: 56px;
+            }
+            .hero-new .swiper-button-prev { left: 12px; }
+            .hero-new .swiper-button-next { right: 12px; }
+            .hero-new .swiper-pagination-bullet {
+                width: 10px;
+                height: 10px;
+            }
+            .hero-new .swiper-pagination-bullet-active {
+                width: 22px;
+            }
+        }
         .social-links {
             display: flex;
             gap: 12px;
@@ -2593,6 +2660,9 @@
                 </div>
             </div>
 
+            <div class="swiper-button-prev" aria-label="Previous"></div>
+            <div class="swiper-button-next" aria-label="Next"></div>
+
             <div class="hero-new-pagination swiper-pagination"></div>
         </div>
 
@@ -3181,9 +3251,16 @@
                         delay: 5000,
                         disableOnInteraction: false,
                     },
+                    simulateTouch: true,
+                    touchStartPreventDefault: false,
+                    touchReleaseOnEdges: true,
                     pagination: {
                         el: '.hero-new-pagination',
                         clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
                     },
                     effect: 'slide',
                     grabCursor: true,

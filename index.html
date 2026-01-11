@@ -1758,6 +1758,77 @@
             margin-bottom: 26px;
         }
 
+        .mobile-sticky-cta {
+            position: fixed;
+            left: 12px;
+            right: 12px;
+            bottom: 10px;
+            z-index: 1200;
+            display: none;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 16px;
+            background: rgba(17,17,17,0.86);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+        }
+        .mobile-sticky-cta a {
+            flex: 1;
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.98rem;
+        }
+        .mobile-sticky-cta .cta-primary {
+            background: var(--primary);
+            color: #111;
+        }
+        .mobile-sticky-cta .cta-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.16);
+        }
+
+        .back-to-top {
+            position: fixed;
+            left: 16px;
+            bottom: 86px;
+            width: 52px;
+            height: 52px;
+            border-radius: 999px;
+            background: var(--primary);
+            color: #111;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 900;
+            box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+            z-index: 1201;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .back-to-top:active {
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 92px;
+            }
+            .mobile-sticky-cta {
+                display: flex;
+            }
+            .back-to-top {
+                display: inline-flex;
+            }
+        }
+
         .submit-btn {
             width: 100%;
         }
@@ -2033,6 +2104,7 @@
 </head>
 <body x-cloak x-data="{
     scrolled: false,
+    backToTopVisible: false,
     language: 'ar',
     activeTab: 'home',
     activeFilter: 'all',
@@ -2499,15 +2571,23 @@
         this.activeFilter = initial;
         this.updateSeoForFilter(initial);
         this.updateUrlForFilter(initial);
-        this.loadPortfolioTags();
+        this.activeTab = initial;
         this.loadPortfolioProjects();
+
         window.addEventListener('keydown', (e) => this.onPortfolioKeydown(e));
+    },
+    scrollToTop() {
+        try {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (e) {
+            window.scrollTo(0, 0);
+        }
     },
     submitForm(event) {
         alert('شكراً لتواصلك معنا! سنرد عليك قريباً.');
         event.target.reset();
     }
-}" x-init="init()" @scroll.window="scrolled = (window.pageYOffset > 50)">
+}" x-init="init()" @scroll.window="scrolled = (window.pageYOffset > 50); backToTopVisible = (window.pageYOffset > 300)">
 
     <!-- Top Bar مع أيقونات قابلة للنقر -->
     <div class="top-bar">
@@ -3230,6 +3310,13 @@
             </div>
         </div>
     </footer>
+
+    <div class="mobile-sticky-cta" x-show="activeTab !== 'contact'" x-transition.opacity.duration.150ms>
+        <a class="cta-secondary" href="https://wa.me/966506534579" target="_blank" rel="noopener" x-text="language === 'ar' ? 'واتساب' : 'WhatsApp'"></a>
+        <a class="cta-primary" href="#" @click.prevent="setTab('contact')" x-text="language === 'ar' ? 'تواصل الآن' : 'Contact now'"></a>
+    </div>
+
+    <button type="button" class="back-to-top" x-show="backToTopVisible" x-transition.opacity.duration.150ms @click="scrollToTop()" :aria-label="language === 'ar' ? 'العودة للأعلى' : 'Back to top'">↑</button>
 
     <!-- واتساب عائم -->
     <a href="https://wa.me/966506534579" class="whatsapp-float" target="_blank" rel="noopener" title="تواصل عبر واتساب">

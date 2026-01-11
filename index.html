@@ -2758,9 +2758,9 @@
                 <template x-if="portfolioProjectsLoaded && !selectedPortfolioProject">
                     <div class="portfolio-project-grid">
                         <template x-for="p in portfolioProjects" :key="p.slug">
-                            <div class="portfolio-project-card" role="button" tabindex="0" @click="openPortfolioProject(p.slug)" @keydown.enter.prevent="openPortfolioProject(p.slug)" @keydown.space.prevent="openPortfolioProject(p.slug)">
+                            <div class="portfolio-project-card" x-data="{ coverOk: true }" x-show="coverOk" role="button" tabindex="0" @click="openPortfolioProject(p.slug)" @keydown.enter.prevent="openPortfolioProject(p.slug)" @keydown.space.prevent="openPortfolioProject(p.slug)">
                                 <div class="portfolio-project-card-media">
-                                    <img :src="p.cover" :alt="getPortfolioProjectTitle(p)" loading="lazy" decoding="async">
+                                    <img :src="p.cover" :alt="getPortfolioProjectTitle(p)" loading="lazy" decoding="async" @error="coverOk = false">
                                     <p class="portfolio-project-card-title-overlay" x-text="getPortfolioProjectTitle(p)"></p>
                                 </div>
                                 <div class="portfolio-project-card-body" aria-hidden="true">
@@ -2795,7 +2795,7 @@
         </div>
     </section>
 
-    <div x-show="portfolioLightboxOpen" x-cloak class="portfolio-lightbox" style="display:none" @click.self="closePortfolioLightbox()" aria-modal="true" role="dialog">
+    <div x-show="portfolioLightboxOpen" x-cloak hidden x-bind:hidden="!portfolioLightboxOpen" class="portfolio-lightbox" style="display:none" @click.self="closePortfolioLightbox()" aria-modal="true" role="dialog">
         <div class="portfolio-lightbox-inner">
             <button type="button" class="portfolio-lightbox-btn prev" @click.stop="prevPortfolioLightbox()" aria-label="Previous">
                 <span aria-hidden="true">‹</span>

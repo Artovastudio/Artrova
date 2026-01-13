@@ -756,7 +756,8 @@
       repairs: [],
       /** @type {Set<string>} */
       missingSet: new Set(),
-      missingScanInProgress: false
+      missingScanInProgress: false,
+      jsonDirty: false
     };
 
     // ====== UTILS ======
@@ -853,7 +854,8 @@
 
       const quickBtn = $('btnQuickUpload');
       if (quickBtn) {
-        quickBtn.disabled = !p || state.uploads.length === 0;
+        const hasPending = (state.uploads.length > 0) || (state.deleteSet && state.deleteSet.size > 0) || (state.renameMap && state.renameMap.size > 0) || !!state.jsonDirty;
+        quickBtn.disabled = !hasPending;
         quickBtn.textContent = state.uploads.length ? `رفع الصور ونشر فورًا (${state.uploads.length})` : 'رفع الصور ونشر فورًا';
       }
     }
@@ -1386,7 +1388,10 @@
       const hasProject = !!state.selectedSlug && !!getProjectBySlug(state.selectedSlug);
       $('btnDeleteProject').disabled = !hasProject;
       $('imagePicker').disabled = !hasProject;
-      if ($('btnQuickUpload')) $('btnQuickUpload').disabled = !hasProject || state.uploads.length === 0;
+      if ($('btnQuickUpload')) {
+        const hasPending = (state.uploads.length > 0) || (state.deleteSet && state.deleteSet.size > 0) || (state.renameMap && state.renameMap.size > 0) || !!state.jsonDirty;
+        $('btnQuickUpload').disabled = !hasPending;
+      }
       if ($('editTitleAr')) $('editTitleAr').disabled = !hasProject;
       if ($('editTitleEn')) $('editTitleEn').disabled = !hasProject;
       if ($('btnSaveProjectTitles')) $('btnSaveProjectTitles').disabled = !hasProject;
@@ -1506,6 +1511,7 @@
       $('selectedTitle').textContent = getProjectTitle(p);
       if ($('selectedTitleMobile')) $('selectedTitleMobile').textContent = getProjectTitle(p);
       renderProjects();
+      state.jsonDirty = true;
       setStatus('تم حفظ الاسم محليًا. اضغط "حفظ + رفع على GitHub" لتحديث الموقع.', 'ok');
     }
 
@@ -1584,7 +1590,10 @@
       state.selectedSlug = null;
       $('selectedTitle').textContent = 'اختر مشروع';
 
+      state.jsonDirty = true;
+
       refreshUI();
+      setStatus('تم حذف المشروع محليًا. اضغط "رفع الصور ونشر فورًا" لتطبيق التغيير على GitHub والموقع.', 'ok');
     }
 
     async function deleteImage(path) {
@@ -1606,8 +1615,11 @@
       p.cover = (p.images || [])[0] || '';
       p.imageCount = (p.images || []).length;
 
+      state.jsonDirty = true;
+
       // Ensure it gets deleted on publish
       state.deleteSet.add(path);
+      state.jsonDirty = true;
 
       // If this path is involved in a pending rename, remove that plan and delete both sides just in case
       for (const [fromSite, toSite] of Array.from(state.renameMap.entries())) {
@@ -2093,14 +2105,10 @@
         return;
       }
 
-      if (!state.selectedSlug || !getProjectBySlug(state.selectedSlug)) {
-        setStatus('فشل الرفع\nالسبب: لم يتم اختيار مشروع\nالحل: اختر مشروع أولاً', 'danger');
-        return;
-      }
-
       const uploadOps = state.uploads.filter(u => !!u && !!u.file && !!u.targetPath);
-      if (!uploadOps.length) {
-        setStatus('فشل الرفع\nالسبب: لم يتم اختيار صور\nالحل: اختر صور أولاً ثم اضغط زر الرفع', 'danger');
+      const hasPending = (uploadOps.length > 0) || (state.deleteSet && state.deleteSet.size > 0) || (state.renameMap && state.renameMap.size > 0) || !!state.jsonDirty;
+      if (!hasPending) {
+        setStatus('لا توجد تغييرات للنشر.', 'ok');
         return;
       }
 
@@ -2222,7 +2230,7 @@
           }
 
           // 4) Update JSON (strong retry on SHA mismatch)
-          setStatus(`تم رفع ${uploadOps.length} صورة\nجاري تحديث البيانات...`, '');
+          setStatus(`${uploadOps.length ? `تم رفع ${uploadOps.length} صورة\n` : ''}جاري تحديث البيانات...`, '');
           await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
         }
 
@@ -2230,9 +2238,10 @@
         state.renameMap.clear();
         state.uploads.forEach(u => URL.revokeObjectURL(u.previewUrl));
         state.uploads = [];
+        state.jsonDirty = false;
         clearProgress();
 
-        setStatus(`تم رفع ${uploadOps.length} صورة بنجاح\nتم تحديث البيانات\nتم النشر بنجاح`, 'ok');
+        setStatus(`${uploadOps.length ? `تم رفع ${uploadOps.length} صورة بنجاح\n` : ''}تم تحديث البيانات\nتم النشر بنجاح`, 'ok');
         refreshUI();
       } catch (e) {
         clearProgress();

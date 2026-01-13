@@ -827,6 +827,41 @@
       return null;
     }
 
+    function normalizeImagePathForProject(p, path) {
+      let s = String(path || '').trim();
+      if (!s) return '';
+
+      // leave absolute URLs unchanged
+      if (/^https?:\/\//i.test(s)) return s;
+
+      // remove leading ./ or /
+      s = s.replace(/^\.\//, '');
+      s = s.replace(/^\//, '');
+
+      // If it's already a relative path with folders, keep it.
+      // The problematic case we want to fix is a bare filename like "000241.jpg".
+      if (s.includes('/')) return s;
+
+      const slug = p && p.slug ? String(p.slug) : '';
+      if (!slug) return s;
+      return `assets/site_images/projects/portfolio_projects/${slug}/${s}`;
+    }
+
+    function normalizePortfolioDataPaths() {
+      const projects = state.data && Array.isArray(state.data.projects) ? state.data.projects : [];
+      for (const p of projects) {
+        if (!p) continue;
+        if (Array.isArray(p.images)) {
+          p.images = p.images.map((img) => normalizeImagePathForProject(p, img)).filter(Boolean);
+        }
+        if (p.cover) {
+          p.cover = normalizeImagePathForProject(p, p.cover);
+        }
+        p.imageCount = Array.isArray(p.images) ? p.images.length : 0;
+        if (!p.cover && Array.isArray(p.images) && p.images[0]) p.cover = p.images[0];
+      }
+    }
+
     function getProjectTitle(p) {
       if (!p) return '';
       const ar = String(p.titleAr || '').trim();
@@ -2029,6 +2064,9 @@
       state.data = j;
       state.data.projects = state.data.projects || [];
       state.data.count = state.data.projects.length;
+
+      // Fix legacy data where images/cover are stored as bare filenames (causes 404 in admin).
+      try { normalizePortfolioDataPaths(); } catch (e) {}
     }
 
     async function reloadData() {

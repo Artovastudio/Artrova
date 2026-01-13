@@ -621,7 +621,7 @@
             <button class="btn" id="btnAutoNames" disabled>تسمية تلقائية</button>
             <button class="btn" id="btnApplyUploads" disabled>إضافة الصور للمشروع</button>
             <button class="btn" id="btnRepairPick" disabled type="button">رفع الصور الناقصة</button>
-            <input id="repairPicker" type="file" accept="image/*" multiple class="hidden" />
+            <input id="repairPicker" type="file" accept="image/*" multiple webkitdirectory directory class="hidden" />
           </div>
 
           <div class="panel" id="projectMetaPanel" style="border-radius: 12px; margin-bottom: 12px;">
@@ -1262,21 +1262,46 @@
 
       const baseDir = `assets/site_images/projects/portfolio_projects/${p.slug}`;
 
-      // Map by exact filename (case-sensitive) because GitHub paths are case-sensitive
-      const byName = new Map();
-      for (const f of picked) {
-        if (!f || !f.name) continue;
-        byName.set(String(f.name), f);
+      // Determine which filenames are actually missing for this project
+      const expectedMissingNames = new Set();
+      if (state.missingSet && state.missingSet.size) {
+        for (const full of Array.from(state.missingSet.values())) {
+          expectedMissingNames.add(String(full).split('/').pop() || '');
+        }
       }
 
-      // Build repair ops for any selected file (upload to expected project folder)
-      state.repairs = Array.from(byName.entries()).map(([name, file]) => ({
+      // Map selected files by basename (handles folder selection via webkitdirectory)
+      const byBaseName = new Map();
+      for (const f of picked) {
+        if (!f) continue;
+        const rel = String(f.webkitRelativePath || '');
+        const name = String(f.name || '').trim();
+        const base = (rel ? rel.split('/').pop() : name) || name;
+        if (!base) continue;
+        // first win is fine
+        if (!byBaseName.has(base)) byBaseName.set(base, f);
+      }
+
+      // If we already scanned missing, only upload files that match missing names.
+      // Otherwise, prepare uploads for all picked files.
+      const entries = Array.from(byBaseName.entries()).filter(([base]) => {
+        if (!expectedMissingNames.size) return true;
+        return expectedMissingNames.has(base);
+      });
+
+      state.repairs = entries.map(([name, file]) => ({
         file,
         optimizedFile: null,
         name,
         targetPath: `${baseDir}/${name}`,
         projectSlug: p.slug
       }));
+
+      if (expectedMissingNames.size) {
+        const matched = state.repairs.length;
+        const totalMissing = expectedMissingNames.size;
+        setStatus(`تم اختيار ملفات. تم مطابقة ${matched}/${totalMissing} من الصور المفقودة لهذا المشروع.`, matched ? 'ok' : 'danger');
+      }
 
       // Optimize large repair images immediately so publish is reliable
       const pending = state.repairs.filter(r => r && r.file && !r.optimizedFile && r.file.size > 950 * 1024);
@@ -1299,7 +1324,7 @@
           }
         })();
       } else {
-        setStatus('تم تجهيز الصور الناقصة للرفع. اضغط "نشر التعديلات".', 'ok');
+        setStatus(state.repairs.length ? 'تم تجهيز الصور الناقصة للرفع. اضغط "نشر التعديلات".' : 'لم يتم مطابقة أي صورة مفقودة من الملفات المختارة. جرّب اختيار المجلد الصحيح أو اعمل "فحص المفقود" أولاً.', state.repairs.length ? 'ok' : 'danger');
       }
 
       updateCounts();

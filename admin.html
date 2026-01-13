@@ -1512,7 +1512,7 @@
       if ($('selectedTitleMobile')) $('selectedTitleMobile').textContent = getProjectTitle(p);
       renderProjects();
       state.jsonDirty = true;
-      setStatus('تم حفظ الاسم محليًا. اضغط "حفظ + رفع على GitHub" لتحديث الموقع.', 'ok');
+      setStatus('تم حفظ الاسم محليًا. اضغط "رفع الصور ونشر فورًا" لتحديث الموقع.', 'ok');
     }
 
     function tryLoadRememberedToken() {
@@ -1635,7 +1635,7 @@
       updateCounts();
 
       if (!token) {
-        setStatus('تم حذف الصورة من المشروع محليًا. الصق GitHub Token ثم اضغط "نشر التعديلات" للحذف النهائي من GitHub.', 'ok');
+        setStatus('تم حذف الصورة من المشروع محليًا. الصق GitHub Token ثم اضغط "رفع الصور ونشر فورًا" للحذف النهائي من GitHub.', 'ok');
         return;
       }
 
@@ -2140,12 +2140,6 @@
               setStatus(`جاري الرفع...\nتم رفع ${i}/${uploadOps.length} صور\nالآن: ${repoPath}`, '');
               setProgress(i + 1, uploadOps.length);
 
-              let sha = undefined;
-              try {
-                const meta = await gh.getFileMeta(repoPath, branch);
-                if (meta && meta.sha) sha = meta.sha;
-              } catch (e) { try { console.warn('getFileMeta failed', repoPath, e); } catch (_) {} }
-
               let fileToSend = u.optimizedFile || u.file;
               try {
                 if (!u.optimizedFile && u.file && u.file.size > 950 * 1024) {
@@ -2158,19 +2152,38 @@
               } catch (e) {}
 
               const b64 = await fileToBase64(fileToSend);
-              await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, sha);
+
+              // Avoid noisy 404s: try create (no sha) first; if file exists (422), fetch sha and retry.
+              try {
+                await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, undefined);
+              } catch (e) {
+                if (e && e.status === 422) {
+                  let sha = undefined;
+                  try {
+                    const meta = await gh.getFileMeta(repoPath, branch, true);
+                    if (meta && meta.sha) sha = meta.sha;
+                  } catch (e2) {
+                    if (!isNotFoundError(e2)) {
+                      try { console.warn('getFileMeta failed', repoPath, e2); } catch (_) {}
+                    }
+                  }
+                  await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, sha);
+                } else {
+                  throw e;
+                }
+              }
             }
           }
 
           // 2) Rename files (copy content to new path then delete old)
           const renames = Array.from(state.renameMap.entries());
           if (renames.length) {
+            setStatus(`(${branch}) إعادة تسمية صور...`, '');
             for (let i = 0; i < renames.length; i++) {
               const [fromSite, toSite] = renames[i];
               const fromPath = sitePathToRepoPath(fromSite);
               const toPath = sitePathToRepoPath(toSite);
               if (fromPath === toPath) continue;
-              setStatus(`(${branch}) إعادة تسمية ${i + 1}/${renames.length}: ${fromPath} -> ${toPath}`, '');
               setProgress(i + 1, renames.length);
 
               let fromMeta = null;
@@ -2197,7 +2210,11 @@
               try {
                 const toMeta = await gh.getFileMeta(toPath, branch);
                 if (toMeta && toMeta.sha) toSha = toMeta.sha;
-              } catch (e) { try { console.warn('getFileMeta failed', toPath, e); } catch (_) {} }
+              } catch (e) {
+                if (!isNotFoundError(e)) {
+                  try { console.warn('getFileMeta failed', toPath, e); } catch (_) {}
+                }
+              }
 
               await gh.putFile(toPath, `Rename portfolio image: ${toPath}`, fromB64, toSha);
               try {

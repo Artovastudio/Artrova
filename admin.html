@@ -939,6 +939,17 @@
       setStatus(`${userPrefix}: ${formatError(e)}`, 'danger');
     }
 
+    function isNotFoundError(e) {
+      try {
+        if (!e) return false;
+        if (e.status === 404) return true;
+        const msg = String(e && e.message ? e.message : e).toLowerCase();
+        return msg.includes('not found') || msg.includes('404');
+      } catch (_) {
+        return false;
+      }
+    }
+
     function downloadText(filename, content) {
       const blob = new Blob([content], { type: 'application/json;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -1514,7 +1525,9 @@
             }
           } catch (e) {
             // Ignore 404s per-branch
-            try { console.warn('delete failed', branch, repoPath, e); } catch (_) {}
+            if (!isNotFoundError(e)) {
+              try { console.warn('delete failed', branch, repoPath, e); } catch (_) {}
+            }
           }
 
           // Update JSON on that branch so deletion reflects immediately
@@ -1527,10 +1540,9 @@
       } catch (e) {
         clearProgress();
 
-        const msg = String((e && e.message) ? e.message : e);
-        const is404 = /\b404\b/i.test(msg) || /Not Found/i.test(msg);
-        if (is404) {
-          setStatus('الصورة غير موجودة على GitHub بنفس المسار (404). تم حذفها من بيانات المشروع محليًا وسيتم تحديث JSON عند النشر.', 'danger');
+        if (isNotFoundError(e)) {
+          // The file is already missing on GitHub. Keep local deletion + JSON update as success.
+          setStatus('الصورة غير موجودة على GitHub (404) لكنها حُذفت من بيانات المشروع وسيتم تحديث JSON على GitHub ✅', 'ok');
           return;
         }
 
@@ -2012,7 +2024,11 @@
               } catch (e) { try { console.warn('getFileMeta failed', toPath, e); } catch (_) {} }
 
               await gh.putFile(toPath, `Rename portfolio image: ${toPath}`, fromB64, toSha);
-              await gh.deleteFile(fromPath, `Delete old portfolio image: ${fromPath}`, fromMeta.sha);
+              try {
+                await gh.deleteFile(fromPath, `Delete old portfolio image: ${fromPath}`, fromMeta.sha);
+              } catch (e) {
+                if (!isNotFoundError(e)) throw e;
+              }
             }
           }
 
@@ -2029,7 +2045,10 @@
                   await gh.deleteFile(rp, `Delete portfolio image: ${rp}`, meta.sha);
                 }
               } catch (e) {
-                try { console.warn('delete failed', rp, e); } catch (_) {}
+                // 404 means it's already gone; do not fail publish for that
+                if (!isNotFoundError(e)) {
+                  try { console.warn('delete failed', rp, e); } catch (_) {}
+                }
               }
             }
           }

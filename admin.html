@@ -856,6 +856,22 @@
       if (kind === 'ok') box.classList.add('ok');
     }
 
+    try {
+      window.addEventListener('error', (ev) => {
+        try {
+          const msg = ev && ev.message ? String(ev.message) : 'JS Error';
+          setStatus(`خطأ في الصفحة: ${msg}`, 'danger');
+        } catch (e) {}
+      });
+      window.addEventListener('unhandledrejection', (ev) => {
+        try {
+          const r = ev && ev.reason ? ev.reason : null;
+          const msg = (r && r.message) ? String(r.message) : String(r || 'Promise rejection');
+          setStatus(`خطأ غير متوقع: ${msg}`, 'danger');
+        } catch (e) {}
+      });
+    } catch (e) {}
+
     function setProgress(current, total) {
       const wrap = $('progressWrap');
       const bar = $('progressBar');
@@ -1426,50 +1442,60 @@
 
       const owner = GITHUB_OWNER;
       const repo = GITHUB_REPO;
-      const branch = GITHUB_BRANCH;
-      const gh = createGithubClient(owner, repo, branch, token);
+
+      const branches = Array.isArray(GITHUB_PUBLISH_BRANCHES) && GITHUB_PUBLISH_BRANCHES.length
+        ? GITHUB_PUBLISH_BRANCHES
+        : [GITHUB_BRANCH];
 
       try {
         const repoPath = sitePathToRepoPath(path);
-        setStatus(`حذف من GitHub: ${repoPath}`, '');
-        setProgress(1, 2);
-
-        // Delete the file from repo
-        let meta;
-        try {
-          meta = await gh.getFileMeta(repoPath, branch, true);
-        } catch (e) {
-          // If the image path is an absolute URL or has cache params, normalize and retry once
-          const retryPath = sitePathToRepoPath(path);
-          if (retryPath !== repoPath) {
-            meta = await gh.getFileMeta(retryPath, branch, true);
-          } else {
-            throw e;
-          }
-        }
-        if (!meta || !meta.sha) throw new Error('تعذر الحصول على SHA للملف قبل الحذف');
-        await gh.deleteFile(repoPath, `Delete portfolio image: ${repoPath}`, meta.sha);
-
-        // Update JSON on GitHub so the deletion is reflected immediately
-        setStatus('تحديث data/portfolio_projects.json ...', '');
-        setProgress(2, 2);
         const payload = {
           source: 'portfolio_projects',
           count: (state.data.projects || []).length,
           projects: state.data.projects
         };
-        await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
+
+        for (let bi = 0; bi < branches.length; bi++) {
+          const branch = branches[bi];
+          const gh = createGithubClient(owner, repo, branch, token);
+          setStatus(`(${branch}) حذف من GitHub: ${repoPath}`, '');
+          setProgress(bi + 1, branches.length + 1);
+
+          // Delete the file from repo (best effort)
+          try {
+            let meta;
+            try {
+              meta = await gh.getFileMeta(repoPath, branch, true);
+            } catch (e) {
+              const retryPath = sitePathToRepoPath(path);
+              if (retryPath !== repoPath) {
+                meta = await gh.getFileMeta(retryPath, branch, true);
+              } else {
+                throw e;
+              }
+            }
+            if (meta && meta.sha) {
+              await gh.deleteFile(repoPath, `Delete portfolio image: ${repoPath}`, meta.sha);
+            }
+          } catch (e) {
+            // Ignore 404s per-branch
+            try { console.warn('delete failed', branch, repoPath, e); } catch (_) {}
+          }
+
+          // Update JSON on that branch so deletion reflects immediately
+          setStatus(`(${branch}) تحديث data/portfolio_projects.json ...`, '');
+          await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
+        }
 
         clearProgress();
         setStatus('تم حذف الصورة نهائيًا من GitHub وتحديث البيانات ✅', 'ok');
       } catch (e) {
         clearProgress();
-        // If GitHub says 404, it usually means the file is not on the repo/branch (or path mismatch).
-        // Keep local deletion (JSON) and inform the user clearly.
+
         const msg = String((e && e.message) ? e.message : e);
         const is404 = /\b404\b/i.test(msg) || /Not Found/i.test(msg);
         if (is404) {
-          setStatus('الصورة غير موجودة على GitHub بنفس المسار (404). تم حذفها من بيانات المشروع محليًا وسيتم تحديث JSON عند النشر. تأكد أن المسار صحيح وأن الصورة موجودة على فرع main.', 'danger');
+          setStatus('الصورة غير موجودة على GitHub بنفس المسار (404). تم حذفها من بيانات المشروع محليًا وسيتم تحديث JSON عند النشر.', 'danger');
           return;
         }
 
@@ -1515,7 +1541,7 @@
 
       for (const f of picked) {
         const url = URL.createObjectURL(f);
-        state.uploads.push({ file: f, previewUrl: url, name: sanitizeFilename(f.name), targetPath: null, appliedPath: null, projectSlug: null });
+        state.uploads.push({ file: f, optimizedFile: null, previewUrl: url, name: sanitizeFilename(f.name), targetPath: null, appliedPath: null, projectSlug: null });
       }
 
       renderUploadPreview();
@@ -1578,11 +1604,55 @@
 
       const baseDir = `assets/site_images/projects/portfolio_projects/${p.slug}`;
 
+      // Optimize large images before binding them to the project so publish is reliable
+      try {
+        const pendingToOptimize = state.uploads.filter(u => !!u && !!u.file && !u.optimizedFile && u.file.size > 950 * 1024);
+        if (pendingToOptimize.length) {
+          setStatus(`ضغط الصور الكبيرة... (${pendingToOptimize.length})`, '');
+        }
+      } catch (e) {}
+
+      const pendingUploadsForOptimize = state.uploads.filter(u => !!u && !!u.file && !u.optimizedFile && u.file.size > 950 * 1024);
+      if (pendingUploadsForOptimize.length) {
+        (async () => {
+          try {
+            for (let i = 0; i < pendingUploadsForOptimize.length; i++) {
+              const u = pendingUploadsForOptimize[i];
+              setStatus(`ضغط صورة ${i + 1}/${pendingUploadsForOptimize.length}: ${sanitizeFilename(u.file.name)}`, '');
+              setProgress(i + 1, pendingUploadsForOptimize.length);
+              const resOpt = await optimizeImageFile(u.file, { maxBytes: 950 * 1024, maxDim: 2200, preferWebp: true });
+              if (resOpt && resOpt.file && resOpt.changed) {
+                u.optimizedFile = resOpt.file;
+              }
+            }
+          } catch (e) {
+            handleError('فشل ضغط بعض الصور (سيتم محاولة الرفع كما هي)', e);
+          } finally {
+            clearProgress();
+            // continue applying after optimization
+            applyUploadsToProject();
+          }
+        })();
+        return;
+      }
+
       const used = new Set((p.images || []).map(x => String(x).split('/').pop() || ''));
       const pendingUploads = state.uploads.filter(u => !!u && !!u.file && !u.targetPath);
       for (const u of pendingUploads) {
         let fileName = sanitizeFilename(u.name);
         if (!fileName) fileName = sanitizeFilename(u.file.name);
+
+        // keep name in sync if we already optimized and the extension changed
+        try {
+          const opt = u.optimizedFile;
+          if (opt && opt.name) {
+            const optExt = (String(opt.name).match(/\.[a-z0-9]+$/i) || [''])[0];
+            if (optExt) {
+              fileName = String(fileName).replace(/\.[a-z0-9]+$/i, '') + optExt.toLowerCase();
+              u.name = fileName;
+            }
+          }
+        } catch (e) {}
         // ensure unique
         if (used.has(fileName)) {
           const dot = fileName.lastIndexOf('.');
@@ -1680,6 +1750,71 @@
     async function fileToBase64(file) {
       const buf = await file.arrayBuffer();
       return arrayBufferToBase64(buf);
+    }
+
+    async function optimizeImageFile(file, options) {
+      const opts = options || {};
+      const maxBytes = typeof opts.maxBytes === 'number' ? opts.maxBytes : 950 * 1024;
+      const maxDim = typeof opts.maxDim === 'number' ? opts.maxDim : 2200;
+      const preferWebp = opts.preferWebp !== false;
+
+      if (!file) return { file: null, changed: false, note: 'missing file' };
+      const type = String(file.type || '').toLowerCase();
+      const isImage = type.startsWith('image/');
+      if (!isImage) return { file, changed: false, note: 'not image' };
+      if (file.size <= maxBytes) return { file, changed: false, note: 'already small' };
+
+      let imgBitmap = null;
+      try {
+        imgBitmap = await createImageBitmap(file);
+      } catch (e) {
+        return { file, changed: false, note: 'decode failed' };
+      }
+
+      let w = imgBitmap.width || 1;
+      let h = imgBitmap.height || 1;
+      const scale = Math.min(1, maxDim / Math.max(w, h));
+      const tw = Math.max(1, Math.round(w * scale));
+      const th = Math.max(1, Math.round(h * scale));
+
+      const canvas = document.createElement('canvas');
+      canvas.width = tw;
+      canvas.height = th;
+      const ctx = canvas.getContext('2d', { alpha: false });
+      ctx.drawImage(imgBitmap, 0, 0, tw, th);
+
+      const mimeCandidates = [];
+      if (preferWebp) mimeCandidates.push('image/webp');
+      mimeCandidates.push('image/jpeg');
+
+      let outBlob = null;
+      let outType = null;
+      let quality = 0.85;
+
+      for (const mime of mimeCandidates) {
+        quality = 0.85;
+        for (let i = 0; i < 7; i++) {
+          try {
+            outBlob = await new Promise((resolve) => canvas.toBlob(resolve, mime, quality));
+          } catch (e) {
+            outBlob = null;
+          }
+          outType = mime;
+          if (outBlob && outBlob.size <= maxBytes) break;
+          quality = Math.max(0.55, quality - 0.07);
+        }
+        if (outBlob && outBlob.size <= maxBytes) break;
+      }
+
+      if (!outBlob) return { file, changed: false, note: 'encode failed' };
+      if (outBlob.size > maxBytes) return { file, changed: false, note: 'still too big' };
+
+      let baseName = sanitizeFilename(String(file.name || 'image'));
+      baseName = baseName.replace(/\.[a-z0-9]+$/i, '');
+      const ext = outType === 'image/webp' ? '.webp' : '.jpg';
+      const outName = `${baseName}${ext}`;
+      const outFile = new File([outBlob], outName, { type: outType });
+      return { file: outFile, changed: true, note: 'optimized' };
     }
 
     async function ghDownloadToBase64(downloadUrl, token) {
@@ -1788,7 +1923,18 @@
                 if (meta && meta.sha) sha = meta.sha;
               } catch (e) { try { console.warn('getFileMeta failed', repoPath, e); } catch (_) {} }
 
-              const b64 = await fileToBase64(u.file);
+              let fileToSend = u.optimizedFile || u.file;
+              try {
+                if (!u.optimizedFile && u.file && u.file.size > 950 * 1024) {
+                  const resOpt = await optimizeImageFile(u.file, { maxBytes: 950 * 1024, maxDim: 2200, preferWebp: true });
+                  if (resOpt && resOpt.file && resOpt.changed) {
+                    u.optimizedFile = resOpt.file;
+                    fileToSend = u.optimizedFile;
+                  }
+                }
+              } catch (e) {}
+
+              const b64 = await fileToBase64(fileToSend);
               await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, sha);
             }
           }

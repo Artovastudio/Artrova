@@ -2710,8 +2710,7 @@
                 <a href="#" @click.prevent="setTab('contact')" class="btn btn-primary nav-cta" x-text="language === 'ar' ? 'ابدأ مشروعك' : 'Start Your Project'"></a>
 
                 <div class="language-switch">
-                    <button x-show="language === 'en'" x-cloak @click="setLanguage('ar')" class="lang-toggle btn-primary" type="button">AR</button>
-                    <button x-show="language === 'ar'" x-cloak @click="setLanguage('en')" class="lang-toggle btn-primary" type="button">EN</button>
+                    <button @click="setLanguage(language === 'ar' ? 'en' : 'ar')" class="lang-toggle btn-primary" type="button" x-text="language === 'ar' ? 'EN' : 'AR'"></button>
                 </div>
             </nav>
 
@@ -2742,8 +2741,7 @@
             </div>
             <div class="mobile-nav-footer">
                 <div class="mobile-nav-lang">
-                    <button x-show="language === 'en'" x-cloak @click="setLanguage('ar')" type="button" class="lang-toggle btn-primary">AR</button>
-                    <button x-show="language === 'ar'" x-cloak @click="setLanguage('en')" type="button" class="lang-toggle btn-primary">EN</button>
+                    <button @click="setLanguage(language === 'ar' ? 'en' : 'ar')" type="button" class="lang-toggle btn-primary" x-text="language === 'ar' ? 'EN' : 'AR'"></button>
                 </div>
             </div>
         </div>

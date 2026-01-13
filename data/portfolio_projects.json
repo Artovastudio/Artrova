@@ -1033,11 +1033,9 @@
       "titleAr": "Home",
       "titleEn": null,
       "title": "Home",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/home/000179.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/home/000179.jpg",
-      "imageCount": 1
+      "images": [],
+      "cover": "",
+      "imageCount": 0
     }
   ]
 }

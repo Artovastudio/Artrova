@@ -54,7 +54,7 @@
     <link rel="stylesheet" href="assets/design-system.css">
     
     <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.10/dist/cdn.min.js"></script>
 
     <!-- Swiper.js for hero slider -->
     <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css">
@@ -2694,7 +2694,7 @@
     <header class="main-header" :class="{ 'scrolled': scrolled }">
         <div class="container nav-container">
             <a href="#home" class="logo">
-                <img src="assets/artrova-logo.png" alt="Artrova Studio">
+                <img src="assets/artrova-logo.png" alt="Artrova Studio" decoding="async">
             </a>
 
             <nav class="nav-menu">
@@ -2751,7 +2751,7 @@
             <div class="swiper-wrapper">
                 <!-- Slide 1 -->
                 <div class="swiper-slide hero-new-slide">
-                    <img src="images/project-38.jpeg" alt="تصميم داخلي فاخر" decoding="async">
+                    <img src="images/project-38.jpeg" alt="تصميم داخلي فاخر" loading="eager" fetchpriority="high" decoding="async">
                     <div class="hero-new-overlay"></div>
                     <div class="hero-new-content">
                         <div class="hero-new-content-inner">
@@ -3095,7 +3095,7 @@
                         <template x-for="p in portfolioProjects" :key="p.slug">
                             <div class="portfolio-project-card" x-data="{ coverOk: true }" x-show="coverOk" role="button" tabindex="0" @click="openPortfolioProject(p.slug)" @keydown.enter.prevent="openPortfolioProject(p.slug)" @keydown.space.prevent="openPortfolioProject(p.slug)">
                                 <div class="portfolio-project-card-media">
-                                    <img :src="p.cover" :alt="getPortfolioProjectTitle(p)" loading="eager" decoding="async" fetchpriority="high" @error="coverOk = false">
+                                    <img :src="p.cover" :alt="getPortfolioProjectTitle(p)" loading="lazy" decoding="async" @error="coverOk = false">
                                     <p class="portfolio-project-card-title-overlay" x-text="getPortfolioProjectTitle(p)"></p>
                                 </div>
                                 <div class="portfolio-project-card-body" aria-hidden="true">
@@ -3158,7 +3158,7 @@
 
             <div class="future-grid">
                 <div class="future-card">
-                    <img src="images/image_9_27.png" alt="Residential Caravan" class="future-icon">
+                    <img src="images/image_9_27.png" alt="Residential Caravan" class="future-icon" loading="lazy" decoding="async">
                     <h3 x-text="language === 'ar' ? 'كرفانات سكنية' : 'Residential Caravans'"></h3>
                     <p x-text="language === 'ar' 
                         ? 'وحدات سكنية متنقلة مجهزة بالكامل بأحدث المرافق.' 
@@ -3166,7 +3166,7 @@
                 </div>
 
                 <div class="future-card">
-                    <img src="images/image_8_22.png" alt="Office Caravan" class="future-icon">
+                    <img src="images/image_8_22.png" alt="Office Caravan" class="future-icon" loading="lazy" decoding="async">
                     <h3 x-text="language === 'ar' ? 'كرفانات مكتبية' : 'Office Caravans'"></h3>
                     <p x-text="language === 'ar' 
                         ? 'مكاتب متنقلة احترافية للشركات والمؤسسات.' 
@@ -3174,7 +3174,7 @@
                 </div>
 
                 <div class="future-card">
-                    <img src="images/image_11_30.png" alt="Reception Unit" class="future-icon">
+                    <img src="images/image_11_30.png" alt="Reception Unit" class="future-icon" loading="lazy" decoding="async">
                     <h3 x-text="language === 'ar' ? 'وحدات استقبال' : 'Reception Units'"></h3>
                     <p x-text="language === 'ar' 
                         ? 'وحدات استقبال فاخرة للفعاليات والمناسبات.' 
@@ -3182,7 +3182,7 @@
                 </div>
 
                 <div class="future-card">
-                    <img src="images/image_17_42.png" alt="Guard Caravan" class="future-icon">
+                    <img src="images/image_17_42.png" alt="Guard Caravan" class="future-icon" loading="lazy" decoding="async">
                     <h3 x-text="language === 'ar' ? 'كرفانات حراسة' : 'Guard Caravans'"></h3>
                     <p x-text="language === 'ar' 
                         ? 'نقاط حراسة مجهزة ومريحة للأمن والحماية.' 

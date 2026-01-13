@@ -620,6 +620,8 @@
             </div>
             <button class="btn" id="btnAutoNames" disabled>تسمية تلقائية</button>
             <button class="btn" id="btnApplyUploads" disabled>إضافة الصور للمشروع</button>
+            <button class="btn" id="btnRepairPick" disabled type="button">رفع الصور الناقصة</button>
+            <input id="repairPicker" type="file" accept="image/*" multiple class="hidden" />
           </div>
 
           <div class="panel" id="projectMetaPanel" style="border-radius: 12px; margin-bottom: 12px;">
@@ -786,7 +788,9 @@
       renameMap: new Map(),
       dragExistingIndex: null,
       /** @type {Array<{file: File, previewUrl: string, name: string, targetPath: (string|null), appliedPath: (string|null), projectSlug: (string|null)}>} */
-      uploads: []
+      uploads: [],
+      /** @type {Array<{file: File, optimizedFile: (File|null), name: string, targetPath: string, projectSlug: string}>} */
+      repairs: []
     };
 
     // ====== UTILS ======
@@ -876,11 +880,17 @@
       const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       const imgCount = p && Array.isArray(p.images) ? String(p.images.length) : '0';
       const uploadCount = String(state.uploads.length);
+      const repairCount = String((state.repairs || []).length);
       $('imgCount').textContent = imgCount;
       $('uploadCount').textContent = uploadCount;
       if ($('imgCountMobile')) $('imgCountMobile').textContent = imgCount;
       if ($('uploadCountMobile')) $('uploadCountMobile').textContent = uploadCount;
       if ($('btnReorderMobile')) $('btnReorderMobile').disabled = !p || !(p.images || []).length;
+      const repairBtn = $('btnRepairPick');
+      if (repairBtn) {
+        repairBtn.disabled = !p;
+        repairBtn.textContent = repairCount === '0' ? 'رفع الصور الناقصة' : `رفع الصور الناقصة (${repairCount})`;
+      }
     }
 
     function setStatus(text, kind) {
@@ -1221,12 +1231,64 @@
       updateActionsEnabled();
     }
 
+    function onPickRepairFiles(files) {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p) return;
+      const picked = Array.from(files || []);
+      if (!picked.length) return;
+
+      const baseDir = `assets/site_images/projects/portfolio_projects/${p.slug}`;
+
+      // Map by exact filename (case-sensitive) because GitHub paths are case-sensitive
+      const byName = new Map();
+      for (const f of picked) {
+        if (!f || !f.name) continue;
+        byName.set(String(f.name), f);
+      }
+
+      // Build repair ops for any selected file (upload to expected project folder)
+      state.repairs = Array.from(byName.entries()).map(([name, file]) => ({
+        file,
+        optimizedFile: null,
+        name,
+        targetPath: `${baseDir}/${name}`,
+        projectSlug: p.slug
+      }));
+
+      // Optimize large repair images immediately so publish is reliable
+      const pending = state.repairs.filter(r => r && r.file && !r.optimizedFile && r.file.size > 950 * 1024);
+      if (pending.length) {
+        (async () => {
+          try {
+            for (let i = 0; i < pending.length; i++) {
+              const r = pending[i];
+              setStatus(`ضغط صورة ناقصة ${i + 1}/${pending.length}: ${sanitizeFilename(r.file.name)}`, '');
+              setProgress(i + 1, pending.length);
+              const resOpt = await optimizeImageFile(r.file, { maxBytes: 950 * 1024, maxDim: 2200, preferWebp: true });
+              if (resOpt && resOpt.file && resOpt.changed) r.optimizedFile = resOpt.file;
+            }
+          } catch (e) {
+            handleError('فشل ضغط بعض الصور الناقصة (سيتم محاولة الرفع كما هي)', e);
+          } finally {
+            clearProgress();
+            setStatus('تم تجهيز الصور الناقصة للرفع. اضغط "نشر التعديلات".', 'ok');
+            updateCounts();
+          }
+        })();
+      } else {
+        setStatus('تم تجهيز الصور الناقصة للرفع. اضغط "نشر التعديلات".', 'ok');
+      }
+
+      updateCounts();
+    }
+
     // ====== ACTIONS ======
     function selectProject(slug) {
       state.selectedSlug = slug;
       state.deleteSet.clear();
       state.uploads.forEach(u => URL.revokeObjectURL(u.previewUrl));
       state.uploads = [];
+      state.repairs = [];
 
       const p = getProjectBySlug(slug);
       $('selectedTitle').textContent = p ? getProjectTitle(p) : 'اختر مشروع';
@@ -1242,6 +1304,7 @@
       $('imagePicker').disabled = !hasProject;
       $('btnAutoNames').disabled = !hasProject || state.uploads.length === 0;
       $('btnApplyUploads').disabled = !hasProject || state.uploads.length === 0;
+      if ($('btnRepairPick')) $('btnRepairPick').disabled = !hasProject;
       if ($('btnReorder')) $('btnReorder').disabled = !hasProject;
       if ($('editTitleAr')) $('editTitleAr').disabled = !hasProject;
       if ($('editTitleEn')) $('editTitleEn').disabled = !hasProject;
@@ -1956,7 +2019,8 @@
           clearProgress();
 
           // 1) Upload new files (bound to targetPath after "إضافة الصور للمشروع")
-          const uploadOps = state.uploads.filter(u => !!u && !!u.file && !!u.targetPath);
+          const uploadOps = state.uploads.filter(u => !!u && !!u.file && !!u.targetPath)
+            .concat((state.repairs || []).filter(r => !!r && !!r.file && !!r.targetPath));
           if (uploadOps.length) {
             for (let i = 0; i < uploadOps.length; i++) {
               const u = uploadOps[i];
@@ -2062,6 +2126,7 @@
         state.renameMap.clear();
         state.uploads.forEach(u => URL.revokeObjectURL(u.previewUrl));
         state.uploads = [];
+        state.repairs = [];
         clearProgress();
 
         setStatus('تم الرفع + النشر على GitHub Pages بنجاح ✅', 'ok');
@@ -2230,6 +2295,13 @@
       $('imagePicker').addEventListener('change', (e) => onPickFiles(e.target.files));
       $('btnAutoNames').addEventListener('click', autoNameUploads);
       $('btnApplyUploads').addEventListener('click', applyUploadsToProject);
+
+      if ($('btnRepairPick') && $('repairPicker')) {
+        $('btnRepairPick').addEventListener('click', () => {
+          try { $('repairPicker').click(); } catch (e) {}
+        });
+        $('repairPicker').addEventListener('change', (e) => onPickRepairFiles(e.target.files));
+      }
 
       if ($('btnSaveProjectTitles')) $('btnSaveProjectTitles').addEventListener('click', saveProjectTitles);
       if ($('btnRememberToken')) $('btnRememberToken').addEventListener('click', rememberToken);

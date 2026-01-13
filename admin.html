@@ -661,6 +661,8 @@
                   <option value="240">240 صورة</option>
                   <option value="0">الكل</option>
                 </select>
+                <button class="btn small" id="btnScanMissing" type="button" disabled>فحص المفقود</button>
+                <button class="btn small danger" id="btnRemoveMissing" type="button" disabled>حذف المفقود من المشروع</button>
                 <button class="btn small" id="btnReorder" disabled>ترتيب الصور</button>
               </div>
             </div>
@@ -790,7 +792,10 @@
       /** @type {Array<{file: File, previewUrl: string, name: string, targetPath: (string|null), appliedPath: (string|null), projectSlug: (string|null)}>} */
       uploads: [],
       /** @type {Array<{file: File, optimizedFile: (File|null), name: string, targetPath: string, projectSlug: string}>} */
-      repairs: []
+      repairs: [],
+      /** @type {Set<string>} */
+      missingSet: new Set(),
+      missingScanInProgress: false
     };
 
     // ====== UTILS ======
@@ -890,6 +895,17 @@
       if (repairBtn) {
         repairBtn.disabled = !p;
         repairBtn.textContent = repairCount === '0' ? 'رفع الصور الناقصة' : `رفع الصور الناقصة (${repairCount})`;
+      }
+
+      const scanBtn = $('btnScanMissing');
+      if (scanBtn) {
+        scanBtn.disabled = !p || state.missingScanInProgress;
+        scanBtn.textContent = state.missingScanInProgress ? 'جاري الفحص...' : 'فحص المفقود';
+      }
+      const rmBtn = $('btnRemoveMissing');
+      if (rmBtn) {
+        rmBtn.disabled = !p || state.missingScanInProgress || !(state.missingSet && state.missingSet.size);
+        rmBtn.textContent = (state.missingSet && state.missingSet.size) ? `حذف المفقود (${state.missingSet.size})` : 'حذف المفقود من المشروع';
       }
     }
 
@@ -1054,6 +1070,13 @@
         img.alt = '';
         img.loading = 'lazy';
         img.decoding = 'async';
+        if (state.missingSet && state.missingSet.has(path)) {
+          try {
+            img.style.opacity = '0.35';
+            img.style.filter = 'grayscale(0.85)';
+            img.title = 'مفقودة (404)';
+          } catch (e) {}
+        }
         thumb.appendChild(img);
 
         const nameInput = card.querySelector('input');
@@ -1289,6 +1312,8 @@
       state.uploads.forEach(u => URL.revokeObjectURL(u.previewUrl));
       state.uploads = [];
       state.repairs = [];
+      state.missingSet = new Set();
+      state.missingScanInProgress = false;
 
       const p = getProjectBySlug(slug);
       $('selectedTitle').textContent = p ? getProjectTitle(p) : 'اختر مشروع';
@@ -1296,6 +1321,91 @@
       if ($('editTitleAr')) $('editTitleAr').value = p ? (p.titleAr || '') : '';
       if ($('editTitleEn')) $('editTitleEn').value = p ? (p.titleEn || '') : '';
       refreshUI();
+    }
+
+    function getProjectPageUrlForPath(sitePath) {
+      const p = String(sitePath || '').trim();
+      if (!p) return '';
+      try {
+        // admin.html lives under /Artrova/, so relative URLs will resolve correctly on GitHub Pages.
+        return new URL(p.replace(/^\.\//, '').replace(/^\//, ''), window.location.href).toString();
+      } catch (e) {
+        return p;
+      }
+    }
+
+    async function checkUrlExists(url) {
+      if (!url) return false;
+      try {
+        const head = await fetch(url + (url.includes('?') ? `&ts=${Date.now()}` : `?ts=${Date.now()}`), { method: 'HEAD', cache: 'no-store' });
+        if (head.ok) return true;
+        // Some servers might block HEAD; fallback to GET of just headers
+        if (head.status === 405 || head.status === 403) {
+          const get = await fetch(url + (url.includes('?') ? `&ts=${Date.now()}` : `?ts=${Date.now()}`), { method: 'GET', cache: 'no-store' });
+          return !!get.ok;
+        }
+        return false;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    async function scanMissingImages() {
+      const proj = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!proj || !Array.isArray(proj.images) || !proj.images.length) {
+        setStatus('لا يوجد صور للفحص.', 'danger');
+        return;
+      }
+      if (isFileProtocol()) {
+        setStatus('افتح الأدمن عبر https://artovastudio.github.io/Artrova/ أو localhost عشان الفحص يشتغل.', 'danger');
+        return;
+      }
+
+      state.missingScanInProgress = true;
+      state.missingSet = new Set();
+      updateCounts();
+
+      const imgs = proj.images.slice();
+      try {
+        for (let i = 0; i < imgs.length; i++) {
+          const path = imgs[i];
+          const url = getProjectPageUrlForPath(path);
+          setStatus(`فحص الصور... ${i + 1}/${imgs.length}`, '');
+          setProgress(i + 1, imgs.length);
+          const ok = await checkUrlExists(url);
+          if (!ok) state.missingSet.add(path);
+        }
+        clearProgress();
+        state.missingScanInProgress = false;
+        updateCounts();
+        renderExistingImages();
+        const count = state.missingSet.size;
+        if (!count) setStatus('لا يوجد صور مفقودة ✅', 'ok');
+        else setStatus(`تم العثور على ${count} صور مفقودة (404). يمكنك حذفها من المشروع بزر واحد.`, 'danger');
+      } catch (e) {
+        clearProgress();
+        state.missingScanInProgress = false;
+        updateCounts();
+        handleError('فشل فحص الصور', e);
+      }
+    }
+
+    function removeMissingFromProject() {
+      const proj = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!proj || !Array.isArray(proj.images)) return;
+      const missing = Array.from(state.missingSet || []);
+      if (!missing.length) {
+        setStatus('لا يوجد صور مفقودة للحذف.', 'ok');
+        return;
+      }
+      const ok = confirm(`سيتم حذف ${missing.length} صورة مفقودة (404) من بيانات المشروع فقط (JSON). المتابعة؟`);
+      if (!ok) return;
+      proj.images = proj.images.filter((x) => !state.missingSet.has(x));
+      proj.cover = (proj.images || [])[0] || '';
+      proj.imageCount = (proj.images || []).length;
+      state.missingSet = new Set();
+      refreshUI();
+      setStatus('تم حذف روابط الصور المكسورة من المشروع محليًا. اضغط "نشر التعديلات" لتطبيقها على الموقع.', 'ok');
     }
 
     function updateActionsEnabled() {
@@ -2302,6 +2412,9 @@
         });
         $('repairPicker').addEventListener('change', (e) => onPickRepairFiles(e.target.files));
       }
+
+      if ($('btnScanMissing')) $('btnScanMissing').addEventListener('click', scanMissingImages);
+      if ($('btnRemoveMissing')) $('btnRemoveMissing').addEventListener('click', removeMissingFromProject);
 
       if ($('btnSaveProjectTitles')) $('btnSaveProjectTitles').addEventListener('click', saveProjectTitles);
       if ($('btnRememberToken')) $('btnRememberToken').addEventListener('click', rememberToken);

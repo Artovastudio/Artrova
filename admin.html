@@ -605,9 +605,7 @@
                 <span class="pill">جديدة: <span id="uploadCountMobile">0</span></span>
               </div>
             </div>
-            <div class="row" style="gap:8px;">
-              <button class="btn small" id="btnReorderMobile" type="button" disabled>ترتيب</button>
-            </div>
+            <div class="row" style="gap:8px;"></div>
           </div>
           <div id="fileProtoNotice" class="notice danger hidden" style="margin-bottom: 10px;">
             لن تعمل قراءة الملفات/الرفع عند فتح الصفحة عبر <code>file://</code>. شغّل Live Server أو افتح عبر <code>http://localhost</code>.
@@ -618,10 +616,7 @@
               <label>رفع صور للمشروع (اختيار متعدد)</label>
               <input id="imagePicker" type="file" accept="image/*" multiple disabled />
             </div>
-            <button class="btn" id="btnAutoNames" disabled>تسمية تلقائية</button>
-            <button class="btn" id="btnApplyUploads" disabled>إضافة الصور للمشروع</button>
-            <button class="btn" id="btnRepairPick" disabled type="button">رفع الصور الناقصة</button>
-            <input id="repairPicker" type="file" accept="image/*" multiple webkitdirectory directory class="hidden" />
+            <button class="btn primary" id="btnQuickUpload" type="button" disabled style="min-width: 220px;">رفع الصور ونشر فورًا</button>
           </div>
 
           <div class="panel" id="projectMetaPanel" style="border-radius: 12px; margin-bottom: 12px;">
@@ -661,23 +656,10 @@
                   <option value="240">240 صورة</option>
                   <option value="0">الكل</option>
                 </select>
-                <button class="btn small" id="btnScanMissing" type="button" disabled>فحص المفقود</button>
-                <button class="btn small danger" id="btnRemoveMissing" type="button" disabled>حذف المفقود من المشروع</button>
-                <button class="btn small" id="btnReorder" disabled>ترتيب الصور</button>
               </div>
             </div>
             <div class="panel-body">
               <div class="imgs" id="existingImages"></div>
-            </div>
-          </div>
-
-          <div class="panel" id="uploadPreviewPanel" style="border-radius: 12px;">
-            <div class="panel-header">
-              <h2 style="margin:0; font-size:0.92rem;">صور جديدة (Preview قبل الإضافة)</h2>
-              <span class="pill" id="uploadCount">0</span>
-            </div>
-            <div class="panel-body">
-              <div class="imgs" id="uploadPreview"></div>
             </div>
           </div>
 
@@ -703,13 +685,9 @@
                   <button class="btn" id="btnRememberToken" type="button">تذكّر التوكن على هذا الجهاز</button>
                 </div>
                 <button class="btn" id="btnReloadData" type="button">تحديث البيانات</button>
-                <button class="btn primary" id="btnOneClickPublish" disabled>رفع + نشر فوري</button>
-                <button class="btn ok" id="btnPublish" disabled>نشر التعديلات</button>
-                <button class="btn primary" id="btnSync" disabled>حفظ + رفع على GitHub</button>
-                <button class="btn" id="btnExportJson" disabled>Export JSON</button>
               </div>
 
-              <div class="notice" id="statusBox" style="margin-top: 10px;">جاهز.</div>
+              <div class="notice" id="statusBox" style="margin-top: 10px; white-space: pre-line;">جاهز.</div>
               <div id="progressWrap" class="hidden" style="margin-top:10px;">
                 <div class="notice" style="margin:0 0 8px 0;">التقدم: <span id="progressText">0%</span></div>
                 <div style="border:1px solid var(--border); border-radius:999px; overflow:hidden; background: rgba(2,6,23,0.35); height: 12px;">
@@ -746,24 +724,7 @@
     </div>
   </div>
 
-  <div id="reorderModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modal-card panel">
-      <div class="panel-header">
-        <h2>ترتيب الصور</h2>
-        <div class="row">
-          <button class="btn small" id="btnReorderAuto" type="button">ترتيب تلقائي (حسب الاسم)</button>
-          <button class="btn ok small" id="btnReorderSave" type="button">حفظ الترتيب</button>
-          <button class="btn danger small" id="btnReorderClose" type="button">إغلاق</button>
-        </div>
-      </div>
-      <div class="panel-body">
-        <div class="notice" style="margin-bottom:10px;">
-          اسحب الكروت من أيقونة السحب لترتيب الصور. أول صورة ستكون الغلاف.
-        </div>
-        <div id="reorderList" class="reorder-list"></div>
-      </div>
-    </div>
-  </div>
+
 
   <script>
     // ====== CONFIG ======
@@ -885,27 +846,15 @@
       const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       const imgCount = p && Array.isArray(p.images) ? String(p.images.length) : '0';
       const uploadCount = String(state.uploads.length);
-      const repairCount = String((state.repairs || []).length);
-      $('imgCount').textContent = imgCount;
-      $('uploadCount').textContent = uploadCount;
+      if ($('imgCount')) $('imgCount').textContent = imgCount;
+      if ($('uploadCount')) $('uploadCount').textContent = uploadCount;
       if ($('imgCountMobile')) $('imgCountMobile').textContent = imgCount;
       if ($('uploadCountMobile')) $('uploadCountMobile').textContent = uploadCount;
-      if ($('btnReorderMobile')) $('btnReorderMobile').disabled = !p || !(p.images || []).length;
-      const repairBtn = $('btnRepairPick');
-      if (repairBtn) {
-        repairBtn.disabled = !p;
-        repairBtn.textContent = repairCount === '0' ? 'رفع الصور الناقصة' : `رفع الصور الناقصة (${repairCount})`;
-      }
 
-      const scanBtn = $('btnScanMissing');
-      if (scanBtn) {
-        scanBtn.disabled = !p || state.missingScanInProgress;
-        scanBtn.textContent = state.missingScanInProgress ? 'جاري الفحص...' : 'فحص المفقود';
-      }
-      const rmBtn = $('btnRemoveMissing');
-      if (rmBtn) {
-        rmBtn.disabled = !p || state.missingScanInProgress || !(state.missingSet && state.missingSet.size);
-        rmBtn.textContent = (state.missingSet && state.missingSet.size) ? `حذف المفقود (${state.missingSet.size})` : 'حذف المفقود من المشروع';
+      const quickBtn = $('btnQuickUpload');
+      if (quickBtn) {
+        quickBtn.disabled = !p || state.uploads.length === 0;
+        quickBtn.textContent = state.uploads.length ? `رفع الصور ونشر فورًا (${state.uploads.length})` : 'رفع الصور ونشر فورًا';
       }
     }
 
@@ -1146,6 +1095,7 @@
 
     function renderUploadPreview() {
       const wrap = $('uploadPreview');
+      if (!wrap) return;
       wrap.innerHTML = '';
 
       const frag = document.createDocumentFragment();
@@ -1250,7 +1200,6 @@
     function refreshUI() {
       renderProjects();
       renderExistingImages();
-      renderUploadPreview();
       updateActionsEnabled();
     }
 
@@ -1437,19 +1386,13 @@
       const hasProject = !!state.selectedSlug && !!getProjectBySlug(state.selectedSlug);
       $('btnDeleteProject').disabled = !hasProject;
       $('imagePicker').disabled = !hasProject;
-      $('btnAutoNames').disabled = !hasProject || state.uploads.length === 0;
-      $('btnApplyUploads').disabled = !hasProject || state.uploads.length === 0;
-      if ($('btnRepairPick')) $('btnRepairPick').disabled = !hasProject;
-      if ($('btnReorder')) $('btnReorder').disabled = !hasProject;
+      if ($('btnQuickUpload')) $('btnQuickUpload').disabled = !hasProject || state.uploads.length === 0;
       if ($('editTitleAr')) $('editTitleAr').disabled = !hasProject;
       if ($('editTitleEn')) $('editTitleEn').disabled = !hasProject;
       if ($('btnSaveProjectTitles')) $('btnSaveProjectTitles').disabled = !hasProject;
 
       const canExport = !!(state.data && Array.isArray(state.data.projects));
-      $('btnExportJson').disabled = !canExport;
-      $('btnPublish').disabled = !canExport;
-      if ($('btnSync')) $('btnSync').disabled = !canExport;
-      if ($('btnOneClickPublish')) $('btnOneClickPublish').disabled = !canExport;
+      // simplified mode: publishing happens via the main button
     }
 
     function openReorderModal() {
@@ -1781,16 +1724,39 @@
     }
 
     function onPickFiles(files) {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       const picked = Array.from(files || []);
-      if (!picked.length) return;
+      if (!p || !picked.length) return;
+
+      // reset current uploads in simplified mode
+      state.uploads.forEach(u => { try { if (u.previewUrl) URL.revokeObjectURL(u.previewUrl); } catch (_) {} });
+      state.uploads = [];
+
+      const baseDir = `assets/site_images/projects/portfolio_projects/${p.slug}`;
+      const used = new Set((p.images || []).map(x => String(x).split('/').pop() || ''));
+      let n = (p.images || []).length + 1;
 
       for (const f of picked) {
-        const url = URL.createObjectURL(f);
-        state.uploads.push({ file: f, optimizedFile: null, previewUrl: url, name: sanitizeFilename(f.name), targetPath: null, appliedPath: null, projectSlug: null });
+        const ext = '.jpg';
+        let name;
+        do {
+          name = `${String(n).padStart(3, '0')}${ext}`;
+          n++;
+        } while (used.has(name));
+        used.add(name);
+
+        const relPath = `${baseDir}/${name}`;
+        state.uploads.push({ file: f, optimizedFile: null, previewUrl: null, name, targetPath: relPath, appliedPath: relPath, projectSlug: p.slug });
       }
 
-      renderUploadPreview();
-      updateActionsEnabled();
+      // immediately update JSON so publish is just "upload + update json"
+      p.images = Array.isArray(p.images) ? p.images : [];
+      for (const u of state.uploads) p.images.push(u.targetPath);
+      p.cover = (p.images || [])[0] || '';
+      p.imageCount = (p.images || []).length;
+
+      setStatus(`تم اختيار ${state.uploads.length} صورة. اضغط "رفع الصور ونشر فورًا".`, 'ok');
+      refreshUI();
     }
 
     function moveUpload(index, delta) {
@@ -2123,13 +2089,18 @@
     async function publish() {
       const token = $('ghToken').value.trim();
       if (!token) {
-        alert('الصق GitHub Token');
+        setStatus('فشل الرفع\nالسبب: GitHub Token غير موجود\nالحل: الصق Token صحيح ثم أعد المحاولة', 'danger');
         return;
       }
 
-      const pendingNoTarget = state.uploads.filter(u => !!u && !!u.file && !u.targetPath);
-      if (pendingNoTarget.length) {
-        alert('في صور تم اختيارها من الجهاز لكن لم يتم إضافتها للمشروع بعد. اضغط "إضافة الصور للمشروع" أولاً.');
+      if (!state.selectedSlug || !getProjectBySlug(state.selectedSlug)) {
+        setStatus('فشل الرفع\nالسبب: لم يتم اختيار مشروع\nالحل: اختر مشروع أولاً', 'danger');
+        return;
+      }
+
+      const uploadOps = state.uploads.filter(u => !!u && !!u.file && !!u.targetPath);
+      if (!uploadOps.length) {
+        setStatus('فشل الرفع\nالسبب: لم يتم اختيار صور\nالحل: اختر صور أولاً ثم اضغط زر الرفع', 'danger');
         return;
       }
 
@@ -2150,17 +2121,15 @@
         for (let bi = 0; bi < branches.length; bi++) {
           const branch = branches[bi];
           const gh = createGithubClient(owner, repo, branch, token);
-          setStatus(`بدء النشر على ${branch}... (قد يأخذ وقت حسب عدد الصور)`, '');
+          setStatus(`جاري الرفع...\n(الفرع: ${branch})`, '');
           clearProgress();
 
           // 1) Upload new files (bound to targetPath after "إضافة الصور للمشروع")
-          const uploadOps = state.uploads.filter(u => !!u && !!u.file && !!u.targetPath)
-            .concat((state.repairs || []).filter(r => !!r && !!r.file && !!r.targetPath));
           if (uploadOps.length) {
             for (let i = 0; i < uploadOps.length; i++) {
               const u = uploadOps[i];
               const repoPath = sitePathToRepoPath(u.targetPath);
-              setStatus(`(${branch}) رفع صورة ${i + 1}/${uploadOps.length}: ${repoPath}`, '');
+              setStatus(`جاري الرفع...\nتم رفع ${i}/${uploadOps.length} صور\nالآن: ${repoPath}`, '');
               setProgress(i + 1, uploadOps.length);
 
               let sha = undefined;
@@ -2172,7 +2141,7 @@
               let fileToSend = u.optimizedFile || u.file;
               try {
                 if (!u.optimizedFile && u.file && u.file.size > 950 * 1024) {
-                  const resOpt = await optimizeImageFile(u.file, { maxBytes: 950 * 1024, maxDim: 2200, preferWebp: true });
+                  const resOpt = await optimizeImageFile(u.file, { maxBytes: 950 * 1024, maxDim: 2200, preferWebp: false });
                   if (resOpt && resOpt.file && resOpt.changed) {
                     u.optimizedFile = resOpt.file;
                     fileToSend = u.optimizedFile;
@@ -2253,7 +2222,7 @@
           }
 
           // 4) Update JSON (strong retry on SHA mismatch)
-          setStatus(`(${branch}) تحديث data/portfolio_projects.json ...`, '');
+          setStatus(`تم رفع ${uploadOps.length} صورة\nجاري تحديث البيانات...`, '');
           await putPortfolioProjectsJsonWithRetry(gh, payload, branch);
         }
 
@@ -2261,14 +2230,19 @@
         state.renameMap.clear();
         state.uploads.forEach(u => URL.revokeObjectURL(u.previewUrl));
         state.uploads = [];
-        state.repairs = [];
         clearProgress();
 
-        setStatus('تم الرفع + النشر على GitHub Pages بنجاح ✅', 'ok');
+        setStatus(`تم رفع ${uploadOps.length} صورة بنجاح\nتم تحديث البيانات\nتم النشر بنجاح`, 'ok');
         refreshUI();
       } catch (e) {
         clearProgress();
-        handleError('فشل النشر', e);
+        const msg = String(e && e.message ? e.message : e);
+        const isAuth = msg.toLowerCase().includes('bad credentials') || msg.toLowerCase().includes('requires authentication') || msg.toLowerCase().includes('401');
+        if (isAuth) {
+          setStatus('فشل الرفع\nالسبب: GitHub Token غير صحيح\nالحل: راجع الـToken (صلاحية repo + contents) ثم أعد المحاولة', 'danger');
+        } else {
+          handleError('فشل الرفع', e);
+        }
       }
     }
 
@@ -2323,15 +2297,7 @@
       const mobileSyncBtn = $('mobilePrimarySync');
       if (mobileSyncBtn) {
         mobileSyncBtn.addEventListener('click', () => {
-          const btn = $('btnOneClickPublish') || $('btnSync');
-          if (btn) btn.click();
-        });
-      }
-
-      const mobileReorderBtn = $('btnReorderMobile');
-      if (mobileReorderBtn) {
-        mobileReorderBtn.addEventListener('click', () => {
-          const btn = $('btnReorder');
+          const btn = $('btnQuickUpload');
           if (btn) btn.click();
         });
       }
@@ -2424,37 +2390,18 @@
         });
       }
 
-      $('btnAddProject').addEventListener('click', addProject);
-      $('btnDeleteProject').addEventListener('click', deleteProject);
+      if ($('btnAddProject')) $('btnAddProject').addEventListener('click', addProject);
+      if ($('btnDeleteProject')) $('btnDeleteProject').addEventListener('click', deleteProject);
 
-      $('imagePicker').addEventListener('change', (e) => onPickFiles(e.target.files));
-      $('btnAutoNames').addEventListener('click', autoNameUploads);
-      $('btnApplyUploads').addEventListener('click', applyUploadsToProject);
-
-      if ($('btnRepairPick') && $('repairPicker')) {
-        $('btnRepairPick').addEventListener('click', () => {
-          try { $('repairPicker').click(); } catch (e) {}
-        });
-        $('repairPicker').addEventListener('change', (e) => onPickRepairFiles(e.target.files));
-      }
-
-      if ($('btnScanMissing')) $('btnScanMissing').addEventListener('click', scanMissingImages);
-      if ($('btnRemoveMissing')) $('btnRemoveMissing').addEventListener('click', removeMissingFromProject);
+      if ($('imagePicker')) $('imagePicker').addEventListener('change', (e) => onPickFiles(e.target.files));
+      if ($('btnQuickUpload')) $('btnQuickUpload').addEventListener('click', publish);
 
       if ($('btnSaveProjectTitles')) $('btnSaveProjectTitles').addEventListener('click', saveProjectTitles);
       if ($('btnRememberToken')) $('btnRememberToken').addEventListener('click', rememberToken);
       if ($('btnReloadData')) $('btnReloadData').addEventListener('click', reloadData);
       tryLoadRememberedToken();
 
-      $('btnExportJson').addEventListener('click', exportJson);
-      $('btnPublish').addEventListener('click', publish);
-      if ($('btnSync')) $('btnSync').addEventListener('click', syncNow);
-      if ($('btnOneClickPublish')) $('btnOneClickPublish').addEventListener('click', publish);
-
-      if ($('btnReorder')) $('btnReorder').addEventListener('click', openReorderModal);
-      if ($('btnReorderClose')) $('btnReorderClose').addEventListener('click', closeReorderModal);
-      if ($('btnReorderSave')) $('btnReorderSave').addEventListener('click', saveReorderDraft);
-      if ($('btnReorderAuto')) $('btnReorderAuto').addEventListener('click', autoSortReorderDraft);
+      // simplified mode: no export / extra publish buttons / reorder UI
 
       try {
         await loadPortfolioJson(true);

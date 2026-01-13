@@ -1036,10 +1036,11 @@
       "images": [
         "assets/site_images/projects/portfolio_projects/home/000241.jpg",
         "assets/site_images/projects/portfolio_projects/home/000330.jpg",
-        "assets/site_images/projects/portfolio_projects/home/000430.jpg"
+        "assets/site_images/projects/portfolio_projects/home/000430.jpg",
+        "assets/site_images/projects/portfolio_projects/home/000433.jpg"
       ],
       "cover": "assets/site_images/projects/portfolio_projects/home/000241.jpg",
-      "imageCount": 3
+      "imageCount": 4
     }
   ]
 }

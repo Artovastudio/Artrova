@@ -33,6 +33,16 @@
     a { color: var(--primary); }
     .wrap { max-width: 1220px; margin: 0 auto; padding: 18px; }
 
+    .kbd {
+      padding: 2px 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.06);
+      white-space: nowrap;
+    }
+
     .topbar {
       position: sticky;
       top: 0;
@@ -125,6 +135,34 @@
       max-height: 62vh;
       overflow: auto;
       padding-right: 6px;
+    }
+
+    .searchbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .searchbar input[type="text"] {
+      flex: 1;
+      min-width: 240px;
+    }
+    .searchbar .hint {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .header-controls select {
+      width: auto;
+      min-width: 140px;
     }
 
     .project-grid {
@@ -524,6 +562,10 @@
           <span class="pill" id="projectCount">0</span>
         </div>
         <div class="panel-body">
+          <div class="searchbar">
+            <input id="projectSearch" type="text" placeholder="ابحث عن مشروع بالاسم أو الـslug..." />
+            <span class="kbd">Ctrl + K</span>
+          </div>
           <div class="row" style="align-items:flex-end; margin-bottom: 10px;">
             <div class="col" style="flex:1; min-width: 220px;">
               <label>اسم المشروع (AR)</label>
@@ -609,7 +651,14 @@
             <div class="panel-header">
               <h2 style="margin:0; font-size:0.92rem;">قائمة الصور (داخل المشروع)</h2>
               <span class="pill" id="imgCount">0</span>
-              <div class="row">
+              <div class="header-controls">
+                <label style="font-size:0.82rem; color: var(--muted);">عرض</label>
+                <select id="existingLimit" aria-label="عدد الصور المعروضة">
+                  <option value="60">60 صورة</option>
+                  <option value="120">120 صورة</option>
+                  <option value="240">240 صورة</option>
+                  <option value="0">الكل</option>
+                </select>
                 <button class="btn small" id="btnReorder" disabled>ترتيب الصور</button>
               </div>
             </div>
@@ -731,6 +780,8 @@
       authed: false,
       data: { source: 'portfolio_projects', count: 0, projects: [] },
       selectedSlug: null,
+      projectSearch: '',
+      existingLimit: 60,
       deleteSet: new Set(),
       renameMap: new Map(),
       dragExistingIndex: null,
@@ -853,8 +904,18 @@
     function renderProjects() {
       const list = $('projectList');
       list.innerHTML = '';
-      const projects = (state.data.projects || []).slice().sort((a,b) => String(getProjectTitle(a)).localeCompare(String(getProjectTitle(b))));
+      const q = String(state.projectSearch || '').trim().toLowerCase();
+      const projects = (state.data.projects || [])
+        .slice()
+        .filter((p) => {
+          if (!q) return true;
+          const t = String(getProjectTitle(p) || '').toLowerCase();
+          const s = String(p && p.slug ? p.slug : '').toLowerCase();
+          return t.includes(q) || s.includes(q);
+        })
+        .sort((a,b) => String(getProjectTitle(a)).localeCompare(String(getProjectTitle(b))));
 
+      const frag = document.createDocumentFragment();
       for (const p of projects) {
         const div = document.createElement('div');
         div.className = 'project-card' + (p.slug === state.selectedSlug ? ' active' : '');
@@ -867,8 +928,10 @@
         `;
         div.querySelector('.overlay').textContent = getProjectTitle(p);
         div.addEventListener('click', () => selectProject(p.slug));
-        list.appendChild(div);
+        frag.appendChild(div);
       }
+
+      list.appendChild(frag);
 
       updateCounts();
     }
@@ -879,7 +942,12 @@
       const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       const imgs = p && Array.isArray(p.images) ? p.images : [];
 
-      for (let idx = 0; idx < imgs.length; idx++) {
+      const limit = Number(state.existingLimit || 0);
+      const max = (!limit || Number.isNaN(limit) || limit <= 0) ? imgs.length : Math.min(imgs.length, limit);
+
+      const frag = document.createDocumentFragment();
+
+      for (let idx = 0; idx < max; idx++) {
         const path = imgs[idx];
         const originalPath = path;
         const currentFile = String(path).split('/').pop() || '';
@@ -973,8 +1041,10 @@
           renderExistingImages();
         });
 
-        wrap.appendChild(card);
+        frag.appendChild(card);
       }
+
+      wrap.appendChild(frag);
 
       updateCounts();
     }
@@ -983,9 +1053,11 @@
       const wrap = $('uploadPreview');
       wrap.innerHTML = '';
 
+      const frag = document.createDocumentFragment();
       state.uploads.forEach((u, idx) => {
         const card = document.createElement('div');
         card.className = 'img-card';
+        card.dataset.uploadIdx = String(idx);
         card.innerHTML = `
           <div class="thumb"><img src="${u.previewUrl}" alt="" /></div>
           <div class="img-badge">${String(idx + 1)}</div>
@@ -1042,7 +1114,10 @@
 
             state.uploads[idx].targetPath = newPath;
             state.uploads[idx].appliedPath = newPath;
-            renderUploadPreview();
+            try {
+              const targetInput = card.querySelectorAll('input')[1];
+              if (targetInput) targetInput.value = newPath;
+            } catch (e) {}
           }
         });
 
@@ -1069,8 +1144,10 @@
           removeUpload(idx);
         });
 
-        wrap.appendChild(card);
+        frag.appendChild(card);
       });
+
+      wrap.appendChild(frag);
 
       updateCounts();
     }
@@ -1907,6 +1984,42 @@
 
     async function boot() {
       $('fileProtoNotice').classList.toggle('hidden', !isFileProtocol());
+
+      const search = $('projectSearch');
+      if (search) {
+        search.addEventListener('input', (e) => {
+          state.projectSearch = String(e.target.value || '');
+          renderProjects();
+        });
+        search.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            e.target.value = '';
+            state.projectSearch = '';
+            renderProjects();
+          }
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+          const el = $('projectSearch');
+          if (el) {
+            e.preventDefault();
+            el.focus();
+          }
+        }
+      });
+
+      const limitSel = $('existingLimit');
+      if (limitSel) {
+        try { limitSel.value = String(state.existingLimit); } catch (e) {}
+        limitSel.addEventListener('change', (e) => {
+          const v = parseInt(String(e.target.value || '60'), 10);
+          state.existingLimit = Number.isNaN(v) ? 60 : v;
+          renderExistingImages();
+        });
+      }
 
       $('btnAddProject').addEventListener('click', addProject);
       $('btnDeleteProject').addEventListener('click', deleteProject);

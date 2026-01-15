@@ -75,11 +75,23 @@
     @media (max-width: 720px){ .imgs{grid-template-columns: repeat(3, 1fr);} }
     @media (max-width: 460px){ .imgs{grid-template-columns: repeat(2, 1fr);} }
 
+    .projects{display:grid; grid-template-columns: 1fr; gap:10px;}
+    .proj{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.18); overflow:hidden; cursor:pointer; transition: transform .06s ease, background .2s ease, border-color .2s ease;}
+    .proj:hover{background: rgba(255,255,255,.06);}
+    .proj:active{transform: translateY(1px);}
+    .proj.sel{border-color: rgba(240,138,192,.55); box-shadow: 0 0 0 2px rgba(240,138,192,.12) inset;}
+    .proj .thumb{aspect-ratio: 16/9; background: rgba(0,0,0,.35);}
+    .proj .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+    .proj .meta{padding:10px 10px; display:flex; flex-direction:column; gap:8px;}
+    .proj .meta .t{font-weight:800; font-size:.95rem;}
+    .proj .meta .s{font-size:.82rem; color: var(--muted);}
+
     .img{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.22); overflow:hidden;}
     .img .thumb{aspect-ratio: 1/1; background: rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center;}
     .img img{width:100%; height:100%; object-fit:cover; display:block;}
     .img .meta{padding:10px 10px; display:flex; flex-direction:column; gap:8px;}
     .img .name{font-size:.86rem; color: rgba(255,255,255,.78); overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
+    .img .name input{width:100%; padding:9px 10px; border-radius: 12px; border:1px solid var(--border); background: rgba(2,6,23,.55); color:var(--text); outline:none;}
 
     .sep{height:1px; background: var(--border); margin:12px 0;}
 
@@ -131,6 +143,10 @@
               <select id="projectSelect"></select>
             </div>
           </div>
+
+          <div class="sep"></div>
+
+          <div class="projects" id="projectsGrid"></div>
 
           <div class="sep"></div>
 
@@ -221,7 +237,9 @@
         deletes: new Set(),
         dirtyJson: false,
         projectDeletes: new Set(),
-        nameEdits: new Map()
+        nameEdits: new Map(),
+        coverEdits: new Map(),
+        orderEdits: new Map()
       },
       publishInFlight: false
     };
@@ -374,22 +392,109 @@
       if (state.selectedSlug) {
         try { sel.value = state.selectedSlug; } catch (e) {}
       }
+
+      const grid = $('projectsGrid');
+      if (grid) {
+        grid.innerHTML = '';
+        for (const p of list) {
+          const slug = String(p.slug);
+          const edited = state.pending.nameEdits.get(slug);
+          const effective = edited ? ({ ...p, ...edited }) : p;
+          const order = getOrderedVisibleImagesForProject(p);
+
+          const coverPref = state.pending.coverEdits.get(slug);
+          let cover = coverPref || String(effective.cover || '') || (order[0] || '');
+          if (cover && state.pending.deletes.has(cover)) cover = order[0] || '';
+
+          const card = document.createElement('div');
+          card.className = 'proj' + (state.selectedSlug === slug ? ' sel' : '');
+          card.addEventListener('click', () => {
+            try { sel.value = slug; } catch (e) {}
+            selectProject(slug);
+          });
+
+          const th = document.createElement('div');
+          th.className = 'thumb';
+          if (cover) {
+            const im = document.createElement('img');
+            const staged = getStagedUploadByTargetPath(slug, cover);
+            im.loading = 'lazy';
+            im.src = staged && staged.previewUrl ? staged.previewUrl : cover;
+            im.alt = '';
+            th.appendChild(im);
+          }
+
+          const meta = document.createElement('div');
+          meta.className = 'meta';
+          const t = document.createElement('div');
+          t.className = 't';
+          t.textContent = getProjectTitle(effective);
+          const s = document.createElement('div');
+          s.className = 's';
+          s.textContent = `${slug} — ${order.length} صورة`;
+
+          meta.appendChild(t);
+          meta.appendChild(s);
+
+          card.appendChild(th);
+          card.appendChild(meta);
+          grid.appendChild(card);
+        }
+      }
     }
 
     function computePendingCount() {
-      return (state.pending.uploads.length) + (state.pending.deletes.size) + (state.pending.projectDeletes.size) + (state.pending.nameEdits.size) + (state.pending.dirtyJson ? 1 : 0);
+      return (state.pending.uploads.length) + (state.pending.deletes.size) + (state.pending.projectDeletes.size) + (state.pending.nameEdits.size) + (state.pending.coverEdits.size) + (state.pending.orderEdits.size) + (state.pending.dirtyJson ? 1 : 0);
     }
 
     function getStagedUploadsForProject(slug) {
       return state.pending.uploads.filter(u => u && String(u.projectSlug) === String(slug));
     }
 
+    function getStagedUploadByTargetPath(slug, targetPath) {
+      const list = getStagedUploadsForProject(slug);
+      for (const u of list) {
+        if (u && String(u.targetPath) === String(targetPath)) return u;
+      }
+      return null;
+    }
+
+    function normalizeOrderForProject(p, preferredOrder) {
+      const base = Array.isArray(p.images) ? p.images.slice() : [];
+      const staged = getStagedUploadsForProject(p.slug).map(u => u.targetPath);
+      const universe = base.concat(staged).filter(x => x && !state.pending.deletes.has(x));
+      const inUniverse = new Set(universe);
+
+      const initial = Array.isArray(preferredOrder) ? preferredOrder.slice() : [];
+      const out = [];
+      const used = new Set();
+
+      for (const x of initial) {
+        if (inUniverse.has(x) && !used.has(x)) {
+          used.add(x);
+          out.push(x);
+        }
+      }
+
+      for (const x of universe) {
+        if (!used.has(x)) {
+          used.add(x);
+          out.push(x);
+        }
+      }
+
+      return out;
+    }
+
+    function getOrderedVisibleImagesForProject(p) {
+      if (!p) return [];
+      const pref = state.pending.orderEdits.get(String(p.slug));
+      return normalizeOrderForProject(p, pref);
+    }
+
     function getVisibleImagesForProject(p) {
       if (!p) return [];
-      const base = Array.isArray(p.images) ? p.images.slice() : [];
-      const kept = base.filter(img => !state.pending.deletes.has(img));
-      const staged = getStagedUploadsForProject(p.slug).map(u => u.targetPath);
-      return kept.concat(staged);
+      return getOrderedVisibleImagesForProject(p);
     }
 
     function updateKpis() {
@@ -413,10 +518,11 @@
       const canPublish = computePendingCount() > 0;
       $('btnPublish').disabled = !canPublish;
 
-      $('editorTitle').textContent = has ? `تحرير: ${getProjectTitle(p)}` : 'تحرير المشروع';
+      const edited = has ? state.pending.nameEdits.get(String(p.slug)) : null;
+      const effective = has && edited ? ({ ...p, ...edited }) : p;
+      $('editorTitle').textContent = has ? `تحرير: ${getProjectTitle(effective)}` : 'تحرير المشروع';
       $('slugPill').textContent = has ? p.slug : '—';
 
-      const edited = has ? state.pending.nameEdits.get(String(p.slug)) : null;
       $('titleAr').value = has ? String((edited && edited.titleAr) || p.titleAr || '') : '';
       $('titleEn').value = has ? String((edited && edited.titleEn) || p.titleEn || '') : '';
 
@@ -433,10 +539,15 @@
       const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
       if (!p) return;
 
-      const existing = (Array.isArray(p.images) ? p.images : []).filter(img => !state.pending.deletes.has(img));
-      const stagedUploads = getStagedUploadsForProject(p.slug);
+      const slug = String(p.slug);
+      const order = getOrderedVisibleImagesForProject(p);
+      const coverPref = state.pending.coverEdits.get(slug);
+      let effectiveCover = coverPref || String(p.cover || '') || (order[0] || '');
+      if (effectiveCover && state.pending.deletes.has(effectiveCover)) effectiveCover = order[0] || '';
 
-      for (const path of existing) {
+      for (let idx = 0; idx < order.length; idx++) {
+        const path = order[idx];
+        const staged = getStagedUploadByTargetPath(slug, path);
         const card = document.createElement('div');
         card.className = 'img';
 
@@ -444,61 +555,72 @@
         thumb.className = 'thumb';
         const im = document.createElement('img');
         im.loading = 'lazy';
-        im.src = String(path);
+        im.src = staged && staged.previewUrl ? staged.previewUrl : String(path);
         im.alt = '';
+        im.addEventListener('click', (e) => {
+          e.preventDefault();
+          try {
+            if (staged && staged.previewUrl) {
+              window.open(staged.previewUrl, '_blank', 'noopener');
+            } else {
+              window.open(String(path), '_blank', 'noopener');
+            }
+          } catch (e2) {}
+        });
         thumb.appendChild(im);
 
         const meta = document.createElement('div');
         meta.className = 'meta';
         const name = document.createElement('div');
         name.className = 'name';
-        name.textContent = String(path).split('/').pop() || String(path);
+        if (staged) {
+          const inp = document.createElement('input');
+          inp.type = 'text';
+          inp.value = String(staged.name || '').trim() || (String(path).split('/').pop() || String(path));
+          inp.addEventListener('input', () => stageRenameUpload(staged, inp.value));
+          name.appendChild(inp);
+        } else {
+          name.textContent = String(path).split('/').pop() || String(path);
+        }
 
         const actions = document.createElement('div');
         actions.className = 'row';
+
+        if (String(path) === String(effectiveCover)) {
+          const badge = document.createElement('span');
+          badge.className = 'pill';
+          badge.textContent = 'غلاف';
+          actions.appendChild(badge);
+        }
+
+        const btnCover = document.createElement('button');
+        btnCover.className = 'btn ok';
+        btnCover.textContent = 'غلاف';
+        btnCover.addEventListener('click', () => setCoverLocal(path));
+        actions.appendChild(btnCover);
+
+        const btnL = document.createElement('button');
+        btnL.className = 'btn';
+        btnL.textContent = '◀';
+        btnL.disabled = idx === 0;
+        btnL.addEventListener('click', () => moveImageLocal(path, -1));
+        actions.appendChild(btnL);
+
+        const btnR = document.createElement('button');
+        btnR.className = 'btn';
+        btnR.textContent = '▶';
+        btnR.disabled = idx === order.length - 1;
+        btnR.addEventListener('click', () => moveImageLocal(path, +1));
+        actions.appendChild(btnR);
+
         const del = document.createElement('button');
         del.className = 'btn danger';
-        del.textContent = 'حذف';
-        del.addEventListener('click', () => deleteImageLocal(path));
+        del.textContent = staged ? 'إزالة' : 'حذف';
+        del.addEventListener('click', () => {
+          if (staged) removeStagedUpload(staged);
+          else deleteImageLocal(path);
+        });
         actions.appendChild(del);
-
-        meta.appendChild(name);
-        meta.appendChild(actions);
-
-        card.appendChild(thumb);
-        card.appendChild(meta);
-        grid.appendChild(card);
-      }
-
-      for (const u of stagedUploads) {
-        const card = document.createElement('div');
-        card.className = 'img';
-
-        const thumb = document.createElement('div');
-        thumb.className = 'thumb';
-        const im = document.createElement('img');
-        im.loading = 'lazy';
-        im.src = u.previewUrl || '';
-        im.alt = '';
-        thumb.appendChild(im);
-
-        const meta = document.createElement('div');
-        meta.className = 'meta';
-        const name = document.createElement('div');
-        name.className = 'name';
-        name.textContent = String(u.targetPath).split('/').pop() || String(u.targetPath);
-
-        const actions = document.createElement('div');
-        actions.className = 'row';
-        const note = document.createElement('span');
-        note.className = 'pill';
-        note.textContent = 'جديد';
-        const rm = document.createElement('button');
-        rm.className = 'btn danger';
-        rm.textContent = 'إزالة';
-        rm.addEventListener('click', () => removeStagedUpload(u));
-        actions.appendChild(note);
-        actions.appendChild(rm);
 
         meta.appendChild(name);
         meta.appendChild(actions);
@@ -525,9 +647,103 @@
         try { if (u.previewUrl) URL.revokeObjectURL(u.previewUrl); } catch (e) {}
         state.pending.uploads.splice(idx, 1);
       }
+
+      const slug = String(u.projectSlug || '');
+      if (slug) {
+        const pref = state.pending.orderEdits.get(slug);
+        if (pref && Array.isArray(pref)) {
+          state.pending.orderEdits.set(slug, pref.filter(x => String(x) !== String(u.targetPath)));
+        }
+        const c = state.pending.coverEdits.get(slug);
+        if (c && String(c) === String(u.targetPath)) {
+          const p = getProjectBySlug(slug);
+          if (p) {
+            const order = getOrderedVisibleImagesForProject(p);
+            state.pending.coverEdits.set(slug, order[0] || '');
+          } else {
+            state.pending.coverEdits.delete(slug);
+          }
+        }
+      }
+
+      state.pending.dirtyJson = true;
       updateEditorState();
       renderImages();
-      setLog('✓ تم إزالة صورة جديدة من قائمة النشر\nجاهز للنشر.', 'ok');
+      renderProjects();
+      setLog('✓ تم إزالة صورة من قائمة النشر\nجاهز للنشر.', 'ok');
+    }
+
+    function sanitizeUploadFilename(name) {
+      const s = String(name || '').trim();
+      const base = s.replace(/[^a-z0-9\-_.]/gi, '_').replace(/_+/g, '_');
+      if (!base) return '';
+      const withExt = /\.(jpg|jpeg|png|webp)$/i.test(base) ? base : `${base}.jpg`;
+      return withExt;
+    }
+
+    function stageRenameUpload(u, newName) {
+      if (!u) return;
+      const cleaned = sanitizeUploadFilename(newName);
+      if (!cleaned) return;
+
+      const slug = String(u.projectSlug || '');
+      const dir = String(u.targetPath || '').split('/').slice(0, -1).join('/');
+      const nextTarget = dir ? `${dir}/${cleaned}` : cleaned;
+
+      const conflict = state.pending.uploads.some(x => x && String(x.projectSlug) === slug && x !== u && String(x.targetPath) === nextTarget);
+      if (conflict) return;
+
+      const oldTarget = u.targetPath;
+      u.name = cleaned;
+      u.targetPath = nextTarget;
+
+      const pref = state.pending.orderEdits.get(slug);
+      if (pref && Array.isArray(pref)) {
+        state.pending.orderEdits.set(slug, pref.map(x => (String(x) === String(oldTarget) ? nextTarget : x)));
+      }
+      const c = state.pending.coverEdits.get(slug);
+      if (c && String(c) === String(oldTarget)) {
+        state.pending.coverEdits.set(slug, nextTarget);
+      }
+
+      state.pending.dirtyJson = true;
+      updateEditorState();
+      renderImages();
+      renderProjects();
+    }
+
+    function setCoverLocal(path) {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p) return;
+      state.pending.coverEdits.set(String(p.slug), String(path));
+      state.pending.dirtyJson = true;
+      renderProjects();
+      updateEditorState();
+      renderImages();
+      setLog('✓ تم تعيين الغلاف محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
+    }
+
+    function moveImageLocal(path, dir) {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p) return;
+      const slug = String(p.slug);
+      const order = getOrderedVisibleImagesForProject(p).slice();
+      const i = order.findIndex(x => String(x) === String(path));
+      if (i === -1) return;
+      const j = i + dir;
+      if (j < 0 || j >= order.length) return;
+      const tmp = order[i];
+      order[i] = order[j];
+      order[j] = tmp;
+      state.pending.orderEdits.set(slug, order);
+      if (!state.pending.coverEdits.has(slug)) {
+        state.pending.coverEdits.set(slug, order[0] || '');
+      }
+      state.pending.dirtyJson = true;
+      renderProjects();
+      updateEditorState();
+      renderImages();
+      setLog('✓ تم تحديث ترتيب الصور محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
     }
 
     function nextNumberForProject(p) {
@@ -579,9 +795,16 @@
       state.pending.uploads = state.pending.uploads.concat(uploads);
       state.pending.dirtyJson = true;
 
+      const normalized = getOrderedVisibleImagesForProject(p);
+      state.pending.orderEdits.set(String(p.slug), normalized);
+      if (!state.pending.coverEdits.has(String(p.slug))) {
+        state.pending.coverEdits.set(String(p.slug), normalized[0] || '');
+      }
+
       setLog(`✓ تم اختيار ${uploads.length} صورة\nجاهز للنشر. اضغط "رفع ونشر الآن".`, 'ok');
       updateEditorState();
       renderImages();
+      renderProjects();
     }
 
     function saveNamesLocal() {
@@ -606,8 +829,20 @@
       state.pending.deletes.add(path);
       state.pending.dirtyJson = true;
 
+      const slug = String(p.slug);
+      const pref = state.pending.orderEdits.get(slug);
+      if (pref && Array.isArray(pref)) {
+        state.pending.orderEdits.set(slug, pref.filter(x => String(x) !== String(path)));
+      }
+      const c = state.pending.coverEdits.get(slug);
+      if (c && String(c) === String(path)) {
+        const order = getOrderedVisibleImagesForProject(p);
+        state.pending.coverEdits.set(slug, order[0] || '');
+      }
+
       updateEditorState();
       renderImages();
+      renderProjects();
       setLog('✓ تم حذف الصورة محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
     }
 
@@ -623,6 +858,8 @@
 
       state.pending.projectDeletes.add(String(p.slug));
       state.pending.nameEdits.delete(String(p.slug));
+      state.pending.coverEdits.delete(String(p.slug));
+      state.pending.orderEdits.delete(String(p.slug));
 
       // remove staged uploads for this project (since it will be deleted)
       const keep = [];
@@ -854,11 +1091,25 @@
           });
 
         for (const p of projects) {
+          const slug = String(p.slug);
           const kept = (p.images || []).filter(img => !state.pending.deletes.has(img));
-          const add = uploadsBySlug.get(String(p.slug)) || [];
-          p.images = kept.concat(add);
-          p.cover = (p.images || [])[0] || '';
-          p.imageCount = (p.images || []).length;
+          const add = uploadsBySlug.get(slug) || [];
+          const universe = kept.concat(add);
+
+          const pref = state.pending.orderEdits.get(slug);
+          let ordered = normalizeOrderForProject({ ...p, images: universe }, pref);
+          ordered = ordered.filter(x => universe.includes(x));
+          for (const x of universe) {
+            if (!ordered.includes(x)) ordered.push(x);
+          }
+
+          p.images = ordered;
+
+          const coverPref = state.pending.coverEdits.get(slug);
+          let cover = coverPref || String(p.cover || '') || (p.images[0] || '');
+          if (cover && !p.images.includes(cover)) cover = p.images[0] || '';
+          p.cover = cover;
+          p.imageCount = p.images.length;
         }
 
         const payload = {
@@ -935,6 +1186,8 @@
         state.pending.deletes.clear();
         state.pending.projectDeletes.clear();
         state.pending.nameEdits.clear();
+        state.pending.coverEdits.clear();
+        state.pending.orderEdits.clear();
         clearPendingUploads();
         state.pending.dirtyJson = false;
 
@@ -955,6 +1208,7 @@
       state.selectedSlug = slug || null;
       // keep pending changes across project switches; user can publish or reload to reset
 
+      renderProjects();
       updateEditorState();
       renderImages();
       updateKpis();

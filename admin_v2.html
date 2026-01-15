@@ -75,7 +75,8 @@
     @media (max-width: 720px){ .imgs{grid-template-columns: repeat(3, 1fr);} }
     @media (max-width: 460px){ .imgs{grid-template-columns: repeat(2, 1fr);} }
 
-    .projects{display:grid; grid-template-columns: 1fr; gap:10px;}
+    .projects{display:grid; grid-template-columns: repeat(2, 1fr); gap:10px;}
+    @media (max-width: 980px){ .projects{grid-template-columns: 1fr;} }
     .proj{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.18); overflow:hidden; cursor:pointer; transition: transform .06s ease, background .2s ease, border-color .2s ease;}
     .proj:hover{background: rgba(255,255,255,.06);}
     .proj:active{transform: translateY(1px);}
@@ -92,6 +93,25 @@
     .img .meta{padding:10px 10px; display:flex; flex-direction:column; gap:8px;}
     .img .name{font-size:.86rem; color: rgba(255,255,255,.78); overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
     .img .name input{width:100%; padding:9px 10px; border-radius: 12px; border:1px solid var(--border); background: rgba(2,6,23,.55); color:var(--text); outline:none;}
+
+    details{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.18); overflow:hidden;}
+    details > summary{cursor:pointer; list-style:none; padding:12px 12px; font-weight:800; user-select:none; display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    details > summary::-webkit-details-marker{display:none;}
+    details .details-body{padding:12px 12px; border-top:1px solid var(--border);}
+
+    .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1000;}
+    .modal.open{display:flex;}
+    .modal .backdrop{position:absolute; inset:0; background: rgba(0,0,0,.58); backdrop-filter: blur(10px);}
+    .modal .panel{position:relative; width:min(980px, 92vw); border:1px solid var(--border); border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04)); box-shadow: var(--shadow); overflow:hidden;}
+    .modal .panel .hd{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 12px; border-bottom:1px solid var(--border); background: rgba(0,0,0,.25);}
+    .modal .panel .hd .t{font-weight:900; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+    .modal .panel .bd{display:grid; grid-template-columns: 1.1fr .9fr; gap:12px; padding:12px 12px;}
+    @media (max-width: 880px){ .modal .panel .bd{grid-template-columns:1fr;} }
+    .modal .preview{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.20); overflow:hidden;}
+    .modal .preview img{width:100%; height:100%; max-height: 62vh; object-fit:contain; display:block; background: rgba(0,0,0,.35);}
+    .modal .stack{display:flex; flex-direction:column; gap:10px;}
+    .modal .stack .row{justify-content:flex-start;}
+    .modal .badges{display:flex; gap:8px; flex-wrap:wrap;}
 
     .sep{height:1px; background: var(--border); margin:12px 0;}
 
@@ -150,15 +170,6 @@
 
           <div class="sep"></div>
 
-          <div class="row">
-            <div class="col" style="min-width:260px; flex:1;">
-              <label>GitHub Token</label>
-              <input id="ghToken" type="password" placeholder="ghp_..." autocomplete="off" />
-            </div>
-            <button class="btn" id="btnRemember">تذكّر التوكن</button>
-            <button class="btn" id="btnReload">تحديث البيانات</button>
-          </div>
-
           <div class="kpi">
             <div class="box"><div class="n" id="kpiImages">0</div><div class="l">صور بالمشروع</div></div>
             <div class="box"><div class="n" id="kpiPending">0</div><div class="l">تغييرات جاهزة للنشر</div></div>
@@ -173,6 +184,23 @@
           </div>
 
           <div class="sep"></div>
+
+          <details>
+            <summary>
+              <span>إعدادات GitHub</span>
+              <span class="pill">Token</span>
+            </summary>
+            <div class="details-body">
+              <div class="row">
+                <div class="col" style="min-width:260px; flex:1;">
+                  <label>GitHub Token</label>
+                  <input id="ghToken" type="password" placeholder="ghp_..." autocomplete="off" />
+                </div>
+                <button class="btn" id="btnRemember">تذكّر التوكن</button>
+                <button class="btn" id="btnReload">تحديث البيانات</button>
+              </div>
+            </div>
+          </details>
 
           <div class="notice log" id="log">جاهز.</div>
         </div>
@@ -216,6 +244,35 @@
     </div>
   </div>
 
+  <div class="modal" id="imgModal" aria-hidden="true">
+    <div class="backdrop" id="imgModalBackdrop"></div>
+    <div class="panel" role="dialog" aria-modal="true">
+      <div class="hd">
+        <div class="t" id="imgModalTitle">—</div>
+        <button class="btn" id="imgModalClose">إغلاق</button>
+      </div>
+      <div class="bd">
+        <div class="preview"><img id="imgModalImg" alt="" /></div>
+        <div class="stack">
+          <div class="badges" id="imgModalBadges"></div>
+          <div class="col" id="imgModalNameWrap">
+            <label>اسم الصورة (قبل الرفع)</label>
+            <input id="imgModalName" type="text" />
+          </div>
+          <div class="row">
+            <button class="btn ok" id="btnModalCover">تعيين كغلاف</button>
+            <button class="btn" id="btnModalPrev">◀</button>
+            <button class="btn" id="btnModalNext">▶</button>
+          </div>
+          <div class="row">
+            <button class="btn danger" id="btnModalDelete">حذف</button>
+          </div>
+          <div class="notice">اضغط على الصور في الشبكة لفتح أدوات التحكم.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const ADMIN_PASSWORD = 'artrova123';
     const TOKEN_STORE_KEY = 'artrova_admin_gh_token_v2';
@@ -232,6 +289,11 @@
       data: { source: 'portfolio_projects', count: 0, projects: [] },
       selectedSlug: null,
       filter: '',
+      ui: {
+        imgModalOpen: false,
+        imgModalSlug: null,
+        imgModalPath: null
+      },
       pending: {
         uploads: [],
         deletes: new Set(),
@@ -443,6 +505,93 @@
       }
     }
 
+    function closeImageModal() {
+      state.ui.imgModalOpen = false;
+      state.ui.imgModalSlug = null;
+      state.ui.imgModalPath = null;
+      const m = $('imgModal');
+      if (m) m.classList.remove('open');
+      try { if (m) m.setAttribute('aria-hidden', 'true'); } catch (e) {}
+    }
+
+    function openImageModal(path) {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p) return;
+      const slug = String(p.slug);
+      state.ui.imgModalOpen = true;
+      state.ui.imgModalSlug = slug;
+      state.ui.imgModalPath = String(path);
+      const m = $('imgModal');
+      if (m) m.classList.add('open');
+      try { if (m) m.setAttribute('aria-hidden', 'false'); } catch (e) {}
+      renderImageModal();
+    }
+
+    function renderImageModal() {
+      if (!state.ui.imgModalOpen) return;
+      const p = state.ui.imgModalSlug ? getProjectBySlug(state.ui.imgModalSlug) : null;
+      if (!p) {
+        closeImageModal();
+        return;
+      }
+
+      const slug = String(p.slug);
+      const order = getOrderedVisibleImagesForProject(p);
+      const path = String(state.ui.imgModalPath || '');
+      const idx = order.findIndex(x => String(x) === path);
+      if (idx === -1) {
+        closeImageModal();
+        return;
+      }
+
+      const staged = getStagedUploadByTargetPath(slug, path);
+      const coverPref = state.pending.coverEdits.get(slug);
+      let effectiveCover = coverPref || String(p.cover || '') || (order[0] || '');
+      if (effectiveCover && state.pending.deletes.has(effectiveCover)) effectiveCover = order[0] || '';
+
+      const titleEl = $('imgModalTitle');
+      if (titleEl) titleEl.textContent = String(path).split('/').pop() || path;
+
+      const imgEl = $('imgModalImg');
+      if (imgEl) imgEl.src = staged && staged.previewUrl ? staged.previewUrl : path;
+
+      const badges = $('imgModalBadges');
+      if (badges) {
+        badges.innerHTML = '';
+        if (staged) {
+          const b = document.createElement('span');
+          b.className = 'pill';
+          b.textContent = 'جديد';
+          badges.appendChild(b);
+        }
+        if (String(path) === String(effectiveCover)) {
+          const b = document.createElement('span');
+          b.className = 'pill';
+          b.textContent = 'غلاف';
+          badges.appendChild(b);
+        }
+        const b2 = document.createElement('span');
+        b2.className = 'pill';
+        b2.textContent = `${idx + 1}/${order.length}`;
+        badges.appendChild(b2);
+      }
+
+      const nameWrap = $('imgModalNameWrap');
+      const nameInput = $('imgModalName');
+      if (nameWrap) nameWrap.classList.toggle('hidden', !staged);
+      if (staged && nameInput) {
+        nameInput.value = String(staged.name || '').trim() || (String(path).split('/').pop() || path);
+      }
+
+      const btnPrev = $('btnModalPrev');
+      const btnNext = $('btnModalNext');
+      if (btnPrev) btnPrev.disabled = idx === 0;
+      if (btnNext) btnNext.disabled = idx === order.length - 1;
+
+      const btnDel = $('btnModalDelete');
+      if (btnDel) btnDel.textContent = staged ? 'إزالة' : 'حذف';
+    }
+
     function computePendingCount() {
       return (state.pending.uploads.length) + (state.pending.deletes.size) + (state.pending.projectDeletes.size) + (state.pending.nameEdits.size) + (state.pending.coverEdits.size) + (state.pending.orderEdits.size) + (state.pending.dirtyJson ? 1 : 0);
     }
@@ -550,6 +699,7 @@
         const staged = getStagedUploadByTargetPath(slug, path);
         const card = document.createElement('div');
         card.className = 'img';
+        card.addEventListener('click', () => openImageModal(path));
 
         const thumb = document.createElement('div');
         thumb.className = 'thumb';
@@ -557,78 +707,23 @@
         im.loading = 'lazy';
         im.src = staged && staged.previewUrl ? staged.previewUrl : String(path);
         im.alt = '';
-        im.addEventListener('click', (e) => {
-          e.preventDefault();
-          try {
-            if (staged && staged.previewUrl) {
-              window.open(staged.previewUrl, '_blank', 'noopener');
-            } else {
-              window.open(String(path), '_blank', 'noopener');
-            }
-          } catch (e2) {}
-        });
         thumb.appendChild(im);
 
         const meta = document.createElement('div');
         meta.className = 'meta';
         const name = document.createElement('div');
         name.className = 'name';
-        if (staged) {
-          const inp = document.createElement('input');
-          inp.type = 'text';
-          inp.value = String(staged.name || '').trim() || (String(path).split('/').pop() || String(path));
-          inp.addEventListener('input', () => stageRenameUpload(staged, inp.value));
-          name.appendChild(inp);
-        } else {
-          name.textContent = String(path).split('/').pop() || String(path);
-        }
-
-        const actions = document.createElement('div');
-        actions.className = 'row';
-
-        if (String(path) === String(effectiveCover)) {
-          const badge = document.createElement('span');
-          badge.className = 'pill';
-          badge.textContent = 'غلاف';
-          actions.appendChild(badge);
-        }
-
-        const btnCover = document.createElement('button');
-        btnCover.className = 'btn ok';
-        btnCover.textContent = 'غلاف';
-        btnCover.addEventListener('click', () => setCoverLocal(path));
-        actions.appendChild(btnCover);
-
-        const btnL = document.createElement('button');
-        btnL.className = 'btn';
-        btnL.textContent = '◀';
-        btnL.disabled = idx === 0;
-        btnL.addEventListener('click', () => moveImageLocal(path, -1));
-        actions.appendChild(btnL);
-
-        const btnR = document.createElement('button');
-        btnR.className = 'btn';
-        btnR.textContent = '▶';
-        btnR.disabled = idx === order.length - 1;
-        btnR.addEventListener('click', () => moveImageLocal(path, +1));
-        actions.appendChild(btnR);
-
-        const del = document.createElement('button');
-        del.className = 'btn danger';
-        del.textContent = staged ? 'إزالة' : 'حذف';
-        del.addEventListener('click', () => {
-          if (staged) removeStagedUpload(staged);
-          else deleteImageLocal(path);
-        });
-        actions.appendChild(del);
+        const fileName = String(path).split('/').pop() || String(path);
+        name.textContent = staged ? (`(جديد) ${fileName}`) : fileName;
 
         meta.appendChild(name);
-        meta.appendChild(actions);
 
         card.appendChild(thumb);
         card.appendChild(meta);
         grid.appendChild(card);
       }
+
+      renderImageModal();
     }
 
     function clearPendingUploads() {
@@ -671,6 +766,10 @@
       renderImages();
       renderProjects();
       setLog('✓ تم إزالة صورة من قائمة النشر\nجاهز للنشر.', 'ok');
+
+      if (state.ui.imgModalOpen && String(state.ui.imgModalPath) === String(u.targetPath)) {
+        closeImageModal();
+      }
     }
 
     function sanitizeUploadFilename(name) {
@@ -697,6 +796,10 @@
       u.name = cleaned;
       u.targetPath = nextTarget;
 
+      if (state.ui.imgModalOpen && String(state.ui.imgModalPath) === String(oldTarget)) {
+        state.ui.imgModalPath = nextTarget;
+      }
+
       const pref = state.pending.orderEdits.get(slug);
       if (pref && Array.isArray(pref)) {
         state.pending.orderEdits.set(slug, pref.map(x => (String(x) === String(oldTarget) ? nextTarget : x)));
@@ -721,6 +824,7 @@
       updateEditorState();
       renderImages();
       setLog('✓ تم تعيين الغلاف محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
+      renderImageModal();
     }
 
     function moveImageLocal(path, dir) {
@@ -744,6 +848,7 @@
       updateEditorState();
       renderImages();
       setLog('✓ تم تحديث ترتيب الصور محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
+      renderImageModal();
     }
 
     function nextNumberForProject(p) {
@@ -844,6 +949,10 @@
       renderImages();
       renderProjects();
       setLog('✓ تم حذف الصورة محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
+
+      if (state.ui.imgModalOpen && String(state.ui.imgModalPath) === String(path)) {
+        closeImageModal();
+      }
     }
 
     function deleteProjectLocal() {
@@ -1205,6 +1314,7 @@
     }
 
     function selectProject(slug) {
+      closeImageModal();
       state.selectedSlug = slug || null;
       // keep pending changes across project switches; user can publish or reload to reset
 
@@ -1229,6 +1339,7 @@
 
     async function reloadData() {
       try {
+        closeImageModal();
         await loadPortfolioJson(true);
         renderProjects();
         if (state.selectedSlug && !getProjectBySlug(state.selectedSlug)) state.selectedSlug = null;
@@ -1273,6 +1384,59 @@
       $('btnRemember').addEventListener('click', rememberToken);
       $('btnReload').addEventListener('click', reloadData);
       $('btnPublish').addEventListener('click', publishNow);
+
+      $('imgModalClose').addEventListener('click', closeImageModal);
+      $('imgModalBackdrop').addEventListener('click', closeImageModal);
+      document.addEventListener('keydown', (e) => {
+        if (e && e.key === 'Escape' && state.ui.imgModalOpen) closeImageModal();
+      });
+
+      $('btnModalCover').addEventListener('click', () => {
+        if (!state.ui.imgModalOpen) return;
+        setCoverLocal(state.ui.imgModalPath);
+      });
+      $('btnModalPrev').addEventListener('click', () => {
+        if (!state.ui.imgModalOpen) return;
+        moveImageLocal(state.ui.imgModalPath, -1);
+      });
+      $('btnModalNext').addEventListener('click', () => {
+        if (!state.ui.imgModalOpen) return;
+        moveImageLocal(state.ui.imgModalPath, +1);
+      });
+      $('btnModalDelete').addEventListener('click', () => {
+        if (!state.ui.imgModalOpen) return;
+        const slug = String(state.ui.imgModalSlug || '');
+        const path = String(state.ui.imgModalPath || '');
+        const staged = slug ? getStagedUploadByTargetPath(slug, path) : null;
+        if (staged) {
+          removeStagedUpload(staged);
+        } else {
+          deleteImageLocal(path);
+        }
+      });
+      $('imgModalName').addEventListener('input', (e) => {
+        // keep typing smooth; apply on Enter via keydown and on change/blur
+      });
+
+      $('imgModalName').addEventListener('change', (e) => {
+        if (!state.ui.imgModalOpen) return;
+        const slug = String(state.ui.imgModalSlug || '');
+        const path = String(state.ui.imgModalPath || '');
+        const staged = slug ? getStagedUploadByTargetPath(slug, path) : null;
+        if (!staged) return;
+        stageRenameUpload(staged, String(e.target.value || ''));
+      });
+
+      $('imgModalName').addEventListener('keydown', (e) => {
+        if (!e) return;
+        if (e.key !== 'Enter') return;
+        if (!state.ui.imgModalOpen) return;
+        const slug = String(state.ui.imgModalSlug || '');
+        const path = String(state.ui.imgModalPath || '');
+        const staged = slug ? getStagedUploadByTargetPath(slug, path) : null;
+        if (!staged) return;
+        stageRenameUpload(staged, String(e.target.value || ''));
+      });
 
       $('search').addEventListener('input', (e) => {
         state.filter = String(e.target.value || '');

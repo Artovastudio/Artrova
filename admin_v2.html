@@ -376,6 +376,28 @@
       }
     }
 
+    async function runWithConcurrency(items, limit, worker) {
+      const arr = Array.isArray(items) ? items : [];
+      const max = Math.max(1, Math.min(Number(limit || 1) || 1, 6));
+      let idx = 0;
+      const results = new Array(arr.length);
+
+      const runners = Array.from({ length: Math.min(max, arr.length) }, async () => {
+        while (true) {
+          const my = idx++;
+          if (my >= arr.length) break;
+          try {
+            results[my] = { ok: true, value: await worker(arr[my], my) };
+          } catch (e) {
+            results[my] = { ok: false, error: e };
+          }
+        }
+      });
+
+      await Promise.all(runners);
+      return results;
+    }
+
     function setLog(text, kind) {
       const el = $('log');
       el.textContent = text;
@@ -1386,15 +1408,21 @@
 
         const branches = Array.isArray(GITHUB_PUBLISH_BRANCHES) && GITHUB_PUBLISH_BRANCHES.length ? GITHUB_PUBLISH_BRANCHES : [GITHUB_BRANCH];
 
+        let anyUploadFailed = false;
+        const failedUploads = [];
+
         for (let b = 0; b < branches.length; b++) {
           const branch = branches[b];
           const gh = createGithubClient(GITHUB_OWNER, GITHUB_REPO, branch, token);
 
           if (uploads.length) {
-            for (let i = 0; i < uploads.length; i++) {
-              const u = uploads[i];
+            const total = uploads.length;
+            let done = 0;
+
+            const results = await runWithConcurrency(uploads, 3, async (u, i) => {
               const repoPath = sitePathToRepoPath(u.targetPath);
-              setLog(`⏳ جاري الرفع...\n✓ تم رفع ${i}/${uploads.length} صورة\nالآن: ${repoPath}`, '');
+              done++;
+              setLog(`⏳ جاري الرفع...\n✓ تم رفع ${done}/${total} صورة\nالآن: ${repoPath}\nالفرع: ${branch}`, '');
 
               let fileToSend = u.optimizedFile || u.file;
               try {
@@ -1408,8 +1436,20 @@
               } catch (e) {}
 
               const b64 = await fileToBase64(fileToSend);
-
               await putImageWithRetry(gh, repoPath, `Update portfolio image: ${repoPath}`, b64, branch);
+              return repoPath;
+            });
+
+            for (let i = 0; i < results.length; i++) {
+              const r = results[i];
+              if (!r || r.ok) continue;
+              anyUploadFailed = true;
+              try {
+                const u = uploads[i];
+                failedUploads.push({ branch, path: u && u.targetPath ? String(u.targetPath) : '(unknown)', error: r.error });
+              } catch (e) {
+                failedUploads.push({ branch, path: '(unknown)', error: r.error });
+              }
             }
           }
 
@@ -1428,8 +1468,17 @@
             }
           }
 
-          setLog(`${uploads.length ? `✓ تم رفع ${uploads.length} صورة\n` : ''}${deletes.length ? `✓ تم حذف ${deletes.length} صورة\n` : ''}⏳ جاري تحديث البيانات...`, '');
-          await putPortfolioJsonWithRetry(gh, payload, branch);
+          if (!anyUploadFailed) {
+            setLog(`${uploads.length ? `✓ تم رفع ${uploads.length} صورة\n` : ''}${deletes.length ? `✓ تم حذف ${deletes.length} صورة\n` : ''}⏳ جاري تحديث البيانات...`, '');
+            await putPortfolioJsonWithRetry(gh, payload, branch);
+          }
+        }
+
+        if (anyUploadFailed) {
+          const lines = failedUploads.slice(0, 6).map(x => `- ${x.branch}: ${x.path}`);
+          const more = failedUploads.length > 6 ? `\n... +${failedUploads.length - 6}` : '';
+          setLog(`❌ تم رفع بعض الصور وفشل البعض\nلن يتم تحديث البيانات (JSON) حتى لا تظهر صور غير مرفوعة.\nأعد المحاولة بعد قليل أو جرّب شبكة أخرى.\n\nأمثلة للفشل:\n${lines.join('\n')}${more}`, 'danger');
+          return;
         }
 
         // commit staged changes locally (mirror payload)

@@ -4,12 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Artrova Admin (V2)</title>
-  <meta http-equiv="refresh" content="0; url=admin.html" />
-  <script>
-    (function(){
-      try { window.location.replace('admin.html'); } catch (e) { window.location.href = 'admin.html'; }
-    })();
-  </script>
   <link rel="icon" href="assets/favicon.svg" />
   <style>
     :root{
@@ -432,9 +426,11 @@
 
     function getApiMode() {
       try {
-        return String(localStorage.getItem(API_MODE_STORE_KEY) || '').trim() || 'proxy';
+        const saved = String(localStorage.getItem(API_MODE_STORE_KEY) || '').trim();
+        if (saved) return saved;
+        return isLocalhost() ? 'proxy' : 'direct';
       } catch (e) {
-        return 'proxy';
+        return isLocalhost() ? 'proxy' : 'direct';
       }
     }
 
@@ -449,6 +445,15 @@
       const mode = getApiMode();
       if (mode === 'direct') return 'https://api.github.com';
       return 'http://localhost:8787';
+    }
+
+    function isLocalhost() {
+      try {
+        const h = String(window.location && window.location.hostname ? window.location.hostname : '').toLowerCase();
+        return h === 'localhost' || h === '127.0.0.1';
+      } catch (e) {
+        return false;
+      }
     }
 
     function rememberToken() {
@@ -1700,6 +1705,12 @@
 
       setApiMode(getApiMode());
       if ($('ghApiMode')) {
+        // Proxy only makes sense on localhost. On GitHub Pages, force direct to avoid upload failures.
+        if (!isLocalhost()) {
+          setApiMode('direct');
+          try { $('ghApiMode').value = 'direct'; } catch (e) {}
+          try { $('ghApiMode').setAttribute('disabled', 'disabled'); } catch (e) {}
+        }
         $('ghApiMode').addEventListener('change', (e) => {
           setApiMode(String(e.target.value || 'proxy'));
         });

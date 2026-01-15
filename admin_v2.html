@@ -234,6 +234,13 @@
                   <label>GitHub Token</label>
                   <input id="ghToken" type="password" placeholder="ghp_..." autocomplete="off" />
                 </div>
+                <div class="col" style="min-width:260px; flex:1;">
+                  <label>GitHub API</label>
+                  <select id="ghApiMode">
+                    <option value="direct">مباشر (قد يفشل بسبب CORS)</option>
+                    <option value="proxy">Proxy محلي (موصى به)</option>
+                  </select>
+                </div>
                 <button class="btn" id="btnRemember">تذكّر التوكن</button>
                 <button class="btn" id="btnTestGh">اختبار الاتصال</button>
                 <button class="btn" id="btnReload">تحديث البيانات</button>
@@ -318,6 +325,7 @@
     const ADMIN_PASSWORD = 'artrova123';
     const TOKEN_STORE_KEY = 'artrova_admin_gh_token_v2';
     const COMPACT_STORE_KEY = 'artrova_admin_compact_v2';
+    const API_MODE_STORE_KEY = 'artrova_admin_gh_api_mode_v2';
 
     const GITHUB_OWNER = 'Artovastudio';
     const GITHUB_REPO = 'Artrova';
@@ -410,11 +418,31 @@
       const direct = String(($('ghToken') && $('ghToken').value) || '').trim();
       if (direct) return direct;
       try {
-        const t = localStorage.getItem(TOKEN_STORE_KEY);
-        return t ? String(t).trim() : '';
+        return String(localStorage.getItem(TOKEN_STORE_KEY) || '').trim();
       } catch (e) {
         return '';
       }
+    }
+
+    function getApiMode() {
+      try {
+        return String(localStorage.getItem(API_MODE_STORE_KEY) || '').trim() || 'proxy';
+      } catch (e) {
+        return 'proxy';
+      }
+    }
+
+    function setApiMode(mode) {
+      const v = (mode === 'direct' || mode === 'proxy') ? mode : 'proxy';
+      try { localStorage.setItem(API_MODE_STORE_KEY, v); } catch (e) {}
+      const sel = $('ghApiMode');
+      if (sel) sel.value = v;
+    }
+
+    function getGithubApiBase() {
+      const mode = getApiMode();
+      if (mode === 'direct') return 'https://api.github.com';
+      return 'http://localhost:8787';
     }
 
     function rememberToken() {
@@ -1172,7 +1200,8 @@
       return p;
     }
 
-    function createGithubClient(owner, repo, branch, token) {
+    function createGithubClient(owner, repo, branch, token, apiBase) {
+      const base = String(apiBase || '').trim() || 'https://api.github.com';
       const headers = () => ({
         'Accept': 'application/vnd.github+json',
         'Authorization': `Bearer ${token}`
@@ -1183,7 +1212,7 @@
         const qs = [];
         if (ref) qs.push(`ref=${encodeURIComponent(ref)}`);
         if (bustCache) qs.push(`ts=${Date.now()}`);
-        return `https://api.github.com/repos/${owner}/${repo}/contents/${enc}` + (qs.length ? `?${qs.join('&')}` : '');
+        return `${base}/repos/${owner}/${repo}/contents/${enc}` + (qs.length ? `?${qs.join('&')}` : '');
       };
 
       const requestJson = async (url, method, payload) => {
@@ -1235,10 +1264,12 @@
           return;
         }
 
+        const apiBase = getGithubApiBase();
+
         setLog('⏳ جاري اختبار اتصال GitHub...', '');
 
         try {
-          const res = await fetch('https://api.github.com/rate_limit', {
+          const res = await fetch(`${apiBase}/rate_limit`, {
             method: 'GET',
             cache: 'no-store',
             headers: {
@@ -1262,7 +1293,7 @@
 
         const branches = Array.isArray(GITHUB_PUBLISH_BRANCHES) && GITHUB_PUBLISH_BRANCHES.length ? GITHUB_PUBLISH_BRANCHES : [GITHUB_BRANCH];
         for (const branch of branches) {
-          const gh = createGithubClient(GITHUB_OWNER, GITHUB_REPO, branch, token);
+          const gh = createGithubClient(GITHUB_OWNER, GITHUB_REPO, branch, token, apiBase);
           await gh.getFileMeta('data/portfolio_projects.json', branch, true);
         }
 
@@ -1413,7 +1444,8 @@
 
         for (let b = 0; b < branches.length; b++) {
           const branch = branches[b];
-          const gh = createGithubClient(GITHUB_OWNER, GITHUB_REPO, branch, token);
+          const apiBase = getGithubApiBase();
+          const gh = createGithubClient(GITHUB_OWNER, GITHUB_REPO, branch, token, apiBase);
 
           if (uploads.length) {
             const total = uploads.length;
@@ -1659,6 +1691,13 @@
         const t = localStorage.getItem(TOKEN_STORE_KEY);
         if (t && $('ghToken')) $('ghToken').value = t;
       } catch (e) {}
+
+      setApiMode(getApiMode());
+      if ($('ghApiMode')) {
+        $('ghApiMode').addEventListener('change', (e) => {
+          setApiMode(String(e.target.value || 'proxy'));
+        });
+      }
 
       showLogin();
     }

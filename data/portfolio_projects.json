@@ -1041,7 +1041,6 @@
         "assets/site_images/projects/portfolio_projects/home/006.jpg",
         "assets/site_images/projects/portfolio_projects/home/007.jpg",
         "assets/site_images/projects/portfolio_projects/home/008.jpg",
-        "assets/site_images/projects/portfolio_projects/home/009.jpg",
         "assets/site_images/projects/portfolio_projects/home/010.jpg",
         "assets/site_images/projects/portfolio_projects/home/011.jpg",
         "assets/site_images/projects/portfolio_projects/home/012.jpg",
@@ -1050,7 +1049,7 @@
         "assets/site_images/projects/portfolio_projects/home/015.jpg"
       ],
       "cover": "assets/site_images/projects/portfolio_projects/home/007.jpg",
-      "imageCount": 14
+      "imageCount": 13
     }
   ]
 }

@@ -20,11 +20,18 @@
       --shadow: 0 24px 72px rgba(0,0,0,.55);
       --radius: 18px;
       --radius2: 14px;
+      --gap: 14px;
+      --pad: 14px;
+      --padHd: 14px;
+      --wrapPadY: 22px;
+      --wrapPadBottom: 80px;
+      --sep: 12px;
+      --imgGap: 10px;
     }
     *{box-sizing:border-box;}
     body{margin:0; background: radial-gradient(1200px 700px at 70% -10%, rgba(56,189,248,.18), transparent 55%), radial-gradient(1100px 600px at 10% -30%, rgba(240,138,192,.16), transparent 50%), var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;}
     a{color:inherit}
-    .wrap{max-width:1180px; margin:0 auto; padding:22px 16px 80px;}
+    .wrap{max-width:1180px; margin:0 auto; padding: var(--wrapPadY) 16px var(--wrapPadBottom);}
     .topbar{display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:16px;}
     .brand{display:flex; align-items:center; gap:10px;}
     .logo{width:38px; height:38px; border-radius:12px; background: linear-gradient(135deg, rgba(240,138,192,.9), rgba(56,189,248,.85)); box-shadow: 0 12px 40px rgba(56,189,248,.10);}
@@ -32,13 +39,13 @@
     .titlebox .t{font-weight:800; letter-spacing:.2px;}
     .titlebox .s{font-size:.88rem; color:var(--muted);}
 
-    .grid{display:grid; grid-template-columns: 420px 1fr; gap:14px; align-items:start;}
+    .grid{display:grid; grid-template-columns: 420px 1fr; gap: var(--gap); align-items:start;}
     @media (max-width: 980px){ .grid{grid-template-columns:1fr;} }
 
     .card{background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035)); border:1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden;}
-    .card .hd{display:flex; align-items:center; justify-content:space-between; padding:14px 14px; border-bottom:1px solid var(--border); background: rgba(0,0,0,.25);}
+    .card .hd{display:flex; align-items:center; justify-content:space-between; padding: var(--padHd) var(--padHd); border-bottom:1px solid var(--border); background: rgba(0,0,0,.25);}
     .card .hd h2{margin:0; font-size:1rem;}
-    .card .bd{padding:14px;}
+    .card .bd{padding: var(--pad);}
 
     .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
     .col{display:flex; flex-direction:column; gap:6px; flex:1; min-width: 180px;}
@@ -70,12 +77,12 @@
 
     .log{white-space:pre-line; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.88rem; line-height:1.35; min-height: 130px;}
 
-    .imgs{display:grid; grid-template-columns: repeat(5, 1fr); gap:10px;}
+    .imgs{display:grid; grid-template-columns: repeat(5, 1fr); gap: var(--imgGap);}
     @media (max-width: 980px){ .imgs{grid-template-columns: repeat(4, 1fr);} }
     @media (max-width: 720px){ .imgs{grid-template-columns: repeat(3, 1fr);} }
     @media (max-width: 460px){ .imgs{grid-template-columns: repeat(2, 1fr);} }
 
-    .projects{display:grid; grid-template-columns: repeat(2, 1fr); gap:10px;}
+    .projects{display:grid; grid-template-columns: repeat(2, 1fr); gap: var(--imgGap);}
     @media (max-width: 980px){ .projects{grid-template-columns: 1fr;} }
     .proj{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.18); overflow:hidden; cursor:pointer; transition: transform .06s ease, background .2s ease, border-color .2s ease;}
     .proj:hover{background: rgba(255,255,255,.06);}
@@ -113,7 +120,35 @@
     .modal .stack .row{justify-content:flex-start;}
     .modal .badges{display:flex; gap:8px; flex-wrap:wrap;}
 
-    .sep{height:1px; background: var(--border); margin:12px 0;}
+    .sep{height:1px; background: var(--border); margin: var(--sep) 0;}
+
+    .scrollArea{overflow:auto; scrollbar-gutter: stable both-edges;}
+    .projectsScroll{max-height: 360px;}
+    .imagesScroll{max-height: calc(100vh - 330px);}
+    @media (max-width: 980px){
+      .projectsScroll{max-height: none;}
+      .imagesScroll{max-height: none;}
+    }
+
+    body.compact{
+      --gap: 10px;
+      --pad: 12px;
+      --padHd: 12px;
+      --wrapPadY: 14px;
+      --wrapPadBottom: 36px;
+      --sep: 10px;
+      --imgGap: 8px;
+    }
+    body.compact .topbar{margin-bottom: 10px;}
+    body.compact .projectsScroll{max-height: 260px;}
+    body.compact .proj .thumb{aspect-ratio: 21/9;}
+    body.compact .proj .meta{padding: 8px 10px; gap:6px;}
+    body.compact .proj .meta .t{font-size:.92rem;}
+    body.compact .proj .meta .s{font-size:.78rem;}
+    body.compact .imgs{grid-template-columns: repeat(6, 1fr);}
+    @media (max-width: 980px){ body.compact .imgs{grid-template-columns: repeat(4, 1fr);} }
+    @media (max-width: 720px){ body.compact .imgs{grid-template-columns: repeat(3, 1fr);} }
+    @media (max-width: 460px){ body.compact .imgs{grid-template-columns: repeat(2, 1fr);} }
 
     .hidden{display:none !important;}
   </style>
@@ -130,6 +165,7 @@
       </div>
       <div class="row">
         <span class="pill" id="envPill">—</span>
+        <button class="btn" id="btnCompact">وضع مدمج</button>
         <button class="btn" id="btnLogout">خروج</button>
       </div>
     </div>
@@ -166,7 +202,9 @@
 
           <div class="sep"></div>
 
-          <div class="projects" id="projectsGrid"></div>
+          <div class="scrollArea projectsScroll">
+            <div class="projects" id="projectsGrid"></div>
+          </div>
 
           <div class="sep"></div>
 
@@ -238,7 +276,9 @@
             <div class="pill" id="imagesPill">0</div>
           </div>
 
-          <div style="margin-top:10px;" class="imgs" id="imagesGrid"></div>
+          <div class="scrollArea imagesScroll" style="margin-top:10px;">
+            <div class="imgs" id="imagesGrid"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -276,6 +316,7 @@
   <script>
     const ADMIN_PASSWORD = 'artrova123';
     const TOKEN_STORE_KEY = 'artrova_admin_gh_token_v2';
+    const COMPACT_STORE_KEY = 'artrova_admin_compact_v2';
 
     const GITHUB_OWNER = 'Artovastudio';
     const GITHUB_REPO = 'Artrova';
@@ -312,6 +353,26 @@
 
     function setEnvPill() {
       $('envPill').textContent = isFileProtocol() ? 'file://' : 'http(s)';
+    }
+
+    function setCompactMode(on) {
+      const flag = !!on;
+      try {
+        document.body.classList.toggle('compact', flag);
+      } catch (e) {}
+      try {
+        localStorage.setItem(COMPACT_STORE_KEY, flag ? '1' : '0');
+      } catch (e) {}
+      const btn = $('btnCompact');
+      if (btn) btn.textContent = flag ? 'وضع عادي' : 'وضع مدمج';
+    }
+
+    function getCompactMode() {
+      try {
+        return String(localStorage.getItem(COMPACT_STORE_KEY) || '') === '1';
+      } catch (e) {
+        return false;
+      }
     }
 
     function setLog(text, kind) {
@@ -1363,6 +1424,12 @@
     async function boot() {
       setEnvPill();
       $('fileProtoNotice').classList.toggle('hidden', !isFileProtocol());
+
+      setCompactMode(getCompactMode());
+      $('btnCompact').addEventListener('click', () => {
+        const on = !document.body.classList.contains('compact');
+        setCompactMode(on);
+      });
 
       $('btnLogin').addEventListener('click', async () => {
         const pass = String($('adminPass').value || '');

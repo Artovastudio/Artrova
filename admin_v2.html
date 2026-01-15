@@ -456,6 +456,8 @@
       }
     }
 
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
     function rememberToken() {
       const token = String(($('ghToken') && $('ghToken').value) || '').trim();
       if (!token) {
@@ -1324,7 +1326,18 @@
         throw new Error('حجم الصورة كبير جدًا بعد التحويل. حاول رفع صورة أصغر أو اترك الأدمن يضغطها أكثر.');
       }
 
-      for (let attempt = 1; attempt <= 3; attempt++) {
+      function shouldRetry(e) {
+        const status = (e && typeof e.status !== 'undefined') ? Number(e.status) : null;
+        const msg = String(e && e.message ? e.message : e).toLowerCase();
+        const isNet = msg.includes('failed to fetch') || msg.includes('networkerror') || (!e || typeof e.status === 'undefined');
+        if (isNet) return true;
+        if (status === 429) return true;
+        if (status === 500 || status === 502 || status === 503 || status === 504) return true;
+        if (status === 403 && (msg.includes('secondary rate limit') || msg.includes('rate limit') || msg.includes('api rate limit'))) return true;
+        return false;
+      }
+
+      for (let attempt = 1; attempt <= 5; attempt++) {
         try {
           try {
             await gh.putFile(repoPath, message, base64, undefined);
@@ -1342,10 +1355,10 @@
             throw e;
           }
         } catch (e) {
-          const msg = String(e && e.message ? e.message : e).toLowerCase();
-          const isNet = msg.includes('failed to fetch') || msg.includes('networkerror') || (!e || typeof e.status === 'undefined');
-          if (!isNet || attempt === 3) throw e;
-          await new Promise(r => setTimeout(r, 650 * attempt * attempt));
+          if (!shouldRetry(e) || attempt === 5) throw e;
+          const base = 700 * attempt * attempt;
+          const jitter = Math.floor(Math.random() * 250);
+          await sleep(base + jitter);
         }
       }
     }
@@ -1462,7 +1475,8 @@
             const total = uploads.length;
             let done = 0;
 
-            const results = await runWithConcurrency(uploads, 3, async (u, i) => {
+            const concurrency = isLocalhost() ? 3 : 1;
+            const results = await runWithConcurrency(uploads, concurrency, async (u, i) => {
               const repoPath = sitePathToRepoPath(u.targetPath);
               done++;
               setLog(`⏳ جاري الرفع...\n✓ تم رفع ${done}/${total} صورة\nالآن: ${repoPath}\nالفرع: ${branch}`, '');
@@ -1480,6 +1494,7 @@
 
               const b64 = await fileToBase64(fileToSend);
               await putImageWithRetry(gh, repoPath, `Update portfolio image: ${repoPath}`, b64, branch);
+              if (!isLocalhost()) await sleep(450);
               return repoPath;
             });
 
@@ -1518,9 +1533,14 @@
         }
 
         if (anyUploadFailed) {
-          const lines = failedUploads.slice(0, 6).map(x => `- ${x.branch}: ${x.path}`);
+          const lines = failedUploads.slice(0, 6).map(x => {
+            const st = (x && x.error && typeof x.error.status !== 'undefined') ? ` (HTTP ${x.error.status})` : '';
+            const msg = (x && x.error && x.error.message) ? String(x.error.message).split('\n')[0] : '';
+            const suffix = msg ? ` — ${msg}` : '';
+            return `- ${x.branch}: ${x.path}${st}${suffix}`;
+          });
           const more = failedUploads.length > 6 ? `\n... +${failedUploads.length - 6}` : '';
-          setLog(`❌ تم رفع بعض الصور وفشل البعض\nلن يتم تحديث البيانات (JSON) حتى لا تظهر صور غير مرفوعة.\nأعد المحاولة بعد قليل أو جرّب شبكة أخرى.\n\nأمثلة للفشل:\n${lines.join('\n')}${more}`, 'danger');
+          setLog(`❌ تم رفع بعض الصور وفشل البعض\nلن يتم تحديث البيانات (JSON) حتى لا تظهر صور غير مرفوعة.\nأعد المحاولة بعد قليل.\n\nأمثلة للفشل (مع السبب):\n${lines.join('\n')}${more}`, 'danger');
           return;
         }
 

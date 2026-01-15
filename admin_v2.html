@@ -1,0 +1,1051 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Artrova Admin (V2)</title>
+  <link rel="icon" href="assets/favicon.svg" />
+  <style>
+    :root{
+      --bg: #070A12;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.04);
+      --border: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.65);
+      --danger: #ff4d6d;
+      --ok: #22c55e;
+      --brand1: #f08ac0;
+      --brand2: #38bdf8;
+      --shadow: 0 24px 72px rgba(0,0,0,.55);
+      --radius: 18px;
+      --radius2: 14px;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0; background: radial-gradient(1200px 700px at 70% -10%, rgba(56,189,248,.18), transparent 55%), radial-gradient(1100px 600px at 10% -30%, rgba(240,138,192,.16), transparent 50%), var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;}
+    a{color:inherit}
+    .wrap{max-width:1180px; margin:0 auto; padding:22px 16px 80px;}
+    .topbar{display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:16px;}
+    .brand{display:flex; align-items:center; gap:10px;}
+    .logo{width:38px; height:38px; border-radius:12px; background: linear-gradient(135deg, rgba(240,138,192,.9), rgba(56,189,248,.85)); box-shadow: 0 12px 40px rgba(56,189,248,.10);}
+    .titlebox{display:flex; flex-direction:column;}
+    .titlebox .t{font-weight:800; letter-spacing:.2px;}
+    .titlebox .s{font-size:.88rem; color:var(--muted);}
+
+    .grid{display:grid; grid-template-columns: 420px 1fr; gap:14px; align-items:start;}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr;} }
+
+    .card{background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035)); border:1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden;}
+    .card .hd{display:flex; align-items:center; justify-content:space-between; padding:14px 14px; border-bottom:1px solid var(--border); background: rgba(0,0,0,.25);}
+    .card .hd h2{margin:0; font-size:1rem;}
+    .card .bd{padding:14px;}
+
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .col{display:flex; flex-direction:column; gap:6px; flex:1; min-width: 180px;}
+    label{font-size:.82rem; color:var(--muted);}
+    input[type="text"], input[type="password"], select{width:100%; padding:11px 12px; border-radius: 14px; border:1px solid var(--border); background: rgba(2,6,23,.55); color:var(--text); outline:none;}
+    input[type="file"]{width:100%;}
+
+    .btn{appearance:none; border:1px solid var(--border); background: rgba(255,255,255,.06); color:var(--text); padding:10px 12px; border-radius: 14px; cursor:pointer; transition: transform .06s ease, background .2s ease, border-color .2s ease;}
+    .btn:hover{background: rgba(255,255,255,.10);}
+    .btn:active{transform: translateY(1px);}
+    .btn:disabled{opacity:.5; cursor:not-allowed;}
+    .btn.primary{background: linear-gradient(135deg, rgba(240,138,192,.75), rgba(56,189,248,.65)); border-color: rgba(255,255,255,.14);}
+    .btn.primary:hover{background: linear-gradient(135deg, rgba(240,138,192,.86), rgba(56,189,248,.75));}
+    .btn.ok{border-color: rgba(34,197,94,.55);}
+    .btn.danger{border-color: rgba(255,77,109,.55);}
+    .btn.big{padding:14px 14px; border-radius: 16px; font-weight:800;}
+
+    .pill{font-size:.78rem; color: rgba(255,255,255,.72); border:1px solid var(--border); background: rgba(0,0,0,.20); padding:6px 10px; border-radius: 999px;}
+
+    .notice{border:1px solid var(--border); background: rgba(2,6,23,.45); border-radius: 16px; padding:12px 12px; color: var(--muted);}
+    .notice.ok{border-color: rgba(34,197,94,.55); color: rgba(229,255,242,.92); background: rgba(34,197,94,.08);}
+    .notice.danger{border-color: rgba(255,77,109,.55); color: rgba(255,226,232,.92); background: rgba(255,77,109,.08);}
+
+    .kpi{display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:10px;}
+    @media (max-width: 520px){ .kpi{grid-template-columns: 1fr;} }
+    .kpi .box{border:1px solid var(--border); background: rgba(0,0,0,.18); border-radius: 16px; padding:10px 10px;}
+    .kpi .box .n{font-weight:900; font-size:1.1rem;}
+    .kpi .box .l{font-size:.82rem; color: var(--muted);}
+
+    .log{white-space:pre-line; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.88rem; line-height:1.35; min-height: 130px;}
+
+    .imgs{display:grid; grid-template-columns: repeat(5, 1fr); gap:10px;}
+    @media (max-width: 980px){ .imgs{grid-template-columns: repeat(4, 1fr);} }
+    @media (max-width: 720px){ .imgs{grid-template-columns: repeat(3, 1fr);} }
+    @media (max-width: 460px){ .imgs{grid-template-columns: repeat(2, 1fr);} }
+
+    .img{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.22); overflow:hidden;}
+    .img .thumb{aspect-ratio: 1/1; background: rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center;}
+    .img img{width:100%; height:100%; object-fit:cover; display:block;}
+    .img .meta{padding:10px 10px; display:flex; flex-direction:column; gap:8px;}
+    .img .name{font-size:.86rem; color: rgba(255,255,255,.78); overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
+
+    .sep{height:1px; background: var(--border); margin:12px 0;}
+
+    .hidden{display:none !important;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="titlebox">
+          <div class="t">Artrova Admin (V2)</div>
+          <div class="s">إدارة المشاريع والصور — رفع/حذف/تعديل + نشر</div>
+        </div>
+      </div>
+      <div class="row">
+        <span class="pill" id="envPill">—</span>
+        <button class="btn" id="btnLogout">خروج</button>
+      </div>
+    </div>
+
+    <div id="loginCard" class="card">
+      <div class="hd"><h2>تسجيل الدخول</h2><span class="pill">محلي</span></div>
+      <div class="bd">
+        <div class="row">
+          <div class="col" style="min-width:260px; flex:1;">
+            <label>كلمة مرور الأدمن</label>
+            <input id="adminPass" type="password" placeholder="••••••••" autocomplete="current-password" />
+          </div>
+          <button class="btn primary big" id="btnLogin" style="min-width: 200px;">دخول</button>
+        </div>
+        <div class="sep"></div>
+        <div class="notice" id="fileProtoNotice">لو فتحت الصفحة عبر <b>file://</b> بعض العمليات هتفشل. شغّل Live Server أو افتح عبر <b>http://localhost</b>.</div>
+      </div>
+    </div>
+
+    <div id="app" class="grid hidden">
+      <div class="card">
+        <div class="hd"><h2>إعدادات + مشاريع</h2><span class="pill" id="projectsCount">0</span></div>
+        <div class="bd">
+          <div class="row">
+            <div class="col" style="min-width:240px;">
+              <label>بحث</label>
+              <input id="search" type="text" placeholder="ابحث بالاسم أو الـslug..." />
+            </div>
+            <div class="col" style="min-width:220px;">
+              <label>اختر مشروع</label>
+              <select id="projectSelect"></select>
+            </div>
+          </div>
+
+          <div class="sep"></div>
+
+          <div class="row">
+            <div class="col" style="min-width:260px; flex:1;">
+              <label>GitHub Token</label>
+              <input id="ghToken" type="password" placeholder="ghp_..." autocomplete="off" />
+            </div>
+            <button class="btn" id="btnRemember">تذكّر التوكن</button>
+            <button class="btn" id="btnReload">تحديث البيانات</button>
+          </div>
+
+          <div class="kpi">
+            <div class="box"><div class="n" id="kpiImages">0</div><div class="l">صور بالمشروع</div></div>
+            <div class="box"><div class="n" id="kpiPending">0</div><div class="l">تغييرات جاهزة للنشر</div></div>
+            <div class="box"><div class="n" id="kpiNew">0</div><div class="l">صور جديدة</div></div>
+          </div>
+
+          <div class="sep"></div>
+
+          <div class="row">
+            <button class="btn danger" id="btnDeleteProject" disabled>حذف المشروع</button>
+            <button class="btn" id="btnNewProject">إنشاء مشروع جديد</button>
+          </div>
+
+          <div class="sep"></div>
+
+          <div class="notice log" id="log">جاهز.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hd"><h2 id="editorTitle">تحرير المشروع</h2><span class="pill" id="slugPill">—</span></div>
+        <div class="bd">
+          <div class="row">
+            <div class="col">
+              <label>اسم المشروع (AR)</label>
+              <input id="titleAr" type="text" placeholder="مثال: سكني" disabled />
+            </div>
+            <div class="col">
+              <label>اسم المشروع (EN)</label>
+              <input id="titleEn" type="text" placeholder="Example: Residential" disabled />
+            </div>
+            <button class="btn ok" id="btnSaveNames" disabled>حفظ الاسم</button>
+          </div>
+
+          <div class="sep"></div>
+
+          <div class="row">
+            <div class="col" style="min-width: 280px; flex:1;">
+              <label>اختيار الصور (متعدد)</label>
+              <input id="filePicker" type="file" accept="image/*" multiple disabled />
+            </div>
+            <button class="btn primary big" id="btnPublish" disabled style="min-width:260px;">رفع ونشر الآن</button>
+          </div>
+
+          <div class="sep"></div>
+
+          <div class="row" style="justify-content:space-between;">
+            <div class="pill">الصور</div>
+            <div class="pill" id="imagesPill">0</div>
+          </div>
+
+          <div style="margin-top:10px;" class="imgs" id="imagesGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = 'artrova123';
+    const TOKEN_STORE_KEY = 'artrova_admin_gh_token_v2';
+
+    const GITHUB_OWNER = 'Artovastudio';
+    const GITHUB_REPO = 'Artrova';
+    const GITHUB_BRANCH = 'main';
+    const GITHUB_PUBLISH_BRANCHES = ['main', 'gh-pages'];
+
+    const $ = (id) => document.getElementById(id);
+
+    const state = {
+      authed: false,
+      data: { source: 'portfolio_projects', count: 0, projects: [] },
+      selectedSlug: null,
+      filter: '',
+      pending: {
+        uploads: [],
+        deletes: new Set(),
+        dirtyJson: false,
+        projectDeletes: new Set(),
+        nameEdits: new Map()
+      },
+      publishInFlight: false
+    };
+
+    function isFileProtocol() {
+      try { return window.location && window.location.protocol === 'file:'; } catch (e) { return false; }
+    }
+
+    function setEnvPill() {
+      $('envPill').textContent = isFileProtocol() ? 'file://' : 'http(s)';
+    }
+
+    function setLog(text, kind) {
+      const el = $('log');
+      el.textContent = text;
+      el.classList.remove('ok', 'danger');
+      if (kind === 'ok') el.classList.add('ok');
+      if (kind === 'danger') el.classList.add('danger');
+    }
+
+    function getEffectiveToken() {
+      const direct = String(($('ghToken') && $('ghToken').value) || '').trim();
+      if (direct) return direct;
+      try {
+        const t = localStorage.getItem(TOKEN_STORE_KEY);
+        return t ? String(t).trim() : '';
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function rememberToken() {
+      const token = String(($('ghToken') && $('ghToken').value) || '').trim();
+      if (!token) {
+        setLog('❌ فشل\nالسبب: GitHub Token غير موجود\nالحل: الصق التوكن ثم اضغط تذكّر', 'danger');
+        return;
+      }
+      try {
+        localStorage.setItem(TOKEN_STORE_KEY, token);
+        setLog('✓ تم حفظ التوكن على هذا الجهاز.', 'ok');
+      } catch (e) {
+        setLog('❌ المتصفح منع حفظ التوكن. ستحتاج لصقه كل مرة.', 'danger');
+      }
+    }
+
+    function slugify(input) {
+      const s = String(input || '').trim().toLowerCase();
+      const cleaned = s
+        .replace(/[\u064B-\u065F]/g, '')
+        .replace(/[^a-z0-9\s-_]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^[-_]+|[-_]+$/g, '');
+      return cleaned || 'project';
+    }
+
+    function getProjectBySlug(slug) {
+      return (state.data.projects || []).find(p => String(p.slug) === String(slug)) || null;
+    }
+
+    function getProjectTitle(p) {
+      if (!p) return '';
+      const ar = String(p.titleAr || '').trim();
+      const en = String(p.titleEn || '').trim();
+      const any = String(p.title || '').trim();
+      if (ar && en && ar.toLowerCase() !== en.toLowerCase()) return `${ar} | ${en}`;
+      return ar || en || any || p.slug;
+    }
+
+    function normalizeDataPaths() {
+      for (const p of (state.data.projects || [])) {
+        if (!p || !p.slug) continue;
+        const baseDir = `assets/site_images/projects/portfolio_projects/${p.slug}`;
+        if (Array.isArray(p.images)) {
+          p.images = p.images.map((img) => {
+            let s = String(img || '').trim();
+            if (!s) return s;
+            if (/^https?:\/\//i.test(s)) {
+              try {
+                const u = new URL(s);
+                s = u.pathname || '';
+              } catch (e) {}
+            }
+            s = s.split('#')[0].split('?')[0];
+            s = s.replace(/^\.\//, '').replace(/^\//, '');
+            if (s.includes('/')) return s;
+            return `${baseDir}/${s}`;
+          });
+        } else {
+          p.images = [];
+        }
+        if (p.cover) {
+          let c = String(p.cover).trim();
+          c = c.replace(/^\.\//, '').replace(/^\//, '');
+          if (c && !c.includes('/')) c = `${baseDir}/${c}`;
+          p.cover = c;
+        } else {
+          p.cover = p.images[0] || '';
+        }
+        p.imageCount = Array.isArray(p.images) ? p.images.length : 0;
+      }
+    }
+
+    async function loadPortfolioJson(bust) {
+      const url = bust ? `data/portfolio_projects.json?ts=${Date.now()}` : 'data/portfolio_projects.json';
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('data/portfolio_projects.json not found');
+      const j = await res.json();
+      if (!j || !Array.isArray(j.projects)) throw new Error('Invalid JSON structure');
+      state.data = j;
+      state.data.projects = state.data.projects || [];
+      state.data.count = state.data.projects.length;
+      normalizeDataPaths();
+    }
+
+    function applyFilter() {
+      const q = String(state.filter || '').trim().toLowerCase();
+      const all = state.data.projects || [];
+      const kept = all.filter(p => p && !state.pending.projectDeletes.has(String(p.slug)));
+      if (!q) return kept;
+      return kept.filter(p => {
+        const slug = String(p.slug || '').toLowerCase();
+        const edited = state.pending.nameEdits.get(String(p.slug));
+        const t = `${String((edited && edited.titleAr) || p.titleAr || '')} ${String((edited && edited.titleEn) || p.titleEn || '')} ${String((edited && edited.title) || p.title || '')}`.toLowerCase();
+        return slug.includes(q) || t.includes(q);
+      });
+    }
+
+    function renderProjects() {
+      const list = applyFilter();
+      $('projectsCount').textContent = String(list.length);
+
+      const sel = $('projectSelect');
+      sel.innerHTML = '';
+
+      const opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = '— اختر مشروع —';
+      sel.appendChild(opt0);
+
+      for (const p of list) {
+        const o = document.createElement('option');
+        o.value = String(p.slug);
+        const edited = state.pending.nameEdits.get(String(p.slug));
+        const title = edited ? getProjectTitle({ ...p, ...edited }) : getProjectTitle(p);
+        o.textContent = `${title}  (${p.slug})`;
+        sel.appendChild(o);
+      }
+
+      if (state.selectedSlug) {
+        try { sel.value = state.selectedSlug; } catch (e) {}
+      }
+    }
+
+    function computePendingCount() {
+      return (state.pending.uploads.length) + (state.pending.deletes.size) + (state.pending.projectDeletes.size) + (state.pending.nameEdits.size) + (state.pending.dirtyJson ? 1 : 0);
+    }
+
+    function getStagedUploadsForProject(slug) {
+      return state.pending.uploads.filter(u => u && String(u.projectSlug) === String(slug));
+    }
+
+    function getVisibleImagesForProject(p) {
+      if (!p) return [];
+      const base = Array.isArray(p.images) ? p.images.slice() : [];
+      const kept = base.filter(img => !state.pending.deletes.has(img));
+      const staged = getStagedUploadsForProject(p.slug).map(u => u.targetPath);
+      return kept.concat(staged);
+    }
+
+    function updateKpis() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      const visibleCount = p ? getVisibleImagesForProject(p).length : 0;
+      $('kpiImages').textContent = String(visibleCount);
+      $('kpiNew').textContent = String(state.pending.uploads.length);
+      $('kpiPending').textContent = String(computePendingCount());
+    }
+
+    function updateEditorState() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      const has = !!p;
+
+      $('btnDeleteProject').disabled = !has;
+      $('filePicker').disabled = !has;
+      $('titleAr').disabled = !has;
+      $('titleEn').disabled = !has;
+      $('btnSaveNames').disabled = !has;
+
+      const canPublish = computePendingCount() > 0;
+      $('btnPublish').disabled = !canPublish;
+
+      $('editorTitle').textContent = has ? `تحرير: ${getProjectTitle(p)}` : 'تحرير المشروع';
+      $('slugPill').textContent = has ? p.slug : '—';
+
+      const edited = has ? state.pending.nameEdits.get(String(p.slug)) : null;
+      $('titleAr').value = has ? String((edited && edited.titleAr) || p.titleAr || '') : '';
+      $('titleEn').value = has ? String((edited && edited.titleEn) || p.titleEn || '') : '';
+
+      const imgCount = has ? getVisibleImagesForProject(p).length : 0;
+      $('imagesPill').textContent = String(imgCount);
+
+      updateKpis();
+    }
+
+    function renderImages() {
+      const grid = $('imagesGrid');
+      grid.innerHTML = '';
+
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p) return;
+
+      const existing = (Array.isArray(p.images) ? p.images : []).filter(img => !state.pending.deletes.has(img));
+      const stagedUploads = getStagedUploadsForProject(p.slug);
+
+      for (const path of existing) {
+        const card = document.createElement('div');
+        card.className = 'img';
+
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        const im = document.createElement('img');
+        im.loading = 'lazy';
+        im.src = String(path);
+        im.alt = '';
+        thumb.appendChild(im);
+
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const name = document.createElement('div');
+        name.className = 'name';
+        name.textContent = String(path).split('/').pop() || String(path);
+
+        const actions = document.createElement('div');
+        actions.className = 'row';
+        const del = document.createElement('button');
+        del.className = 'btn danger';
+        del.textContent = 'حذف';
+        del.addEventListener('click', () => deleteImageLocal(path));
+        actions.appendChild(del);
+
+        meta.appendChild(name);
+        meta.appendChild(actions);
+
+        card.appendChild(thumb);
+        card.appendChild(meta);
+        grid.appendChild(card);
+      }
+
+      for (const u of stagedUploads) {
+        const card = document.createElement('div');
+        card.className = 'img';
+
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        const im = document.createElement('img');
+        im.loading = 'lazy';
+        im.src = u.previewUrl || '';
+        im.alt = '';
+        thumb.appendChild(im);
+
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const name = document.createElement('div');
+        name.className = 'name';
+        name.textContent = String(u.targetPath).split('/').pop() || String(u.targetPath);
+
+        const actions = document.createElement('div');
+        actions.className = 'row';
+        const note = document.createElement('span');
+        note.className = 'pill';
+        note.textContent = 'جديد';
+        const rm = document.createElement('button');
+        rm.className = 'btn danger';
+        rm.textContent = 'إزالة';
+        rm.addEventListener('click', () => removeStagedUpload(u));
+        actions.appendChild(note);
+        actions.appendChild(rm);
+
+        meta.appendChild(name);
+        meta.appendChild(actions);
+
+        card.appendChild(thumb);
+        card.appendChild(meta);
+        grid.appendChild(card);
+      }
+    }
+
+    function clearPendingUploads() {
+      try {
+        for (const u of state.pending.uploads) {
+          try { if (u && u.previewUrl) URL.revokeObjectURL(u.previewUrl); } catch (e) {}
+        }
+      } catch (e) {}
+      state.pending.uploads = [];
+    }
+
+    function removeStagedUpload(u) {
+      if (!u) return;
+      const idx = state.pending.uploads.indexOf(u);
+      if (idx !== -1) {
+        try { if (u.previewUrl) URL.revokeObjectURL(u.previewUrl); } catch (e) {}
+        state.pending.uploads.splice(idx, 1);
+      }
+      updateEditorState();
+      renderImages();
+      setLog('✓ تم إزالة صورة جديدة من قائمة النشر\nجاهز للنشر.', 'ok');
+    }
+
+    function nextNumberForProject(p) {
+      const rx = /^(\d{3,})/;
+      let max = 0;
+      for (const img of (Array.isArray(p.images) ? p.images : [])) {
+        const file = String(img).split('/').pop() || '';
+        const m = file.match(rx);
+        if (m && m[1]) {
+          const n = parseInt(m[1], 10);
+          if (!Number.isNaN(n)) max = Math.max(max, n);
+        }
+      }
+      for (const u of getStagedUploadsForProject(p.slug)) {
+        const m = String(u.name || '').match(rx);
+        if (m && m[1]) {
+          const n = parseInt(m[1], 10);
+          if (!Number.isNaN(n)) max = Math.max(max, n);
+        }
+      }
+      return max + 1;
+    }
+
+    function pickFiles(files) {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      const picked = Array.from(files || []);
+      if (!p || !picked.length) return;
+
+      const baseDir = `assets/site_images/projects/portfolio_projects/${p.slug}`;
+      const used = new Set((Array.isArray(p.images) ? p.images : []).map(x => String(x).split('/').pop() || ''));
+      for (const u of getStagedUploadsForProject(p.slug)) {
+        used.add(String(u.name || '').trim());
+      }
+      let n = nextNumberForProject(p);
+
+      const uploads = [];
+      for (const f of picked) {
+        let name;
+        do {
+          name = `${String(n).padStart(3, '0')}.jpg`;
+          n++;
+        } while (used.has(name));
+        used.add(name);
+        const relPath = `${baseDir}/${name}`;
+        const previewUrl = URL.createObjectURL(f);
+        uploads.push({ file: f, optimizedFile: null, targetPath: relPath, name, previewUrl, projectSlug: p.slug });
+      }
+
+      state.pending.uploads = state.pending.uploads.concat(uploads);
+      state.pending.dirtyJson = true;
+
+      setLog(`✓ تم اختيار ${uploads.length} صورة\nجاهز للنشر. اضغط "رفع ونشر الآن".`, 'ok');
+      updateEditorState();
+      renderImages();
+    }
+
+    function saveNamesLocal() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p) return;
+      const titleAr = String($('titleAr').value || '').trim() || null;
+      const titleEn = String($('titleEn').value || '').trim() || null;
+      const title = (String(titleEn || '').trim() || String(titleAr || '').trim() || p.slug);
+      state.pending.nameEdits.set(String(p.slug), { titleAr, titleEn, title });
+      state.pending.dirtyJson = true;
+      renderProjects();
+      updateEditorState();
+      setLog('✓ تم حفظ الاسم محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
+    }
+
+    function deleteImageLocal(path) {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p || !Array.isArray(p.images)) return;
+      const ok = confirm('تأكيد حذف الصورة؟ سيتم حذفها من GitHub عند النشر.');
+      if (!ok) return;
+
+      state.pending.deletes.add(path);
+      state.pending.dirtyJson = true;
+
+      updateEditorState();
+      renderImages();
+      setLog('✓ تم حذف الصورة محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
+    }
+
+    function deleteProjectLocal() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p) return;
+      const ok = confirm(`تأكيد حذف المشروع: ${getProjectTitle(p)} ؟`);
+      if (!ok) return;
+
+      if (Array.isArray(p.images)) {
+        for (const img of p.images) state.pending.deletes.add(img);
+      }
+
+      state.pending.projectDeletes.add(String(p.slug));
+      state.pending.nameEdits.delete(String(p.slug));
+
+      // remove staged uploads for this project (since it will be deleted)
+      const keep = [];
+      for (const u of state.pending.uploads) {
+        if (u && String(u.projectSlug) === String(p.slug)) {
+          try { if (u.previewUrl) URL.revokeObjectURL(u.previewUrl); } catch (e) {}
+        } else {
+          keep.push(u);
+        }
+      }
+      state.pending.uploads = keep;
+
+      state.selectedSlug = null;
+      state.pending.dirtyJson = true;
+
+      renderProjects();
+      updateEditorState();
+      renderImages();
+      setLog('✓ تم حذف المشروع محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
+    }
+
+    async function newProjectFlow() {
+      const titleAr = prompt('اسم المشروع (AR):');
+      const titleEn = prompt('اسم المشروع (EN):');
+      const base = String(titleEn || titleAr || '').trim();
+      if (!base) {
+        setLog('❌ فشل\nالسبب: اسم المشروع فارغ', 'danger');
+        return;
+      }
+      let slug = slugify(prompt('Slug (اختياري):') || base);
+      const exists = (state.data.projects || []).some(p => String(p.slug) === String(slug));
+      if (exists) {
+        slug = `${slug}-${Math.floor(Math.random()*900+100)}`;
+      }
+      const proj = { slug, titleAr: titleAr ? String(titleAr).trim() : null, titleEn: titleEn ? String(titleEn).trim() : null, title: String(titleEn || titleAr || slug).trim(), images: [], cover: '', imageCount: 0 };
+      state.data.projects.push(proj);
+      state.data.count = state.data.projects.length;
+      state.pending.dirtyJson = true;
+      state.selectedSlug = slug;
+      renderProjects();
+      updateEditorState();
+      renderImages();
+      setLog('✓ تم إنشاء مشروع محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
+    }
+
+    function arrayBufferToBase64(buffer) {
+      let binary = '';
+      const bytes = new Uint8Array(buffer);
+      for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+      return btoa(binary);
+    }
+
+    async function fileToBase64(file) {
+      const buf = await file.arrayBuffer();
+      return arrayBufferToBase64(buf);
+    }
+
+    async function optimizeImageFile(file, options) {
+      const opts = options || {};
+      const maxBytes = typeof opts.maxBytes === 'number' ? opts.maxBytes : 950 * 1024;
+      const maxDim = typeof opts.maxDim === 'number' ? opts.maxDim : 2200;
+
+      if (!file) return { file: null, changed: false };
+      const type = String(file.type || '').toLowerCase();
+      if (!type.startsWith('image/')) return { file, changed: false };
+      if (file.size <= maxBytes) return { file, changed: false };
+
+      let imgBitmap = null;
+      try {
+        imgBitmap = await createImageBitmap(file);
+      } catch (e) {
+        return { file, changed: false };
+      }
+
+      let w = imgBitmap.width || 1;
+      let h = imgBitmap.height || 1;
+      const scale = Math.min(1, maxDim / Math.max(w, h));
+      const tw = Math.max(1, Math.round(w * scale));
+      const th = Math.max(1, Math.round(h * scale));
+
+      const canvas = document.createElement('canvas');
+      canvas.width = tw;
+      canvas.height = th;
+      const ctx = canvas.getContext('2d', { alpha: false });
+      ctx.drawImage(imgBitmap, 0, 0, tw, th);
+
+      let outBlob = null;
+      let quality = 0.85;
+      for (let i = 0; i < 7; i++) {
+        outBlob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+        if (outBlob && outBlob.size <= maxBytes) break;
+        quality = Math.max(0.55, quality - 0.07);
+      }
+
+      if (!outBlob || outBlob.size > maxBytes) return { file, changed: false };
+
+      const base = String(file.name || 'image').replace(/\.[a-z0-9]+$/i, '');
+      const outName = `${base}.jpg`;
+      return { file: new File([outBlob], outName, { type: 'image/jpeg' }), changed: true };
+    }
+
+    function utf8ToBase64(str) {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
+
+    function sitePathToRepoPath(sitePath) {
+      let p = String(sitePath || '').trim();
+      if (!p) return '';
+      if (/^https?:\/\//i.test(p)) {
+        try {
+          const u = new URL(p);
+          p = u.pathname || '';
+        } catch (e) {}
+      }
+      p = p.split('#')[0].split('?')[0];
+      p = p.replace(/^\.\//, '').replace(/^\//, '');
+      return p;
+    }
+
+    function createGithubClient(owner, repo, branch, token) {
+      const headers = () => ({
+        'Accept': 'application/vnd.github+json',
+        'Authorization': `Bearer ${token}`
+      });
+
+      const contentsUrl = (path, ref, bustCache) => {
+        const enc = encodeURIComponent(path).replace(/%2F/g, '/');
+        const qs = [];
+        if (ref) qs.push(`ref=${encodeURIComponent(ref)}`);
+        if (bustCache) qs.push(`ts=${Date.now()}`);
+        return `https://api.github.com/repos/${owner}/${repo}/contents/${enc}` + (qs.length ? `?${qs.join('&')}` : '');
+      };
+
+      const requestJson = async (url, method, payload) => {
+        const res = await fetch(url, {
+          method,
+          cache: 'no-store',
+          headers: payload ? { ...headers(), 'Content-Type': 'application/json' } : headers(),
+          body: payload ? JSON.stringify(payload) : undefined
+        });
+        const text = await res.text();
+        let body = null;
+        try { body = text ? JSON.parse(text) : null; } catch (e) {}
+        if (!res.ok) {
+          const msg = body && body.message ? body.message : text;
+          const err = new Error(msg || `GitHub error: ${res.status}`);
+          err.status = res.status;
+          err.body = body;
+          throw err;
+        }
+        return body;
+      };
+
+      const getFileMeta = (path, ref, bustCache) => requestJson(contentsUrl(path, ref, bustCache), 'GET');
+      const putFile = (path, message, contentBase64, sha) => requestJson(contentsUrl(path, null), 'PUT', { message, content: contentBase64, branch, sha });
+      const deleteFile = (path, message, sha) => requestJson(contentsUrl(path, null), 'DELETE', { message, branch, sha });
+
+      return { getFileMeta, putFile, deleteFile };
+    }
+
+    function isNotFoundError(e) {
+      const msg = String(e && e.message ? e.message : e);
+      return (e && e.status === 404) || msg.toLowerCase().includes('not found') || msg.toLowerCase().includes('404');
+    }
+
+    function isAuthError(e) {
+      const msg = String(e && e.message ? e.message : e);
+      return (e && (e.status === 401 || e.status === 403)) || msg.toLowerCase().includes('bad credentials') || msg.toLowerCase().includes('requires authentication');
+    }
+
+    async function putPortfolioJsonWithRetry(gh, payload, branch) {
+      const jsonPath = 'data/portfolio_projects.json';
+      const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
+
+      for (let attempt = 1; attempt <= 6; attempt++) {
+        try {
+          let sha = undefined;
+          try {
+            const meta = await gh.getFileMeta(jsonPath, branch, true);
+            if (meta && meta.sha) sha = meta.sha;
+          } catch (e) {}
+          await gh.putFile(jsonPath, 'Update portfolio projects data', jsonB64, sha);
+          return;
+        } catch (e) {
+          const msg = String(e && e.message ? e.message : e);
+          const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
+          if (!isShaMismatch || attempt === 6) throw e;
+          await new Promise(r => setTimeout(r, 450 * attempt * attempt));
+        }
+      }
+    }
+
+    async function publishNow() {
+      if (state.publishInFlight) return;
+      state.publishInFlight = true;
+
+      try {
+        const token = getEffectiveToken();
+        if (!token) {
+          setLog('❌ فشل الرفع\nالسبب: GitHub Token غير موجود\nالحل: الصق التوكن أو اضغط تذكّر', 'danger');
+          return;
+        }
+
+        const uploads = state.pending.uploads.filter(u => u && u.file && u.targetPath);
+        const deletes = Array.from(state.pending.deletes.values());
+        const hasPending = uploads.length > 0 || deletes.length > 0 || state.pending.dirtyJson;
+        if (!hasPending) {
+          setLog('لا توجد تغييرات للنشر.', 'ok');
+          return;
+        }
+
+        // build a payload that includes staged changes without mutating state.data yet
+        const uploadsBySlug = new Map();
+        for (const u of uploads) {
+          const slug = String(u.projectSlug || '');
+          if (!uploadsBySlug.has(slug)) uploadsBySlug.set(slug, []);
+          uploadsBySlug.get(slug).push(u.targetPath);
+        }
+
+        const projects = (state.data.projects || [])
+          .filter(p => p && !state.pending.projectDeletes.has(String(p.slug)))
+          .map(p => {
+            const edited = state.pending.nameEdits.get(String(p.slug));
+            return {
+              ...p,
+              ...(edited || {}),
+              images: Array.isArray(p.images) ? p.images.slice() : []
+            };
+          });
+
+        for (const p of projects) {
+          const kept = (p.images || []).filter(img => !state.pending.deletes.has(img));
+          const add = uploadsBySlug.get(String(p.slug)) || [];
+          p.images = kept.concat(add);
+          p.cover = (p.images || [])[0] || '';
+          p.imageCount = (p.images || []).length;
+        }
+
+        const payload = {
+          source: 'portfolio_projects',
+          count: projects.length,
+          projects
+        };
+
+        const branches = Array.isArray(GITHUB_PUBLISH_BRANCHES) && GITHUB_PUBLISH_BRANCHES.length ? GITHUB_PUBLISH_BRANCHES : [GITHUB_BRANCH];
+
+        for (let b = 0; b < branches.length; b++) {
+          const branch = branches[b];
+          const gh = createGithubClient(GITHUB_OWNER, GITHUB_REPO, branch, token);
+
+          if (uploads.length) {
+            for (let i = 0; i < uploads.length; i++) {
+              const u = uploads[i];
+              const repoPath = sitePathToRepoPath(u.targetPath);
+              setLog(`⏳ جاري الرفع...\n✓ تم رفع ${i}/${uploads.length} صورة\nالآن: ${repoPath}`, '');
+
+              let fileToSend = u.optimizedFile || u.file;
+              try {
+                if (!u.optimizedFile && u.file && u.file.size > 950 * 1024) {
+                  const resOpt = await optimizeImageFile(u.file, { maxBytes: 950 * 1024, maxDim: 2200 });
+                  if (resOpt && resOpt.file && resOpt.changed) {
+                    u.optimizedFile = resOpt.file;
+                    fileToSend = u.optimizedFile;
+                  }
+                }
+              } catch (e) {}
+
+              const b64 = await fileToBase64(fileToSend);
+
+              try {
+                await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, undefined);
+              } catch (e) {
+                if (e && e.status === 422) {
+                  let sha = undefined;
+                  try {
+                    const meta = await gh.getFileMeta(repoPath, branch, true);
+                    if (meta && meta.sha) sha = meta.sha;
+                  } catch (e2) {}
+                  await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, sha);
+                } else {
+                  throw e;
+                }
+              }
+            }
+          }
+
+          if (deletes.length) {
+            for (let i = 0; i < deletes.length; i++) {
+              const rp = sitePathToRepoPath(deletes[i]);
+              setLog(`⏳ جاري الحذف...\n✓ تم حذف ${i}/${deletes.length} صورة\nالآن: ${rp}`, '');
+              try {
+                const meta = await gh.getFileMeta(rp, branch, true);
+                if (meta && meta.sha) {
+                  await gh.deleteFile(rp, `Delete portfolio image: ${rp}`, meta.sha);
+                }
+              } catch (e) {
+                if (!isNotFoundError(e)) throw e;
+              }
+            }
+          }
+
+          setLog(`${uploads.length ? `✓ تم رفع ${uploads.length} صورة\n` : ''}${deletes.length ? `✓ تم حذف ${deletes.length} صورة\n` : ''}⏳ جاري تحديث البيانات...`, '');
+          await putPortfolioJsonWithRetry(gh, payload, branch);
+        }
+
+        // commit staged changes locally (mirror payload)
+        state.data.projects = payload.projects;
+        state.data.count = payload.count;
+
+        state.pending.deletes.clear();
+        state.pending.projectDeletes.clear();
+        state.pending.nameEdits.clear();
+        clearPendingUploads();
+        state.pending.dirtyJson = false;
+
+        updateEditorState();
+        setLog(`✓ تم النشر بنجاح!\n${uploads.length ? `✓ تم رفع ${uploads.length} صورة` : ''}${uploads.length && deletes.length ? '\n' : ''}${deletes.length ? `✓ تم حذف ${deletes.length} صورة` : ''}`, 'ok');
+      } catch (e) {
+        if (isAuthError(e)) {
+          setLog('❌ فشل الرفع\nالسبب: GitHub Token غير صحيح أو ليس لديه صلاحية\nالحل: أنشئ Token بصلاحية repo + contents ثم جرّب', 'danger');
+        } else {
+          setLog(`❌ فشل\nالسبب: ${String(e && e.message ? e.message : e)}`, 'danger');
+        }
+      } finally {
+        state.publishInFlight = false;
+      }
+    }
+
+    function selectProject(slug) {
+      state.selectedSlug = slug || null;
+      // keep pending changes across project switches; user can publish or reload to reset
+
+      updateEditorState();
+      renderImages();
+      updateKpis();
+
+      if (!slug) {
+        setLog('اختر مشروع للبدء.', '');
+        return;
+      }
+
+      const p = getProjectBySlug(slug);
+      if (!p) {
+        setLog('المشروع غير موجود.', 'danger');
+        return;
+      }
+
+      setLog('جاهز. اختر صور أو عدّل الاسم أو احذف.', 'ok');
+    }
+
+    async function reloadData() {
+      try {
+        await loadPortfolioJson(true);
+        renderProjects();
+        if (state.selectedSlug && !getProjectBySlug(state.selectedSlug)) state.selectedSlug = null;
+        selectProject(state.selectedSlug);
+        setLog('✓ تم تحديث البيانات من الموقع.', 'ok');
+      } catch (e) {
+        setLog(`❌ تعذر تحميل البيانات\nالسبب: ${String(e && e.message ? e.message : e)}`, 'danger');
+      }
+    }
+
+    function showApp() {
+      $('loginCard').classList.add('hidden');
+      $('app').classList.remove('hidden');
+    }
+
+    function showLogin() {
+      $('app').classList.add('hidden');
+      $('loginCard').classList.remove('hidden');
+    }
+
+    async function boot() {
+      setEnvPill();
+      $('fileProtoNotice').classList.toggle('hidden', !isFileProtocol());
+
+      $('btnLogin').addEventListener('click', async () => {
+        const pass = String($('adminPass').value || '');
+        if (pass !== ADMIN_PASSWORD) {
+          alert('باسورد غير صحيح');
+          return;
+        }
+        state.authed = true;
+        showApp();
+        await reloadData();
+        setLog('✓ تم تسجيل الدخول. اختر مشروع.', 'ok');
+      });
+
+      $('btnLogout').addEventListener('click', () => {
+        state.authed = false;
+        showLogin();
+      });
+
+      $('btnRemember').addEventListener('click', rememberToken);
+      $('btnReload').addEventListener('click', reloadData);
+      $('btnPublish').addEventListener('click', publishNow);
+
+      $('search').addEventListener('input', (e) => {
+        state.filter = String(e.target.value || '');
+        renderProjects();
+      });
+
+      $('projectSelect').addEventListener('change', (e) => {
+        selectProject(String(e.target.value || ''));
+      });
+
+      $('filePicker').addEventListener('change', (e) => {
+        pickFiles(e.target.files);
+      });
+
+      $('btnSaveNames').addEventListener('click', saveNamesLocal);
+      $('btnDeleteProject').addEventListener('click', deleteProjectLocal);
+      $('btnNewProject').addEventListener('click', newProjectFlow);
+
+      try {
+        const t = localStorage.getItem(TOKEN_STORE_KEY);
+        if (t && $('ghToken')) $('ghToken').value = t;
+      } catch (e) {}
+
+      showLogin();
+    }
+
+    boot();
+  </script>
+</body>
+</html>

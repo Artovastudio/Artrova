@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>لوحة إدارة المشاريع | Artrova</title>
+  <meta http-equiv="refresh" content="0; url=admin_v2.html" />
+  <script>
+    (function(){
+      try { window.location.replace('admin_v2.html'); } catch (e) { window.location.href = 'admin_v2.html'; }
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
@@ -684,6 +690,13 @@
                   <label>&nbsp;</label>
                   <button class="btn" id="btnRememberToken" type="button">تذكّر التوكن على هذا الجهاز</button>
                 </div>
+                <div class="col" style="min-width: 240px;">
+                  <label>&nbsp;</label>
+                  <label style="display:flex; align-items:center; gap:10px; user-select:none;">
+                    <input id="autoPublishToggle" type="checkbox" />
+                    <span>نشر تلقائي بعد أي تعديل</span>
+                  </label>
+                </div>
                 <button class="btn" id="btnReloadData" type="button">تحديث البيانات</button>
               </div>
 
@@ -757,7 +770,10 @@
       /** @type {Set<string>} */
       missingSet: new Set(),
       missingScanInProgress: false,
-      jsonDirty: false
+      jsonDirty: false,
+      autoPublish: false,
+      publishInFlight: false,
+      publishTimer: null
     };
 
     // ====== UTILS ======
@@ -1513,6 +1529,7 @@
       renderProjects();
       state.jsonDirty = true;
       setStatus('تم حفظ الاسم محليًا. اضغط "رفع الصور ونشر فورًا" لتحديث الموقع.', 'ok');
+      scheduleAutoPublish('✓ تم حفظ الاسم');
     }
 
     function tryLoadRememberedToken() {
@@ -1520,6 +1537,29 @@
         const t = localStorage.getItem(TOKEN_STORE_KEY);
         if (t && $('ghToken')) $('ghToken').value = t;
       } catch (e) {}
+    }
+
+    function getEffectiveToken() {
+      const field = $('ghToken');
+      const direct = field ? String(field.value || '').trim() : '';
+      if (direct) return direct;
+      try {
+        const t = localStorage.getItem(TOKEN_STORE_KEY);
+        return t ? String(t).trim() : '';
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function scheduleAutoPublish(reason) {
+      if (!state.autoPublish) return;
+      if (state.publishInFlight) return;
+      try { if (state.publishTimer) clearTimeout(state.publishTimer); } catch (e) {}
+      setStatus(`${String(reason || 'تم تعديل البيانات')}\n⏳ جاري النشر تلقائيًا...`, '');
+      state.publishTimer = setTimeout(() => {
+        state.publishTimer = null;
+        publish();
+      }, 650);
     }
 
     function rememberToken() {
@@ -1594,6 +1634,7 @@
 
       refreshUI();
       setStatus('تم حذف المشروع محليًا. اضغط "رفع الصور ونشر فورًا" لتطبيق التغيير على GitHub والموقع.', 'ok');
+      scheduleAutoPublish('✓ تم حذف المشروع');
     }
 
     async function deleteImage(path) {
@@ -1636,6 +1677,7 @@
 
       if (!token) {
         setStatus('تم حذف الصورة من المشروع محليًا. الصق GitHub Token ثم اضغط "رفع الصور ونشر فورًا" للحذف النهائي من GitHub.', 'ok');
+        scheduleAutoPublish('✓ تم حذف الصورة');
         return;
       }
 
@@ -1769,6 +1811,7 @@
 
       setStatus(`تم اختيار ${state.uploads.length} صورة. اضغط "رفع الصور ونشر فورًا".`, 'ok');
       refreshUI();
+      scheduleAutoPublish(`✓ تم اختيار ${state.uploads.length} صورة`);
     }
 
     function moveUpload(index, delta) {
@@ -2099,9 +2142,13 @@
     }
 
     async function publish() {
-      const token = $('ghToken').value.trim();
+      if (state.publishInFlight) return;
+      state.publishInFlight = true;
+
+      const token = getEffectiveToken();
       if (!token) {
         setStatus('فشل الرفع\nالسبب: GitHub Token غير موجود\nالحل: الصق Token صحيح ثم أعد المحاولة', 'danger');
+        state.publishInFlight = false;
         return;
       }
 
@@ -2109,6 +2156,7 @@
       const hasPending = (uploadOps.length > 0) || (state.deleteSet && state.deleteSet.size > 0) || (state.renameMap && state.renameMap.size > 0) || !!state.jsonDirty;
       if (!hasPending) {
         setStatus('لا توجد تغييرات للنشر.', 'ok');
+        state.publishInFlight = false;
         return;
       }
 
@@ -2269,6 +2317,8 @@
         } else {
           handleError('فشل الرفع', e);
         }
+      } finally {
+        state.publishInFlight = false;
       }
     }
 
@@ -2426,6 +2476,22 @@
       if ($('btnRememberToken')) $('btnRememberToken').addEventListener('click', rememberToken);
       if ($('btnReloadData')) $('btnReloadData').addEventListener('click', reloadData);
       tryLoadRememberedToken();
+
+      const ap = $('autoPublishToggle');
+      if (ap) {
+        try {
+          const saved = localStorage.getItem('artrova_admin_autopublish_v1');
+          state.autoPublish = saved === '1';
+          ap.checked = state.autoPublish;
+        } catch (e) {}
+        ap.addEventListener('change', (e) => {
+          state.autoPublish = !!e.target.checked;
+          try { localStorage.setItem('artrova_admin_autopublish_v1', state.autoPublish ? '1' : '0'); } catch (e2) {}
+          setStatus(state.autoPublish ? 'تم تشغيل النشر التلقائي.' : 'تم إيقاف النشر التلقائي.', 'ok');
+          updateCounts();
+          updateActionsEnabled();
+        });
+      }
 
       // simplified mode: no export / extra publish buttons / reorder UI
 

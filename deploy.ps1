@@ -57,6 +57,15 @@ Get-ChildItem -File -Force -Path $repoRoot -Filter '*.bak*' -ErrorAction Silentl
 
 # 2) Commit changes on main (if any)
 ExecGit @('checkout',$mainBranch)
+
+# Ensure main is up-to-date to avoid push rejection
+ExecGit @('fetch','origin','--prune')
+try {
+  ExecGit @('pull','--rebase','--autostash','origin',$mainBranch)
+} catch {
+  throw "Failed to pull --rebase from origin/$mainBranch. Resolve conflicts then rerun deploy.ps1. Details: $($_.Exception.Message)"
+}
+
 ExecGit @('add','-A')
 
 $porcelain = (& git status --porcelain)

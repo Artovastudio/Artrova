@@ -1,6 +1,6 @@
 {
   "source": "portfolio_projects",
-  "count": 46,
+  "count": 47,
   "projects": [
     {
       "slug": "residential",
@@ -1027,6 +1027,17 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/white-italian-villa/23r-1.jpg",
       "imageCount": 5
+    },
+    {
+      "slug": "project",
+      "titleAr": "ا",
+      "titleEn": null,
+      "title": "ا",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/project/001.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/project/001.jpg",
+      "imageCount": 1
     }
   ]
 }

@@ -235,6 +235,7 @@
                   <input id="ghToken" type="password" placeholder="ghp_..." autocomplete="off" />
                 </div>
                 <button class="btn" id="btnRemember">تذكّر التوكن</button>
+                <button class="btn" id="btnTestGh">اختبار الاتصال</button>
                 <button class="btn" id="btnReload">تحديث البيانات</button>
               </div>
             </div>
@@ -1089,8 +1090,8 @@
 
     async function optimizeImageFile(file, options) {
       const opts = options || {};
-      const maxBytes = typeof opts.maxBytes === 'number' ? opts.maxBytes : 950 * 1024;
-      const maxDim = typeof opts.maxDim === 'number' ? opts.maxDim : 2200;
+      const maxBytes = typeof opts.maxBytes === 'number' ? opts.maxBytes : 700 * 1024;
+      const maxDim = typeof opts.maxDim === 'number' ? opts.maxDim : 2000;
 
       if (!file) return { file: null, changed: false };
       const type = String(file.type || '').toLowerCase();
@@ -1117,11 +1118,11 @@
       ctx.drawImage(imgBitmap, 0, 0, tw, th);
 
       let outBlob = null;
-      let quality = 0.85;
-      for (let i = 0; i < 7; i++) {
+      let quality = 0.84;
+      for (let i = 0; i < 9; i++) {
         outBlob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
         if (outBlob && outBlob.size <= maxBytes) break;
-        quality = Math.max(0.55, quality - 0.07);
+        quality = Math.max(0.45, quality - 0.07);
       }
 
       if (!outBlob || outBlob.size > maxBytes) return { file, changed: false };
@@ -1164,13 +1165,27 @@
       };
 
       const requestJson = async (url, method, payload) => {
-        const res = await fetch(url, {
-          method,
-          cache: 'no-store',
-          headers: payload ? { ...headers(), 'Content-Type': 'application/json' } : headers(),
-          body: payload ? JSON.stringify(payload) : undefined
-        });
-        const text = await res.text();
+        let res;
+        let text = '';
+        try {
+          res = await fetch(url, {
+            method,
+            cache: 'no-store',
+            headers: payload ? { ...headers(), 'Content-Type': 'application/json' } : headers(),
+            body: payload ? JSON.stringify(payload) : undefined
+          });
+          text = await res.text();
+        } catch (e) {
+          const origin = (typeof location !== 'undefined' && location) ? String(location.origin || '') : '';
+          const proto = (typeof location !== 'undefined' && location) ? String(location.protocol || '') : '';
+          const hint = (proto === 'file:' || origin === 'null')
+            ? 'الحل: افتح الصفحة عبر http://localhost أو عبر GitHub Pages (ليس file://)'
+            : 'الحل: تأكد من الإنترنت + جرّب تعطيل VPN/AdBlock/Firewall الذي قد يحجب api.github.com + جرّب شبكة أخرى';
+          const err = new Error(`Failed to fetch\n${hint}`);
+          err.cause = e;
+          throw err;
+        }
+
         let body = null;
         try { body = text ? JSON.parse(text) : null; } catch (e) {}
         if (!res.ok) {
@@ -1188,6 +1203,87 @@
       const deleteFile = (path, message, sha) => requestJson(contentsUrl(path, null), 'DELETE', { message, branch, sha });
 
       return { getFileMeta, putFile, deleteFile };
+    }
+
+    async function testGithubConnection() {
+      try {
+        const token = getEffectiveToken();
+        if (!token) {
+          setLog('❌ اختبار الاتصال فشل\nالسبب: GitHub Token غير موجود\nالحل: الصق التوكن أو اضغط تذكّر', 'danger');
+          return;
+        }
+
+        setLog('⏳ جاري اختبار اتصال GitHub...', '');
+
+        try {
+          const res = await fetch('https://api.github.com/rate_limit', {
+            method: 'GET',
+            cache: 'no-store',
+            headers: {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          if (!res.ok) {
+            const t = await res.text();
+            throw new Error(t || `HTTP ${res.status}`);
+          }
+        } catch (e) {
+          const proto = (typeof location !== 'undefined' && location) ? String(location.protocol || '') : '';
+          const origin = (typeof location !== 'undefined' && location) ? String(location.origin || '') : '';
+          const hint = (proto === 'file:' || origin === 'null')
+            ? 'الحل: افتح الصفحة عبر http://localhost أو عبر GitHub Pages (ليس file://)'
+            : 'الحل: قد يكون api.github.com محجوب (VPN/Firewall/AdBlock/شبكة الشركة). جرّب شبكة أخرى.';
+          setLog(`❌ اختبار الاتصال فشل\nالسبب: Failed to fetch\n${hint}`, 'danger');
+          return;
+        }
+
+        const branches = Array.isArray(GITHUB_PUBLISH_BRANCHES) && GITHUB_PUBLISH_BRANCHES.length ? GITHUB_PUBLISH_BRANCHES : [GITHUB_BRANCH];
+        for (const branch of branches) {
+          const gh = createGithubClient(GITHUB_OWNER, GITHUB_REPO, branch, token);
+          await gh.getFileMeta('data/portfolio_projects.json', branch, true);
+        }
+
+        setLog('✓ اختبار الاتصال ناجح\nيمكنك الآن النشر بأمان.', 'ok');
+      } catch (e) {
+        if (isAuthError(e)) {
+          setLog('❌ اختبار الاتصال فشل\nالسبب: Token غير صحيح/بدون صلاحية\nالحل: أنشئ Token بصلاحية repo + contents ثم جرّب', 'danger');
+        } else {
+          setLog(`❌ اختبار الاتصال فشل\nالسبب: ${String(e && e.message ? e.message : e)}`, 'danger');
+        }
+      }
+    }
+
+    async function putImageWithRetry(gh, repoPath, message, base64, branch) {
+      const tooBig = base64 && base64.length > 980000;
+      if (tooBig) {
+        throw new Error('حجم الصورة كبير جدًا بعد التحويل. حاول رفع صورة أصغر أو اترك الأدمن يضغطها أكثر.');
+      }
+
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          try {
+            await gh.putFile(repoPath, message, base64, undefined);
+            return;
+          } catch (e) {
+            if (e && e.status === 422) {
+              let sha = undefined;
+              try {
+                const meta = await gh.getFileMeta(repoPath, branch, true);
+                if (meta && meta.sha) sha = meta.sha;
+              } catch (e2) {}
+              await gh.putFile(repoPath, message, base64, sha);
+              return;
+            }
+            throw e;
+          }
+        } catch (e) {
+          const msg = String(e && e.message ? e.message : e).toLowerCase();
+          const isNet = msg.includes('failed to fetch') || msg.includes('networkerror') || (!e || typeof e.status === 'undefined');
+          if (!isNet || attempt === 3) throw e;
+          await new Promise(r => setTimeout(r, 650 * attempt * attempt));
+        }
+      }
     }
 
     function isNotFoundError(e) {
@@ -1302,8 +1398,8 @@
 
               let fileToSend = u.optimizedFile || u.file;
               try {
-                if (!u.optimizedFile && u.file && u.file.size > 950 * 1024) {
-                  const resOpt = await optimizeImageFile(u.file, { maxBytes: 950 * 1024, maxDim: 2200 });
+                if (!u.optimizedFile && u.file && u.file.size > 700 * 1024) {
+                  const resOpt = await optimizeImageFile(u.file, { maxBytes: 700 * 1024, maxDim: 2000 });
                   if (resOpt && resOpt.file && resOpt.changed) {
                     u.optimizedFile = resOpt.file;
                     fileToSend = u.optimizedFile;
@@ -1313,20 +1409,7 @@
 
               const b64 = await fileToBase64(fileToSend);
 
-              try {
-                await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, undefined);
-              } catch (e) {
-                if (e && e.status === 422) {
-                  let sha = undefined;
-                  try {
-                    const meta = await gh.getFileMeta(repoPath, branch, true);
-                    if (meta && meta.sha) sha = meta.sha;
-                  } catch (e2) {}
-                  await gh.putFile(repoPath, `Update portfolio image: ${repoPath}`, b64, sha);
-                } else {
-                  throw e;
-                }
-              }
+              await putImageWithRetry(gh, repoPath, `Update portfolio image: ${repoPath}`, b64, branch);
             }
           }
 
@@ -1449,6 +1532,7 @@
       });
 
       $('btnRemember').addEventListener('click', rememberToken);
+      $('btnTestGh').addEventListener('click', testGithubConnection);
       $('btnReload').addEventListener('click', reloadData);
       $('btnPublish').addEventListener('click', publishNow);
 

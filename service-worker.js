@@ -36,13 +36,19 @@ self.addEventListener('fetch', event => {
     const isSameOrigin = url.origin === self.location.origin;
     const isDataFile = path.includes('/data/') && path.toLowerCase().endsWith('.json');
     const isCsvFile = path.toLowerCase().endsWith('.csv');
+    const lowerPath = path.toLowerCase();
+    const isAdminHtml = lowerPath.endsWith('.html') && lowerPath.includes('/admin');
+    if (req.method === 'GET' && isSameOrigin && isAdminHtml) {
+      event.respondWith(fetch(req));
+      return;
+    }
     if (req.method === 'GET' && isSameOrigin && (isDataFile || isCsvFile)) {
       event.respondWith(fetch(req));
       return;
     }
 
     // Never cache portfolio images (or any site_images). This prevents stale UI after admin deletes/updates.
-    const lowerPath = path.toLowerCase();
+    
     const isSiteImage = lowerPath.includes('/assets/site_images/');
     const isImageExt = /\.(png|jpe?g|webp|gif|svg)$/.test(lowerPath);
     if (req.method === 'GET' && isSameOrigin && isSiteImage && isImageExt) {

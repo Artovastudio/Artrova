@@ -1,4 +1,4 @@
-const CACHE_NAME = 'artrova-cache-v19';
+const CACHE_NAME = 'artrova-cache-v20';
 const URLS_TO_CACHE = [
   './',
   './index.html',
@@ -37,7 +37,7 @@ self.addEventListener('fetch', event => {
     const isDataFile = path.includes('/data/') && path.toLowerCase().endsWith('.json');
     const isCsvFile = path.toLowerCase().endsWith('.csv');
     const lowerPath = path.toLowerCase();
-    const isAdminHtml = lowerPath.endsWith('.html') && lowerPath.includes('/admin');
+    const isAdminHtml = lowerPath.endsWith('.html') && (lowerPath.includes('/admin') || lowerPath.endsWith('/admin_v2.html') || lowerPath.endsWith('/admin.html'));
     if (req.method === 'GET' && isSameOrigin && isAdminHtml) {
       event.respondWith(fetch(req));
       return;

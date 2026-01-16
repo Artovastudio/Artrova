@@ -1034,10 +1034,22 @@
       "titleEn": null,
       "title": "ا",
       "images": [
-        "assets/site_images/projects/portfolio_projects/project/001.jpg"
+        "assets/site_images/projects/portfolio_projects/project/001.jpg",
+        "assets/site_images/projects/portfolio_projects/project/002.jpg",
+        "assets/site_images/projects/portfolio_projects/project/003.jpg",
+        "assets/site_images/projects/portfolio_projects/project/004.jpg",
+        "assets/site_images/projects/portfolio_projects/project/005.jpg",
+        "assets/site_images/projects/portfolio_projects/project/006.jpg",
+        "assets/site_images/projects/portfolio_projects/project/007.jpg",
+        "assets/site_images/projects/portfolio_projects/project/008.jpg",
+        "assets/site_images/projects/portfolio_projects/project/009.jpg",
+        "assets/site_images/projects/portfolio_projects/project/010.jpg",
+        "assets/site_images/projects/portfolio_projects/project/011.jpg",
+        "assets/site_images/projects/portfolio_projects/project/012.jpg",
+        "assets/site_images/projects/portfolio_projects/project/013.jpg"
       ],
       "cover": "assets/site_images/projects/portfolio_projects/project/001.jpg",
-      "imageCount": 1
+      "imageCount": 13
     }
   ]
 }

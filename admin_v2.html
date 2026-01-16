@@ -1339,20 +1339,34 @@
 
       for (let attempt = 1; attempt <= 5; attempt++) {
         try {
+          // Prefer getting SHA first to avoid 422 noise when updating existing files.
+          let sha = undefined;
           try {
-            await gh.putFile(repoPath, message, base64, undefined);
+            const meta = await gh.getFileMeta(repoPath, branch, true);
+            if (meta && meta.sha) sha = meta.sha;
+          } catch (eMeta) {
+            // 404 means the file does not exist (new upload). Other errors shouldn't block the first attempt.
+            if (!isNotFoundError(eMeta)) {
+              // Ignore here and try without sha; PUT may still succeed.
+            }
+          }
+
+          try {
+            await gh.putFile(repoPath, message, base64, sha);
             return;
-          } catch (e) {
-            if (e && e.status === 422) {
-              let sha = undefined;
+          } catch (ePut) {
+            // Fallback: some 422 cases mean "sha wasn't supplied". Fetch sha then retry once.
+            const msg = String(ePut && ePut.message ? ePut.message : ePut).toLowerCase();
+            if (ePut && ePut.status === 422 && (!sha || msg.includes('sha')) ) {
+              let sha2 = sha;
               try {
-                const meta = await gh.getFileMeta(repoPath, branch, true);
-                if (meta && meta.sha) sha = meta.sha;
+                const meta2 = await gh.getFileMeta(repoPath, branch, true);
+                if (meta2 && meta2.sha) sha2 = meta2.sha;
               } catch (e2) {}
-              await gh.putFile(repoPath, message, base64, sha);
+              await gh.putFile(repoPath, message, base64, sha2);
               return;
             }
-            throw e;
+            throw ePut;
           }
         } catch (e) {
           if (!shouldRetry(e) || attempt === 5) throw e;

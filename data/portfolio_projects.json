@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1768588278303,
-  "count": 47,
+  "publishedAt": 1768588623702,
+  "count": 46,
   "projects": [
     {
       "slug": "residential",
@@ -1028,17 +1028,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/white-italian-villa/23r-1.jpg",
       "imageCount": 5
-    },
-    {
-      "slug": "home",
-      "titleAr": null,
-      "titleEn": "Home7777",
-      "title": "Home7777",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/home/001.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/home/001.jpg",
-      "imageCount": 1
     }
   ]
 }

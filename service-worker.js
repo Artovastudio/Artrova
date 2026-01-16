@@ -48,34 +48,15 @@ self.addEventListener('fetch', event => {
     }
 
     // Never cache portfolio images (or any site_images). This prevents stale UI after admin deletes/updates.
-    
+
     const isSiteImage = lowerPath.includes('/assets/site_images/');
     const isImageExt = /\.(png|jpe?g|webp|gif|svg)$/.test(lowerPath);
     if (req.method === 'GET' && isSameOrigin && isSiteImage && isImageExt) {
       event.respondWith(
         (async () => {
-          const cached = await caches.match(req);
           try {
-            const res = await fetch(req);
-
-            if (res && res.status === 404) {
-              try {
-                const cache = await caches.open(CACHE_NAME);
-                await cache.delete(req);
-              } catch (e) {}
-              return res;
-            }
-
-            if (res && res.ok) {
-              try {
-                const cache = await caches.open(CACHE_NAME);
-                await cache.put(req, res.clone());
-              } catch (e) {}
-            }
-
-            return res;
+            return await fetch(req, { cache: 'no-store' });
           } catch (e) {
-            if (cached) return cached;
             throw e;
           }
         })()
@@ -86,13 +67,7 @@ self.addEventListener('fetch', event => {
 
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req)
-        .then(res => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy)).catch(() => {});
-          return res;
-        })
-        .catch(() => caches.match('./index.html'))
+      fetch(req, { cache: 'no-store' })
     );
     return;
   }

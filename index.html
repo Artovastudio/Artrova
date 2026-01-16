@@ -2144,6 +2144,7 @@
     activeTab: 'home',
     activeFilter: 'all',
     mobileNavOpen: false,
+    cacheBustVersion: '',
     portfolioTagsLoaded: false,
     portfolioLightboxOpen: false,
     portfolioLightboxIndex: 0,
@@ -2324,6 +2325,32 @@
         if (!this.selectedPortfolioSlug) return null;
         return (this.portfolioProjects || []).find(p => p.slug === this.selectedPortfolioSlug) || null;
     },
+    getCacheBustFromUrl() {
+        try {
+            const params = new URLSearchParams(window.location.search || '');
+            return String(params.get('v') || '').trim();
+        } catch (e) {
+            return '';
+        }
+    },
+    applyCacheBust(path) {
+        const s = String(path || '').trim();
+        const v = String(this.cacheBustVersion || '').trim();
+        if (!s || !v) return s;
+        // Avoid breaking data URIs.
+        if (s.startsWith('data:')) return s;
+        // Strip existing v to ensure we always use the newest.
+        let base = s;
+        let hash = '';
+        const hashIdx = base.indexOf('#');
+        if (hashIdx !== -1) {
+            hash = base.slice(hashIdx);
+            base = base.slice(0, hashIdx);
+        }
+        base = base.replace(/[?&]v=[^&]*/g, '').replace(/\?&/, '?').replace(/\?$/, '');
+        const sep = base.includes('?') ? '&' : '?';
+        return `${base}${sep}v=${encodeURIComponent(v)}${hash}`;
+    },
     async loadPortfolioProjects() {
         try {
             if (this.isFileProtocol) {
@@ -2332,8 +2359,10 @@
                 return;
             }
             let data = null;
+            const urlV = this.getCacheBustFromUrl();
             try {
-                const res = await fetch('data/portfolio_projects.json', { cache: 'no-store' });
+                const url = urlV ? `data/portfolio_projects.json?v=${encodeURIComponent(urlV)}` : 'data/portfolio_projects.json';
+                const res = await fetch(url, { cache: 'no-store' });
                 if (res.ok) data = await res.json();
             } catch (e) {}
 
@@ -2343,14 +2372,17 @@
                 data = await resFallback.json();
             }
 
+            const publishedAt = (data && typeof data.publishedAt !== 'undefined') ? String(data.publishedAt) : '';
+            this.cacheBustVersion = urlV || publishedAt || '';
+
             const list = Array.isArray(data.projects) ? data.projects : [];
             this.portfolioProjects = list.map(p => ({
                 slug: p.slug,
                 titleAr: p.titleAr,
                 titleEn: p.titleEn,
                 title: p.title,
-                images: Array.isArray(p.images) ? p.images : [],
-                cover: p.cover || ((Array.isArray(p.images) && p.images.length) ? p.images[0] : '')
+                images: Array.isArray(p.images) ? p.images.map(img => this.applyCacheBust(img)) : [],
+                cover: this.applyCacheBust(p.cover || ((Array.isArray(p.images) && p.images.length) ? p.images[0] : ''))
             }));
             this.portfolioProjectsLoaded = true;
         } catch (e) {

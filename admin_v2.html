@@ -275,6 +275,7 @@
               <input id="filePicker" type="file" accept="image/*" multiple disabled />
             </div>
             <button class="btn primary big" id="btnPublish" disabled style="min-width:260px;">رفع ونشر الآن</button>
+            <button class="btn" id="btnOpenSiteFresh" type="button" disabled style="min-width:240px;">فتح الموقع (تحديث)</button>
           </div>
 
           <div class="sep"></div>
@@ -1455,8 +1456,11 @@
           p.imageCount = p.images.length;
         }
 
+        const publishedAt = Date.now();
+
         const payload = {
           source: 'portfolio_projects',
+          publishedAt,
           count: projects.length,
           projects
         };
@@ -1557,7 +1561,11 @@
         state.pending.dirtyJson = false;
 
         updateEditorState();
-        setLog(`✓ تم النشر بنجاح!\n${uploads.length ? `✓ تم رفع ${uploads.length} صورة` : ''}${uploads.length && deletes.length ? '\n' : ''}${deletes.length ? `✓ تم حذف ${deletes.length} صورة` : ''}`, 'ok');
+        try {
+          localStorage.setItem('artrova_last_published_at', String(publishedAt));
+        } catch (e) {}
+        updateOpenFreshBtn();
+        setLog(`✓ تم النشر بنجاح!\n${uploads.length ? `✓ تم رفع ${uploads.length} صورة` : ''}${uploads.length && deletes.length ? '\n' : ''}${deletes.length ? `✓ تم حذف ${deletes.length} صورة` : ''}\n\nافتح الموقع بتحديث: ?v=${publishedAt}`, 'ok');
       } catch (e) {
         if (isAuthError(e)) {
           setLog('❌ فشل الرفع\nالسبب: GitHub Token غير صحيح أو ليس لديه صلاحية\nالحل: أنشئ Token بصلاحية repo + contents ثم جرّب', 'danger');
@@ -1609,6 +1617,14 @@
     function showApp() {
       $('loginCard').classList.add('hidden');
       $('app').classList.remove('hidden');
+    }
+
+    function updateOpenFreshBtn() {
+      const btn = $('btnOpenSiteFresh');
+      if (!btn) return;
+      let v = '';
+      try { v = String(localStorage.getItem('artrova_last_published_at') || '').trim(); } catch (e) {}
+      btn.disabled = !v;
     }
 
     function showLogin() {
@@ -1717,6 +1733,18 @@
       $('btnSaveNames').addEventListener('click', saveNamesLocal);
       $('btnDeleteProject').addEventListener('click', deleteProjectLocal);
       $('btnNewProject').addEventListener('click', newProjectFlow);
+
+      updateOpenFreshBtn();
+      const openFresh = $('btnOpenSiteFresh');
+      if (openFresh) {
+        openFresh.addEventListener('click', () => {
+          let v = '';
+          try { v = String(localStorage.getItem('artrova_last_published_at') || '').trim(); } catch (e) {}
+          const qs = v ? `?v=${encodeURIComponent(v)}` : '';
+          const url = `index.html${qs}`;
+          try { window.open(url, '_blank', 'noopener'); } catch (e) { window.location.href = url; }
+        });
+      }
 
       try {
         const t = localStorage.getItem(TOKEN_STORE_KEY);

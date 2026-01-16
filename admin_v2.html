@@ -18,6 +18,12 @@
       --brand1: #f08ac0;
       --brand2: #38bdf8;
       --shadow: 0 24px 72px rgba(0,0,0,.55);
+      --shadow2: 0 22px 68px rgba(0,0,0,.62);
+      --glowBrand: 0 0 0 1px rgba(240,138,192,.10), 0 0 24px rgba(240,138,192,.18), 0 0 44px rgba(56,189,248,.14);
+      --glowBlue: 0 0 0 1px rgba(56,189,248,.12), 0 0 24px rgba(56,189,248,.18), 0 0 44px rgba(56,189,248,.12);
+      --glowPink: 0 0 0 1px rgba(240,138,192,.12), 0 0 22px rgba(240,138,192,.18), 0 0 40px rgba(240,138,192,.12);
+      --glowOk: 0 0 0 1px rgba(34,197,94,.14), 0 0 22px rgba(34,197,94,.16);
+      --glowDanger: 0 0 0 1px rgba(255,77,109,.16), 0 0 22px rgba(255,77,109,.16);
       --radius: 18px;
       --radius2: 14px;
       --gap: 14px;
@@ -27,14 +33,15 @@
       --wrapPadBottom: 80px;
       --sep: 12px;
       --imgGap: 10px;
+      --ease: cubic-bezier(.2,.8,.2,1);
     }
     *{box-sizing:border-box;}
-    body{margin:0; background: radial-gradient(1200px 700px at 70% -10%, rgba(56,189,248,.18), transparent 55%), radial-gradient(1100px 600px at 10% -30%, rgba(240,138,192,.16), transparent 50%), var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;}
+    body{margin:0; background: radial-gradient(1200px 700px at 70% -10%, rgba(56,189,248,.28), transparent 56%), radial-gradient(1100px 600px at 10% -30%, rgba(240,138,192,.22), transparent 54%), radial-gradient(900px 500px at 90% 40%, rgba(56,189,248,.12), transparent 58%), var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;}
     a{color:inherit}
     .wrap{max-width:1180px; margin:0 auto; padding: var(--wrapPadY) 16px var(--wrapPadBottom);}
     .topbar{display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:16px;}
     .brand{display:flex; align-items:center; gap:10px;}
-    .logo{width:38px; height:38px; border-radius:12px; background: linear-gradient(135deg, rgba(240,138,192,.9), rgba(56,189,248,.85)); box-shadow: 0 12px 40px rgba(56,189,248,.10);}
+    .logo{width:38px; height:38px; border-radius:12px; background: linear-gradient(135deg, rgba(240,138,192,.9), rgba(56,189,248,.85)); box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 16px 60px rgba(56,189,248,.14), 0 0 34px rgba(240,138,192,.14);}
     .titlebox{display:flex; flex-direction:column;}
     .titlebox .t{font-weight:800; letter-spacing:.2px;}
     .titlebox .s{font-size:.88rem; color:var(--muted);}
@@ -42,7 +49,8 @@
     .grid{display:grid; grid-template-columns: 420px 1fr; gap: var(--gap); align-items:start;}
     @media (max-width: 980px){ .grid{grid-template-columns:1fr;} }
 
-    .card{background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035)); border:1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden;}
+    .card{background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)); border:1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden; transition: transform .18s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease);}
+    .card:hover{border-color: rgba(255,255,255,.16); box-shadow: var(--shadow2), var(--glowBrand);}
     .card .hd{display:flex; align-items:center; justify-content:space-between; padding: var(--padHd) var(--padHd); border-bottom:1px solid var(--border); background: rgba(0,0,0,.25);}
     .card .hd h2{margin:0; font-size:1rem;}
     .card .bd{padding: var(--pad);}
@@ -53,17 +61,19 @@
     input[type="text"], input[type="password"], select{width:100%; padding:11px 12px; border-radius: 14px; border:1px solid var(--border); background: rgba(2,6,23,.55); color:var(--text); outline:none;}
     input[type="file"]{width:100%;}
 
-    .btn{appearance:none; border:1px solid var(--border); background: rgba(255,255,255,.06); color:var(--text); padding:10px 12px; border-radius: 14px; cursor:pointer; transition: transform .06s ease, background .2s ease, border-color .2s ease;}
-    .btn:hover{background: rgba(255,255,255,.10);}
-    .btn:active{transform: translateY(1px);}
+    .btn{appearance:none; border:1px solid var(--border); background: rgba(255,255,255,.06); color:var(--text); padding:10px 12px; border-radius: 14px; cursor:pointer; transition: transform .16s var(--ease), background .22s var(--ease), border-color .22s var(--ease), box-shadow .22s var(--ease), filter .22s var(--ease);}
+    .btn:hover{background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.16);}
+    .btn:active{transform: translateY(1px) scale(.99);}
     .btn:disabled{opacity:.5; cursor:not-allowed;}
-    .btn.primary{background: linear-gradient(135deg, rgba(240,138,192,.75), rgba(56,189,248,.65)); border-color: rgba(255,255,255,.14);}
-    .btn.primary:hover{background: linear-gradient(135deg, rgba(240,138,192,.86), rgba(56,189,248,.75));}
+    .btn.primary{background: linear-gradient(135deg, rgba(240,138,192,.78), rgba(56,189,248,.68)); border-color: rgba(255,255,255,.18); box-shadow: 0 18px 70px rgba(56,189,248,.14), 0 0 0 1px rgba(255,255,255,.10);}
+    .btn.primary:hover{background: linear-gradient(135deg, rgba(240,138,192,.92), rgba(56,189,248,.82)); box-shadow: 0 22px 86px rgba(240,138,192,.16), var(--glowBrand);}
     .btn.ok{border-color: rgba(34,197,94,.55);}
     .btn.danger{border-color: rgba(255,77,109,.55);}
+    .btn.ok:hover{box-shadow: var(--glowOk);}
+    .btn.danger:hover{box-shadow: var(--glowDanger);}
     .btn.big{padding:14px 14px; border-radius: 16px; font-weight:800;}
 
-    .pill{font-size:.78rem; color: rgba(255,255,255,.72); border:1px solid var(--border); background: rgba(0,0,0,.20); padding:6px 10px; border-radius: 999px;}
+    .pill{font-size:.78rem; color: rgba(255,255,255,.78); border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); padding:6px 10px; border-radius: 999px; box-shadow: 0 0 0 1px rgba(0,0,0,.22) inset;}
 
     .notice{border:1px solid var(--border); background: rgba(2,6,23,.45); border-radius: 16px; padding:12px 12px; color: var(--muted);}
     .notice.ok{border-color: rgba(34,197,94,.55); color: rgba(229,255,242,.92); background: rgba(34,197,94,.08);}
@@ -84,22 +94,33 @@
 
     .projects{display:grid; grid-template-columns: repeat(2, 1fr); gap: var(--imgGap);}
     @media (max-width: 980px){ .projects{grid-template-columns: 1fr;} }
-    .proj{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.18); overflow:hidden; cursor:pointer; transition: transform .06s ease, background .2s ease, border-color .2s ease;}
-    .proj:hover{background: rgba(255,255,255,.06);}
-    .proj:active{transform: translateY(1px);}
-    .proj.sel{border-color: rgba(240,138,192,.55); box-shadow: 0 0 0 2px rgba(240,138,192,.12) inset;}
+    .proj{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.18); overflow:hidden; cursor:pointer; transition: transform .18s var(--ease), background .22s var(--ease), border-color .22s var(--ease), box-shadow .22s var(--ease);}
+    .proj:hover{background: rgba(255,255,255,.06); transform: translateY(-1px); box-shadow: 0 18px 60px rgba(0,0,0,.45);}
+    .proj:active{transform: translateY(0px) scale(.995);}
+    .proj.sel{border-color: rgba(240,138,192,.62); box-shadow: 0 0 0 2px rgba(240,138,192,.14) inset, var(--glowPink);}
     .proj .thumb{aspect-ratio: 16/9; background: rgba(0,0,0,.35);}
     .proj .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
     .proj .meta{padding:10px 10px; display:flex; flex-direction:column; gap:8px;}
     .proj .meta .t{font-weight:800; font-size:.95rem;}
     .proj .meta .s{font-size:.82rem; color: var(--muted);}
 
-    .img{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.22); overflow:hidden;}
-    .img .thumb{aspect-ratio: 1/1; background: rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center;}
+    .img{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.22); overflow:hidden; transition: transform .18s var(--ease), border-color .22s var(--ease), box-shadow .22s var(--ease), filter .22s var(--ease);}
+    .img .thumb{position: relative; aspect-ratio: 1/1; background: rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center;}
     .img img{width:100%; height:100%; object-fit:cover; display:block;}
     .img .meta{padding:10px 10px; display:flex; flex-direction:column; gap:8px;}
     .img .name{font-size:.86rem; color: rgba(255,255,255,.78); overflow:hidden; text-overflow: ellipsis; white-space:nowrap;}
     .img .name input{width:100%; padding:9px 10px; border-radius: 12px; border:1px solid var(--border); background: rgba(2,6,23,.55); color:var(--text); outline:none;}
+
+    .img .thumb{position: relative;}
+    .img.sel{border-color: rgba(240,138,192,.78); box-shadow: 0 0 0 2px rgba(240,138,192,.18) inset, var(--glowPink);}
+    .img .selBox{position:absolute; top:8px; right:8px; z-index:5; display:flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius: 10px; border:1px solid rgba(255,255,255,.22); background: rgba(0,0,0,.42);}
+    .img .selBox input{width:16px; height:16px;}
+
+    .img:hover{transform: translateY(-1px); box-shadow: 0 18px 64px rgba(0,0,0,.50); filter: saturate(1.06);}
+
+    .selbar{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-top:10px;}
+    .selbar .left{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+    .selbar .right{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
 
     details{border:1px solid var(--border); border-radius: 16px; background: rgba(0,0,0,.18); overflow:hidden;}
     details > summary{cursor:pointer; list-style:none; padding:12px 12px; font-weight:800; user-select:none; display:flex; align-items:center; justify-content:space-between; gap:10px;}
@@ -109,7 +130,7 @@
     .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1000;}
     .modal.open{display:flex;}
     .modal .backdrop{position:absolute; inset:0; background: rgba(0,0,0,.58); backdrop-filter: blur(10px);}
-    .modal .panel{position:relative; width:min(980px, 92vw); border:1px solid var(--border); border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04)); box-shadow: var(--shadow); overflow:hidden;}
+    .modal .panel{position:relative; width:min(980px, 92vw); border:1px solid rgba(255,255,255,.16); border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.095), rgba(255,255,255,.028)); box-shadow: var(--shadow2), var(--glowBlue); overflow:hidden;}
     .modal .panel .hd{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 12px; border-bottom:1px solid var(--border); background: rgba(0,0,0,.25);}
     .modal .panel .hd .t{font-weight:900; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
     .modal .panel .bd{display:grid; grid-template-columns: 1.1fr .9fr; gap:12px; padding:12px 12px;}
@@ -151,6 +172,34 @@
     @media (max-width: 460px){ body.compact .imgs{grid-template-columns: repeat(2, 1fr);} }
 
     .hidden{display:none !important;}
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pop {
+      from { opacity: 0; transform: translateY(8px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(10px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes backdropIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    body.ui-ready .topbar{animation: fadeUp .45s var(--ease) both;}
+    body.ui-ready #app .card{animation: pop .45s var(--ease) both;}
+    body.ui-ready #app .card:nth-child(2){animation-delay: .06s;}
+    body.ui-ready #loginCard.card{animation: pop .45s var(--ease) both;}
+    .modal.open .backdrop{animation: backdropIn .18s var(--ease) both;}
+    .modal.open .panel{animation: modalIn .22s var(--ease) both;}
+
+    @media (prefers-reduced-motion: reduce) {
+      *{animation:none !important; transition:none !important;}
+    }
   </style>
 </head>
 <body>
@@ -285,6 +334,18 @@
             <div class="pill" id="imagesPill">0</div>
           </div>
 
+          <div class="selbar" id="selectionBar">
+            <div class="left">
+              <div class="pill" id="selectedCount">المحدد: 0</div>
+            </div>
+            <div class="right">
+              <button class="btn" id="btnSelectAll" type="button" disabled>تحديد الكل</button>
+              <button class="btn" id="btnSelectNone" type="button" disabled>إلغاء التحديد</button>
+              <button class="btn danger" id="btnDeleteSelected" type="button" disabled>حذف المحدد</button>
+              <button class="btn ok" id="btnSetCoverSelected" type="button" disabled>تعيين غلاف</button>
+            </div>
+          </div>
+
           <div class="scrollArea imagesScroll" style="margin-top:10px;">
             <div class="imgs" id="imagesGrid"></div>
           </div>
@@ -343,12 +404,12 @@
       ui: {
         imgModalOpen: false,
         imgModalSlug: null,
-        imgModalPath: null
+        imgModalPath: null,
+        selectedImages: new Set()
       },
       pending: {
         uploads: [],
         deletes: new Set(),
-        dirtyJson: false,
         projectDeletes: new Set(),
         nameEdits: new Map(),
         coverEdits: new Map(),
@@ -664,7 +725,7 @@
       const slug = String(p.slug);
       const order = getOrderedVisibleImagesForProject(p);
       const path = String(state.ui.imgModalPath || '');
-      const idx = order.findIndex(x => String(x) === path);
+      const idx = order.findIndex(x => String(x) === String(path));
       if (idx === -1) {
         closeImageModal();
         return;
@@ -824,11 +885,29 @@
         const path = order[idx];
         const staged = getStagedUploadByTargetPath(slug, path);
         const card = document.createElement('div');
-        card.className = 'img';
+        const isSel = state.ui.selectedImages.has(String(path));
+        card.className = 'img' + (isSel ? ' sel' : '');
         card.addEventListener('click', () => openImageModal(path));
 
         const thumb = document.createElement('div');
         thumb.className = 'thumb';
+
+        const selBox = document.createElement('div');
+        selBox.className = 'selBox';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = isSel;
+        cb.addEventListener('click', (e) => {
+          try { e.preventDefault(); e.stopPropagation(); } catch (x) {}
+          toggleImageSelection(path);
+        });
+        selBox.addEventListener('click', (e) => {
+          try { e.preventDefault(); e.stopPropagation(); } catch (x) {}
+          toggleImageSelection(path);
+        });
+        selBox.appendChild(cb);
+        thumb.appendChild(selBox);
+
         const im = document.createElement('img');
         im.loading = 'lazy';
         im.src = staged && staged.previewUrl ? staged.previewUrl : String(path);
@@ -850,6 +929,104 @@
       }
 
       renderImageModal();
+      updateSelectionBar();
+    }
+
+    function updateSelectionBar() {
+      const bar = $('selectionBar');
+      if (!bar) return;
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      const hasProject = !!p;
+
+      // prune selections that no longer exist
+      if (p) {
+        const visible = new Set(getVisibleImagesForProject(p).map(x => String(x)));
+        for (const x of Array.from(state.ui.selectedImages)) {
+          if (!visible.has(String(x))) state.ui.selectedImages.delete(String(x));
+        }
+      } else {
+        state.ui.selectedImages.clear();
+      }
+
+      const count = state.ui.selectedImages.size;
+      $('selectedCount').textContent = `المحدد: ${count}`;
+
+      const btnAll = $('btnSelectAll');
+      const btnNone = $('btnSelectNone');
+      const btnDel = $('btnDeleteSelected');
+      const btnCover = $('btnSetCoverSelected');
+
+      const visibleCount = p ? getVisibleImagesForProject(p).length : 0;
+
+      btnAll.disabled = !hasProject || visibleCount === 0;
+      btnNone.disabled = !hasProject || count === 0;
+      btnDel.disabled = !hasProject || count === 0;
+      btnCover.disabled = !hasProject || count !== 1;
+    }
+
+    function toggleImageSelection(path) {
+      const k = String(path);
+      if (!k) return;
+      if (state.ui.selectedImages.has(k)) state.ui.selectedImages.delete(k);
+      else state.ui.selectedImages.add(k);
+      renderImages();
+    }
+
+    function selectAllVisibleImages() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p) return;
+      state.ui.selectedImages.clear();
+      for (const x of getVisibleImagesForProject(p)) state.ui.selectedImages.add(String(x));
+      renderImages();
+    }
+
+    function clearImageSelection() {
+      state.ui.selectedImages.clear();
+      renderImages();
+    }
+
+    function deleteSelectedImagesLocal() {
+      const p = state.selectedSlug ? getProjectBySlug(state.selectedSlug) : null;
+      if (!p) return;
+      const items = Array.from(state.ui.selectedImages);
+      if (!items.length) return;
+      const ok = confirm(`تأكيد حذف ${items.length} صورة؟ سيتم حذفها من GitHub عند النشر.`);
+      if (!ok) return;
+
+      // delete without asking per-image
+      for (const path of items) {
+        state.pending.deletes.add(path);
+
+        const slug = String(p.slug);
+        const pref = state.pending.orderEdits.get(slug);
+        if (pref && Array.isArray(pref)) {
+          state.pending.orderEdits.set(slug, pref.filter(x => String(x) !== String(path)));
+        }
+        const c = state.pending.coverEdits.get(slug);
+        if (c && String(c) === String(path)) {
+          const order = getOrderedVisibleImagesForProject(p);
+          state.pending.coverEdits.set(slug, order[0] || '');
+        }
+      }
+
+      state.ui.selectedImages.clear();
+      state.pending.dirtyJson = true;
+      updateEditorState();
+      renderImages();
+      renderProjects();
+      setLog('✓ تم حذف الصور المحددة محليًا\nجاهز للنشر. اضغط "رفع ونشر الآن".', 'ok');
+
+      if (state.ui.imgModalOpen && state.ui.imgModalPath && state.pending.deletes.has(String(state.ui.imgModalPath))) {
+        closeImageModal();
+      }
+    }
+
+    function setCoverFromSelection() {
+      const only = Array.from(state.ui.selectedImages);
+      if (only.length !== 1) return;
+      setCoverLocal(only[0]);
+      state.ui.selectedImages.clear();
+      renderImages();
     }
 
     function clearPendingUploads() {
@@ -1057,6 +1234,8 @@
       const ok = confirm('تأكيد حذف الصورة؟ سيتم حذفها من GitHub عند النشر.');
       if (!ok) return;
 
+      try { state.ui.selectedImages.delete(String(path)); } catch (e) {}
+
       state.pending.deletes.add(path);
       state.pending.dirtyJson = true;
 
@@ -1200,6 +1379,81 @@
       return btoa(unescape(encodeURIComponent(str)));
     }
 
+    async function putImageWithRetry(gh, repoPath, message, base64, branch) {
+      const tooBig = base64 && base64.length > 980000;
+      if (tooBig) {
+        throw new Error('حجم الصورة كبير جدًا بعد التحويل. حاول رفع صورة أصغر أو اترك الأدمن يضغطها أكثر.');
+      }
+
+      function shouldRetry(e) {
+        const status = (e && typeof e.status !== 'undefined') ? Number(e.status) : null;
+        const msg = String(e && e.message ? e.message : e).toLowerCase();
+        const isNet = msg.includes('failed to fetch') || msg.includes('networkerror') || (!e || typeof e.status === 'undefined');
+        if (isNet) return true;
+        if (status === 429) return true;
+        if (status === 500 || status === 502 || status === 503 || status === 504) return true;
+        if (status === 403 && (msg.includes('secondary rate limit') || msg.includes('rate limit') || msg.includes('api rate limit'))) return true;
+        return false;
+      }
+
+      for (let attempt = 1; attempt <= 5; attempt++) {
+        try {
+          try {
+            await gh.putFile(repoPath, message, base64, undefined);
+            return;
+          } catch (e) {
+            if (e && e.status === 422) {
+              let sha = undefined;
+              try {
+                const meta = await gh.getFileMeta(repoPath, branch, true);
+                if (meta && meta.sha) sha = meta.sha;
+              } catch (e2) {}
+              await gh.putFile(repoPath, message, base64, sha);
+              return;
+            }
+            throw e;
+          }
+        } catch (e) {
+          if (!shouldRetry(e) || attempt === 5) throw e;
+          const base = 700 * attempt * attempt;
+          const jitter = Math.floor(Math.random() * 250);
+          await sleep(base + jitter);
+        }
+      }
+    }
+
+    function isNotFoundError(e) {
+      const msg = String(e && e.message ? e.message : e);
+      return (e && e.status === 404) || msg.toLowerCase().includes('not found') || msg.toLowerCase().includes('404');
+    }
+
+    function isAuthError(e) {
+      const msg = String(e && e.message ? e.message : e);
+      return (e && (e.status === 401 || e.status === 403)) || msg.toLowerCase().includes('bad credentials') || msg.toLowerCase().includes('requires authentication');
+    }
+
+    async function putPortfolioJsonWithRetry(gh, payload, branch) {
+      const jsonPath = 'data/portfolio_projects.json';
+      const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
+
+      for (let attempt = 1; attempt <= 6; attempt++) {
+        try {
+          let sha = undefined;
+          try {
+            const meta = await gh.getFileMeta(jsonPath, branch, true);
+            if (meta && meta.sha) sha = meta.sha;
+          } catch (e) {}
+          await gh.putFile(jsonPath, 'Update portfolio projects data', jsonB64, sha);
+          return;
+        } catch (e) {
+          const msg = String(e && e.message ? e.message : e);
+          const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
+          if (!isShaMismatch || attempt === 6) throw e;
+          await new Promise(r => setTimeout(r, 450 * attempt * attempt));
+        }
+      }
+    }
+
     function sitePathToRepoPath(sitePath) {
       let p = String(sitePath || '').trim();
       if (!p) return '';
@@ -1317,81 +1571,6 @@
           setLog('❌ اختبار الاتصال فشل\nالسبب: Token غير صحيح/بدون صلاحية\nالحل: أنشئ Token بصلاحية repo + contents ثم جرّب', 'danger');
         } else {
           setLog(`❌ اختبار الاتصال فشل\nالسبب: ${String(e && e.message ? e.message : e)}`, 'danger');
-        }
-      }
-    }
-
-    async function putImageWithRetry(gh, repoPath, message, base64, branch) {
-      const tooBig = base64 && base64.length > 980000;
-      if (tooBig) {
-        throw new Error('حجم الصورة كبير جدًا بعد التحويل. حاول رفع صورة أصغر أو اترك الأدمن يضغطها أكثر.');
-      }
-
-      function shouldRetry(e) {
-        const status = (e && typeof e.status !== 'undefined') ? Number(e.status) : null;
-        const msg = String(e && e.message ? e.message : e).toLowerCase();
-        const isNet = msg.includes('failed to fetch') || msg.includes('networkerror') || (!e || typeof e.status === 'undefined');
-        if (isNet) return true;
-        if (status === 429) return true;
-        if (status === 500 || status === 502 || status === 503 || status === 504) return true;
-        if (status === 403 && (msg.includes('secondary rate limit') || msg.includes('rate limit') || msg.includes('api rate limit'))) return true;
-        return false;
-      }
-
-      for (let attempt = 1; attempt <= 5; attempt++) {
-        try {
-          try {
-            await gh.putFile(repoPath, message, base64, undefined);
-            return;
-          } catch (e) {
-            if (e && e.status === 422) {
-              let sha = undefined;
-              try {
-                const meta = await gh.getFileMeta(repoPath, branch, true);
-                if (meta && meta.sha) sha = meta.sha;
-              } catch (e2) {}
-              await gh.putFile(repoPath, message, base64, sha);
-              return;
-            }
-            throw e;
-          }
-        } catch (e) {
-          if (!shouldRetry(e) || attempt === 5) throw e;
-          const base = 700 * attempt * attempt;
-          const jitter = Math.floor(Math.random() * 250);
-          await sleep(base + jitter);
-        }
-      }
-    }
-
-    function isNotFoundError(e) {
-      const msg = String(e && e.message ? e.message : e);
-      return (e && e.status === 404) || msg.toLowerCase().includes('not found') || msg.toLowerCase().includes('404');
-    }
-
-    function isAuthError(e) {
-      const msg = String(e && e.message ? e.message : e);
-      return (e && (e.status === 401 || e.status === 403)) || msg.toLowerCase().includes('bad credentials') || msg.toLowerCase().includes('requires authentication');
-    }
-
-    async function putPortfolioJsonWithRetry(gh, payload, branch) {
-      const jsonPath = 'data/portfolio_projects.json';
-      const jsonB64 = utf8ToBase64(JSON.stringify(payload, null, 2));
-
-      for (let attempt = 1; attempt <= 6; attempt++) {
-        try {
-          let sha = undefined;
-          try {
-            const meta = await gh.getFileMeta(jsonPath, branch, true);
-            if (meta && meta.sha) sha = meta.sha;
-          } catch (e) {}
-          await gh.putFile(jsonPath, 'Update portfolio projects data', jsonB64, sha);
-          return;
-        } catch (e) {
-          const msg = String(e && e.message ? e.message : e);
-          const isShaMismatch = msg.toLowerCase().includes('does not match') || msg.toLowerCase().includes('sha') || e.status === 409;
-          if (!isShaMismatch || attempt === 6) throw e;
-          await new Promise(r => setTimeout(r, 450 * attempt * attempt));
         }
       }
     }
@@ -1580,6 +1759,7 @@
     function selectProject(slug) {
       closeImageModal();
       state.selectedSlug = slug || null;
+      state.ui.selectedImages.clear();
       // keep pending changes across project switches; user can publish or reload to reset
 
       renderProjects();
@@ -1617,6 +1797,7 @@
     function showApp() {
       $('loginCard').classList.add('hidden');
       $('app').classList.remove('hidden');
+      try { document.body.classList.add('ui-ready'); } catch (e) {}
     }
 
     function updateOpenFreshBtn() {
@@ -1630,6 +1811,7 @@
     function showLogin() {
       $('app').classList.add('hidden');
       $('loginCard').classList.remove('hidden');
+      try { document.body.classList.add('ui-ready'); } catch (e) {}
     }
 
     async function boot() {
@@ -1663,6 +1845,11 @@
       $('btnTestGh').addEventListener('click', testGithubConnection);
       $('btnReload').addEventListener('click', reloadData);
       $('btnPublish').addEventListener('click', publishNow);
+
+      $('btnSelectAll').addEventListener('click', selectAllVisibleImages);
+      $('btnSelectNone').addEventListener('click', clearImageSelection);
+      $('btnDeleteSelected').addEventListener('click', deleteSelectedImagesLocal);
+      $('btnSetCoverSelected').addEventListener('click', setCoverFromSelection);
 
       $('imgModalClose').addEventListener('click', closeImageModal);
       $('imgModalBackdrop').addEventListener('click', closeImageModal);

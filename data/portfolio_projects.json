@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1768586799952,
-  "count": 47,
+  "publishedAt": 1768586886318,
+  "count": 46,
   "projects": [
     {
       "slug": "residential",
@@ -1028,22 +1028,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/white-italian-villa/23r-1.jpg",
       "imageCount": 5
-    },
-    {
-      "slug": "project",
-      "titleAr": "لللللللللللللللللللل",
-      "titleEn": null,
-      "title": "لللللللللللللللللللل",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/project/005.jpg",
-        "assets/site_images/projects/portfolio_projects/project/007.jpg",
-        "assets/site_images/projects/portfolio_projects/project/010.jpg",
-        "assets/site_images/projects/portfolio_projects/project/011.jpg",
-        "assets/site_images/projects/portfolio_projects/project/012.jpg",
-        "assets/site_images/projects/portfolio_projects/project/013.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/project/007.jpg",
-      "imageCount": 6
     }
   ]
 }

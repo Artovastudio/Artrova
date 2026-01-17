@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1768589142087,
-  "count": 46,
+  "publishedAt": 1768653248007,
+  "count": 47,
   "projects": [
     {
       "slug": "residential",
@@ -1028,6 +1028,37 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/white-italian-villa/23r-1.jpg",
       "imageCount": 5
+    },
+    {
+      "slug": "for-kids",
+      "titleAr": null,
+      "titleEn": "HOME",
+      "title": "HOME",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/for-kids/001.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/002.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/003.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/004.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/005.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/006.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/007.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/008.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/009.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/010.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/011.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/012.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/013.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/014.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/015.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/016.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/017.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/018.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/019.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/020.jpg",
+        "assets/site_images/projects/portfolio_projects/for-kids/021.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/for-kids/001.jpg",
+      "imageCount": 21
     }
   ]
 }

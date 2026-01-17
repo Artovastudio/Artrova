@@ -450,9 +450,11 @@
 
     function getCompactMode() {
       try {
-        return String(localStorage.getItem(COMPACT_STORE_KEY) || '') === '1';
+        const v = localStorage.getItem(COMPACT_STORE_KEY);
+        if (v === null || typeof v === 'undefined') return true;
+        return String(v || '') === '1';
       } catch (e) {
-        return false;
+        return true;
       }
     }
 

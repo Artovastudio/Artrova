@@ -1,6 +1,6 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1768672339660,
+  "publishedAt": 1768674023065,
   "count": 47,
   "projects": [
     {
@@ -1031,9 +1031,9 @@
     },
     {
       "slug": "home",
-      "titleAr": "HOME",
+      "titleAr": "HOMEGBGHHFG",
       "titleEn": null,
-      "title": "HOME",
+      "title": "HOMEGBGHHFG",
       "images": [
         "assets/site_images/projects/portfolio_projects/home/001.jpg",
         "assets/site_images/projects/portfolio_projects/home/002.jpg",
@@ -1085,7 +1085,7 @@
         "assets/site_images/projects/portfolio_projects/home/048.jpg",
         "assets/site_images/projects/portfolio_projects/home/049.jpg"
       ],
-      "cover": "assets/site_images/projects/portfolio_projects/home/001.jpg",
+      "cover": "assets/site_images/projects/portfolio_projects/home/002.jpg",
       "imageCount": 49
     }
   ]

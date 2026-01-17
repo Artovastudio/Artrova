@@ -1465,13 +1465,13 @@
 
     async function optimizeImageFile(file, options) {
       const opts = options || {};
-      const maxBytes = typeof opts.maxBytes === 'number' ? opts.maxBytes : 650 * 1024;
-      const maxDim = typeof opts.maxDim === 'number' ? opts.maxDim : 2000;
+      const maxBytes = typeof opts.maxBytes === 'number' ? opts.maxBytes : 520 * 1024;
+      const maxDim = typeof opts.maxDim === 'number' ? opts.maxDim : 1800;
 
       if (!file) return { file: null, changed: false };
       const type = String(file.type || '').toLowerCase();
       if (!type.startsWith('image/')) return { file, changed: false };
-      if (file.size <= maxBytes) return { file, changed: false };
+      if (!opts.force && file.size <= maxBytes) return { file, changed: false };
 
       async function decodeToBitmap(f) {
         let url = '';
@@ -1497,7 +1497,7 @@
       }
 
       const imgBitmap = await decodeToBitmap(file);
-      if (!imgBitmap) return { file, changed: false };
+      if (!imgBitmap) return { file, changed: false, reason: 'decode_failed' };
 
       const w = imgBitmap.width || 1;
       const h = imgBitmap.height || 1;
@@ -1506,7 +1506,7 @@
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d', { alpha: false });
 
-      const dimSteps = [1, 0.85, 0.72, 0.6, 0.5, 0.42];
+      const dimSteps = [1, 0.85, 0.72, 0.6, 0.5, 0.42, 0.36, 0.32];
       let outBlob = null;
 
       for (let d = 0; d < dimSteps.length; d++) {
@@ -1518,11 +1518,11 @@
         ctx.clearRect(0, 0, tw, th);
         ctx.drawImage(imgBitmap, 0, 0, tw, th);
 
-        let quality = 0.82;
-        for (let i = 0; i < 10; i++) {
+        let quality = 0.8;
+        for (let i = 0; i < 12; i++) {
           outBlob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
           if (outBlob && outBlob.size <= maxBytes) break;
-          quality = Math.max(0.32, quality - 0.07);
+          quality = Math.max(0.22, quality - 0.07);
         }
 
         if (outBlob && outBlob.size <= maxBytes) break;
@@ -1535,6 +1535,36 @@
       const base = String(file.name || 'image').replace(/\.[a-z0-9]+$/i, '');
       const outName = `${base}.jpg`;
       return { file: new File([outBlob], outName, { type: 'image/jpeg' }), changed: true };
+    }
+
+    async function ensureUploadableImageBase64(u, initialFile) {
+      const tiers = [
+        { maxBytes: 520 * 1024, maxDim: 1800 },
+        { maxBytes: 420 * 1024, maxDim: 1600 },
+        { maxBytes: 330 * 1024, maxDim: 1400 },
+        { maxBytes: 260 * 1024, maxDim: 1200 }
+      ];
+
+      let fileToSend = initialFile;
+      let b64 = await fileToBase64(fileToSend);
+      if (b64 && b64.length <= 980000) return { fileToSend, b64 };
+
+      const src = u && u.file ? u.file : initialFile;
+      for (let t = 0; t < tiers.length; t++) {
+        const tier = tiers[t];
+        const resOpt = await optimizeImageFile(src, { ...tier, force: true });
+        if (resOpt && resOpt.reason === 'decode_failed') {
+          throw new Error('تعذر ضغط هذه الصورة (فشل قراءة الصورة). جرّب حفظها كـ JPG ثم ارفعها مرة أخرى.');
+        }
+        if (resOpt && resOpt.file) {
+          u.optimizedFile = resOpt.file;
+          fileToSend = u.optimizedFile;
+        }
+        b64 = await fileToBase64(fileToSend);
+        if (b64 && b64.length <= 980000) return { fileToSend, b64 };
+      }
+
+      throw new Error('حجم الصورة كبير جدًا بعد الضغط التلقائي. جرّب صورة أصغر أو قصّها/قلل الدقة قبل الرفع.');
     }
 
     function utf8ToBase64(str) {
@@ -1826,34 +1856,9 @@
               done++;
               setLog(`⏳ جاري الرفع...\n✓ تم رفع ${done}/${total} صورة\nالآن: ${repoPath}\nالفرع: ${branch}`, '');
 
-              let fileToSend = u.optimizedFile || u.file;
-              try {
-                if (!u.optimizedFile && u.file && u.file.size > 520 * 1024) {
-                  const resOpt = await optimizeImageFile(u.file, { maxBytes: 650 * 1024, maxDim: 2000 });
-                  if (resOpt && resOpt.file && resOpt.changed) {
-                    u.optimizedFile = resOpt.file;
-                    fileToSend = u.optimizedFile;
-                  }
-                  if (resOpt && resOpt.reason === 'too_big_after_opt') {
-                    throw new Error('حجم الصورة كبير جدًا بعد التحويل. جرّب صورة أصغر أو قصّها قليلًا.');
-                  }
-                }
-              } catch (e) { throw e; }
-
-              let b64 = await fileToBase64(fileToSend);
-
-              // If still too large for GitHub Contents API after base64, try a stricter second pass automatically.
-              if (b64 && b64.length > 980000 && u.file && !u.__opt2Tried) {
-                u.__opt2Tried = true;
-                try {
-                  const resOpt2 = await optimizeImageFile(u.file, { maxBytes: 520 * 1024, maxDim: 1600 });
-                  if (resOpt2 && resOpt2.file && resOpt2.changed) {
-                    u.optimizedFile = resOpt2.file;
-                    fileToSend = u.optimizedFile;
-                    b64 = await fileToBase64(fileToSend);
-                  }
-                } catch (e) {}
-              }
+              const initial = u.optimizedFile || u.file;
+              const pack = await ensureUploadableImageBase64(u, initial);
+              const b64 = pack.b64;
               await putImageWithRetry(gh, repoPath, `Update portfolio image: ${repoPath}`, b64, branch);
               if (!isLocalhost()) await sleep(450);
               return repoPath;

@@ -1463,7 +1463,7 @@
 
     async function optimizeImageFile(file, options) {
       const opts = options || {};
-      const maxBytes = typeof opts.maxBytes === 'number' ? opts.maxBytes : 700 * 1024;
+      const maxBytes = typeof opts.maxBytes === 'number' ? opts.maxBytes : 650 * 1024;
       const maxDim = typeof opts.maxDim === 'number' ? opts.maxDim : 2000;
 
       if (!file) return { file: null, changed: false };
@@ -1471,34 +1471,64 @@
       if (!type.startsWith('image/')) return { file, changed: false };
       if (file.size <= maxBytes) return { file, changed: false };
 
-      let imgBitmap = null;
-      try {
-        imgBitmap = await createImageBitmap(file);
-      } catch (e) {
-        return { file, changed: false };
+      async function decodeToBitmap(f) {
+        let url = '';
+        try {
+          return await createImageBitmap(f);
+        } catch (e) {}
+        try {
+          url = URL.createObjectURL(f);
+          const img = new Image();
+          img.decoding = 'async';
+          img.src = url;
+          await img.decode();
+          const bmp = await createImageBitmap(img);
+          URL.revokeObjectURL(url);
+          url = '';
+          return bmp;
+        } catch (e) {
+          try {
+            if (url) URL.revokeObjectURL(url);
+          } catch (e2) {}
+        }
+        return null;
       }
 
-      let w = imgBitmap.width || 1;
-      let h = imgBitmap.height || 1;
-      const scale = Math.min(1, maxDim / Math.max(w, h));
-      const tw = Math.max(1, Math.round(w * scale));
-      const th = Math.max(1, Math.round(h * scale));
+      const imgBitmap = await decodeToBitmap(file);
+      if (!imgBitmap) return { file, changed: false };
+
+      const w = imgBitmap.width || 1;
+      const h = imgBitmap.height || 1;
+      const startScale = Math.min(1, maxDim / Math.max(w, h));
 
       const canvas = document.createElement('canvas');
-      canvas.width = tw;
-      canvas.height = th;
       const ctx = canvas.getContext('2d', { alpha: false });
-      ctx.drawImage(imgBitmap, 0, 0, tw, th);
 
+      const dimSteps = [1, 0.85, 0.72, 0.6, 0.5, 0.42];
       let outBlob = null;
-      let quality = 0.84;
-      for (let i = 0; i < 9; i++) {
-        outBlob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+
+      for (let d = 0; d < dimSteps.length; d++) {
+        const scale = startScale * dimSteps[d];
+        const tw = Math.max(1, Math.round(w * scale));
+        const th = Math.max(1, Math.round(h * scale));
+        canvas.width = tw;
+        canvas.height = th;
+        ctx.clearRect(0, 0, tw, th);
+        ctx.drawImage(imgBitmap, 0, 0, tw, th);
+
+        let quality = 0.82;
+        for (let i = 0; i < 10; i++) {
+          outBlob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+          if (outBlob && outBlob.size <= maxBytes) break;
+          quality = Math.max(0.32, quality - 0.07);
+        }
+
         if (outBlob && outBlob.size <= maxBytes) break;
-        quality = Math.max(0.45, quality - 0.07);
       }
 
-      if (!outBlob || outBlob.size > maxBytes) return { file, changed: false };
+      if (!outBlob || outBlob.size > maxBytes) {
+        return { file, changed: false, reason: 'too_big_after_opt' };
+      }
 
       const base = String(file.name || 'image').replace(/\.[a-z0-9]+$/i, '');
       const outName = `${base}.jpg`;
@@ -1796,16 +1826,32 @@
 
               let fileToSend = u.optimizedFile || u.file;
               try {
-                if (!u.optimizedFile && u.file && u.file.size > 700 * 1024) {
-                  const resOpt = await optimizeImageFile(u.file, { maxBytes: 700 * 1024, maxDim: 2000 });
+                if (!u.optimizedFile && u.file && u.file.size > 520 * 1024) {
+                  const resOpt = await optimizeImageFile(u.file, { maxBytes: 650 * 1024, maxDim: 2000 });
                   if (resOpt && resOpt.file && resOpt.changed) {
                     u.optimizedFile = resOpt.file;
                     fileToSend = u.optimizedFile;
                   }
+                  if (resOpt && resOpt.reason === 'too_big_after_opt') {
+                    throw new Error('حجم الصورة كبير جدًا بعد التحويل. جرّب صورة أصغر أو قصّها قليلًا.');
+                  }
                 }
-              } catch (e) {}
+              } catch (e) { throw e; }
 
-              const b64 = await fileToBase64(fileToSend);
+              let b64 = await fileToBase64(fileToSend);
+
+              // If still too large for GitHub Contents API after base64, try a stricter second pass automatically.
+              if (b64 && b64.length > 980000 && u.file && !u.__opt2Tried) {
+                u.__opt2Tried = true;
+                try {
+                  const resOpt2 = await optimizeImageFile(u.file, { maxBytes: 520 * 1024, maxDim: 1600 });
+                  if (resOpt2 && resOpt2.file && resOpt2.changed) {
+                    u.optimizedFile = resOpt2.file;
+                    fileToSend = u.optimizedFile;
+                    b64 = await fileToBase64(fileToSend);
+                  }
+                } catch (e) {}
+              }
               await putImageWithRetry(gh, repoPath, `Update portfolio image: ${repoPath}`, b64, branch);
               if (!isLocalhost()) await sleep(450);
               return repoPath;

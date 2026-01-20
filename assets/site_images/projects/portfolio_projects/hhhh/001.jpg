@@ -1,0 +1,22 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f0f0"/>
+  <rect y="450" width="800" height="150" fill="#d4d4d4"/>
+  
+  <!-- Compact Security Booth -->
+  <rect x="250" y="250" width="300" height="200" rx="8" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  
+  <!-- Roof -->
+  <rect x="240" y="245" width="320" height="12" fill="#c9a962" stroke="#1a1a1a" stroke-width="2"/>
+  
+  <!-- Window -->
+  <rect x="280" y="280" width="240" height="120" rx="5" fill="#87ceeb" stroke="#1a1a1a" stroke-width="2"/>
+  
+  <!-- Door -->
+  <rect x="360" y="350" width="80" height="100" fill="#8b7355" stroke="#1a1a1a" stroke-width="2"/>
+  
+  <!-- Light on top -->
+  <circle cx="400" cy="238" r="8" fill="#ff6b6b" stroke="#1a1a1a" stroke-width="2"/>
+  
+  <text x="400" y="540" font-family="Arial" font-size="32" font-weight="bold" fill="#1a1a1a" text-anchor="middle">نقطة حراسة مجهزة</text>
+  <text x="400" y="580" font-family="Arial" font-size="20" fill="#666" text-anchor="middle">Security Guard Post</text>
+</svg>

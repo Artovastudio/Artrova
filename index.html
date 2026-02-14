@@ -69,7 +69,10 @@
       "url": "https://artovastudio.github.io/Artrova/",
       "logo": "https://artovastudio.github.io/Artrova/assets/artrova-logo.png",
       "image": "https://artovastudio.github.io/Artrova/images/hero-1.webp",
-      "telephone": "+966506534579",
+      "telephone": [
+        "+201128775769",
+        "+201014302333"
+      ],
       "email": "ArtrovaStudio@gmail.com",
       "address": [
         {
@@ -480,6 +483,84 @@
         .contact-links a:hover {
             opacity: 1;
             color: var(--primary);
+        }
+
+        .top-contact-details {
+            position: relative;
+        }
+        .top-contact-details summary {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.22);
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.95);
+            opacity: 0.95;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .top-contact-details summary::-webkit-details-marker { display: none; }
+        .top-contact-details summary:hover {
+            border-color: rgba(197,160,89,0.55);
+            background: rgba(197,160,89,0.10);
+            color: #fff;
+        }
+        .top-contact-caret {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            transform: translateY(-1px);
+        }
+        .top-contact-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            inset-inline-start: 0;
+            min-width: 240px;
+            background: #ffffff;
+            color: #111;
+            border-radius: 14px;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+            border: 1px solid rgba(0,0,0,0.06);
+            overflow: hidden;
+            z-index: 2000;
+        }
+        .top-contact-menu a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            color: #111;
+            opacity: 1;
+        }
+        .top-contact-menu a:hover {
+            background: rgba(197,160,89,0.10);
+            color: #111;
+        }
+        .top-contact-menu .label {
+            font-weight: 800;
+            color: #222;
+            font-size: 0.92rem;
+        }
+        .top-contact-menu .value {
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.02em;
+        }
+
+        @media (max-width: 768px) {
+            .top-contact-menu {
+                inset-inline: 0;
+                min-width: auto;
+            }
+            .top-contact-details summary {
+                width: 100%;
+                justify-content: space-between;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1683,6 +1764,44 @@
             grid-template-columns: 1fr 1.5fr;
             gap: 50px;
         }
+
+        .contact-maps {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+        .contact-map-card {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+        }
+        .contact-map-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .contact-map-title {
+            font-weight: 800;
+            color: var(--dark);
+            font-size: 0.98rem;
+        }
+        .contact-map-link {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        .contact-map-frame {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            border: 0;
+            display: block;
+        }
         .contact-info h3 {
             font-size: 1.8rem;
             margin-bottom: 30px;
@@ -2703,10 +2822,23 @@
     <div class="top-bar">
         <div class="container">
             <div class="contact-links">
-                <a href="tel:+966506534579" title="اتصل بنا" class="phone-number">
-                    <span>📞</span>
-                    <span>+966 50 653 4579</span>
-                </a>
+                <details class="top-contact-details">
+                    <summary title="اتصل بنا">
+                        <span>📞</span>
+                        <span x-text="language === 'ar' ? 'اتصل بنا' : 'Call us'"></span>
+                        <span class="top-contact-caret">▾</span>
+                    </summary>
+                    <div class="top-contact-menu">
+                        <a href="tel:+201128775769" class="phone-number">
+                            <span class="label" x-text="language === 'ar' ? 'الهاتف 1' : 'Phone 1'"></span>
+                            <span class="value">+20 11 28775769</span>
+                        </a>
+                        <a href="tel:+201014302333" class="phone-number">
+                            <span class="label" x-text="language === 'ar' ? 'الهاتف 2' : 'Phone 2'"></span>
+                            <span class="value">+20 10 14302333</span>
+                        </a>
+                    </div>
+                </details>
                 <a href="mailto:ArtrovaStudio@gmail.com" title="راسلنا">
                     <span>✉️</span>
                     <span>ArtrovaStudio@gmail.com</span>
@@ -2719,7 +2851,7 @@
                 <a href="https://www.instagram.com/nodedesignn" target="_blank" rel="noopener" class="social-icon" title="إنستجرام">
                     <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                 </a>
-                <a href="https://wa.me/966506534579" target="_blank" rel="noopener" class="social-icon" title="واتساب">
+                <a href="https://wa.me/201128775769" target="_blank" rel="noopener" class="social-icon" title="واتساب">
                     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                 </a>
             </div>
@@ -2798,7 +2930,7 @@
                                 : 'Artrova Studio is an interior and architectural design studio that carefully crafts elegant, easy-to-use spaces.'"></p>
                             <div class="hero-new-actions">
                                 <a href="#" @click.prevent="setTab('portfolio')" class="btn btn-primary" x-text="language === 'ar' ? 'شاهد أعمالنا' : 'View Our Work'"></a>
-                                <a href="https://wa.me/966506534579" target="_blank" class="btn btn-outline" x-text="language === 'ar' ? 'احصل على استشارة' : 'Get a Consultation'"></a>
+                                <a href="https://wa.me/201128775769" target="_blank" class="btn btn-outline" x-text="language === 'ar' ? 'احصل على استشارة' : 'Get a Consultation'"></a>
                             </div>
                         </div>
                     </div>
@@ -2840,7 +2972,7 @@
                                 : 'Restaurants, offices, and hotels where visual identity and usability stay in balance.'"></p>
                             <div class="hero-new-actions">
                                 <a href="#" @click.prevent="setTab('portfolio')" class="btn btn-primary" x-text="language === 'ar' ? 'تصفح المشاريع' : 'Browse Projects'"></a>
-                                <a href="https://wa.me/966506534579" target="_blank" class="btn btn-outline" x-text="language === 'ar' ? 'ابدأ مشروعك الآن' : 'Start Your Project'"></a>
+                                <a href="https://wa.me/201128775769" target="_blank" class="btn btn-outline" x-text="language === 'ar' ? 'ابدأ مشروعك الآن' : 'Start Your Project'"></a>
                             </div>
                         </div>
                     </div>
@@ -2853,7 +2985,7 @@
         <div class="hero-new-social">
             <a href="https://www.instagram.com/nodedesignn" target="_blank" aria-label="Instagram">IG</a>
             <a href="https://www.facebook.com/profile.php?id=61574086439178" target="_blank" aria-label="Facebook">FB</a>
-            <a href="https://wa.me/966506534579" target="_blank" aria-label="WhatsApp">WA</a>
+            <a href="https://wa.me/201128775769" target="_blank" aria-label="WhatsApp">WA</a>
         </div>
     </section>
 
@@ -2868,7 +3000,7 @@
                 : 'Artrova Studio is an interior and architectural design studio that cares about the small details before the big picture. We stay with you from first idea to a ready-to-live space that feels comfortable, clear, and easy to use every day.'"></p>
             <div class="hero-buttons">
                 <a href="#" @click.prevent="setTab('portfolio')" class="btn btn-primary" x-text="language === 'ar' ? 'شاهد أعمالنا' : 'View Our Work'"></a>
-                <a href="https://wa.me/966506534579" class="btn btn-outline" x-text="language === 'ar' ? 'احصل على استشارة' : 'Get a Consultation'"></a>
+                <a href="https://wa.me/201128775769" class="btn btn-outline" x-text="language === 'ar' ? 'احصل على استشارة' : 'Get a Consultation'"></a>
             </div>
 
             <!-- إحصائيات عن الشركة في الهوم -->
@@ -2905,7 +3037,7 @@
             <div class="tab-contact-tile">
                 <span>
                     <span>📞</span>
-                    <a href="tel:+966506534579" class="phone-number" x-text="language === 'ar' ? '+966 50 653 4579' : '+966 50 653 4579'"></a>
+                    <a href="tel:+201128775769" class="phone-number" x-text="language === 'ar' ? '+20 11 28775769' : '+20 11 28775769'"></a>
                 </span>
                 <span>
                     <span>✉️</span>
@@ -2913,7 +3045,7 @@
                 </span>
                 <span>
                     <span>💬</span>
-                    <a href="https://wa.me/966506534579" target="_blank" x-text="language === 'ar' ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'"></a>
+                    <a href="https://wa.me/201128775769" target="_blank" x-text="language === 'ar' ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'"></a>
                 </span>
             </div>
 
@@ -3033,7 +3165,7 @@
             <div class="tab-contact-tile">
                 <span>
                     <span>📞</span>
-                    <a href="tel:+966506534579" x-text="language === 'ar' ? '+966 50 653 4579' : '+966 50 653 4579'"></a>
+                    <a href="tel:+201128775769" x-text="language === 'ar' ? '+20 11 28775769' : '+20 11 28775769'"></a>
                 </span>
                 <span>
                     <span>✉️</span>
@@ -3041,7 +3173,7 @@
                 </span>
                 <span>
                     <span>💬</span>
-                    <a href="https://wa.me/966506534579" target="_blank" x-text="language === 'ar' ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'"></a>
+                    <a href="https://wa.me/201128775769" target="_blank" x-text="language === 'ar' ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'"></a>
                 </span>
             </div>
         </div>
@@ -3293,7 +3425,9 @@
                         <div class="contact-icon-box">📞</div>
                         <div class="contact-details">
                             <h4 x-text="language === 'ar' ? 'الهاتف / واتساب' : 'Phone / WhatsApp'"></h4>
-                            <a href="tel:+966506534579" class="phone-number">+966 50 653 4579</a>
+                            <a href="tel:+201128775769" class="phone-number">+20 11 28775769</a>
+                            <br>
+                            <a href="tel:+201014302333" class="phone-number">+20 10 14302333</a>
                         </div>
                     </div>
                     
@@ -3313,6 +3447,21 @@
                             <a href="https://www.instagram.com/nodedesignn" target="_blank">Instagram</a>
                         </div>
                     </div>
+
+                    <div class="contact-maps">
+                        <div class="contact-map-card">
+                            <div class="contact-map-head">
+                                <div class="contact-map-title" x-text="language === 'ar' ? 'موقع الشركة' : 'Company Location'"></div>
+                                <a class="contact-map-link" href="https://www.google.com/maps?q=21.2930994,39.2596596&z=17&hl=en" target="_blank" rel="noopener" x-text="language === 'ar' ? 'الاتجاهات' : 'Directions'"></a>
+                            </div>
+                            <iframe
+                                class="contact-map-frame"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                src="https://www.google.com/maps?q=21.2930994,39.2596596&z=17&output=embed">
+                            </iframe>
+                        </div>
+                    </div>
                 </div>
                 
                 <form class="contact-form" @submit.prevent="submitForm">
@@ -3326,7 +3475,7 @@
                     </div>
                     <div class="form-group">
                         <label x-text="language === 'ar' ? 'الهاتف' : 'Phone'"></label>
-                        <input type="tel" :placeholder="language === 'ar' ? '+966 000 000 000' : '+966 000 000 000'">
+                        <input type="tel" :placeholder="language === 'ar' ? '+20 11 00000000' : '+20 11 00000000'">
                     </div>
                     <div class="form-group">
                         <label x-text="language === 'ar' ? 'الرسالة' : 'Message'"></label>
@@ -3367,7 +3516,7 @@
                         <a href="https://www.instagram.com/nodedesignn" target="_blank" rel="noopener" title="إنستجرام">
                             <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
-                        <a href="https://wa.me/966506534579" target="_blank" rel="noopener" title="واتساب">
+                        <a href="https://wa.me/201128775769" target="_blank" rel="noopener" title="واتساب">
                             <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                         </a>
                     </div>
@@ -3400,7 +3549,8 @@
                     <ul>
                         <li x-text="language === 'ar' ? '📍 جدة، السعودية' : '📍 Jeddah, Saudi Arabia'"></li>
                         <li x-text="language === 'ar' ? '📍 القاهرة، مصر' : '📍 Cairo, Egypt'"></li>
-                        <li><a href="tel:+966506534579" class="phone-number">📞 +966 50 653 4579</a></li>
+                        <li><a href="tel:+201128775769" class="phone-number">📞 +20 11 28775769</a></li>
+                        <li><a href="tel:+201014302333" class="phone-number">📞 +20 10 14302333</a></li>
                         <li><a href="mailto:ArtrovaStudio@gmail.com">✉️ ArtrovaStudio@gmail.com</a></li>
                     </ul>
                 </div>
@@ -3416,7 +3566,7 @@
     <button type="button" class="back-to-top" x-show="backToTopVisible" x-transition.opacity.duration.150ms @click="scrollToTop()" :aria-label="language === 'ar' ? 'العودة للأعلى' : 'Back to top'">↑</button>
 
     <!-- واتساب عائم -->
-    <a href="https://wa.me/966506534579" class="whatsapp-float" target="_blank" rel="noopener" title="تواصل عبر واتساب">
+    <a href="https://wa.me/201128775769" class="whatsapp-float" target="_blank" rel="noopener" title="تواصل عبر واتساب">
         <svg width="35" height="35" fill="currentColor" viewBox="0 0 24 24">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
         </svg>

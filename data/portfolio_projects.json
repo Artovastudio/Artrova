@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795534417,
-  "count": 27,
+  "publishedAt": 1771795578430,
+  "count": 26,
   "projects": [
     {
       "slug": "residential",
@@ -594,21 +594,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/5345-719x720.jpg",
       "imageCount": 15
-    },
-    {
-      "slug": "master-bedroom-heliopolis",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Master Bedroom Heliopolis",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/master-bedroom-heliopolis/image001-22.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bedroom-heliopolis/image002-19.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bedroom-heliopolis/image003-18.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bedroom-heliopolis/image004-15.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bedroom-heliopolis/image005-8.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/master-bedroom-heliopolis/image001-22.jpg",
-      "imageCount": 5
     }
   ]
 }

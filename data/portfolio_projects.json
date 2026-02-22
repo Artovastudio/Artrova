@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790011543,
-  "count": 44,
+  "publishedAt": 1771790053477,
+  "count": 43,
   "projects": [
     {
       "slug": "residential",
@@ -980,22 +980,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/town-house/image001-27.jpg",
       "imageCount": 9
-    },
-    {
-      "slug": "twin-house",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Twin House",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/twin-house/image001-29-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/twin-house/image002-26-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/twin-house/image003-24.jpg",
-        "assets/site_images/projects/portfolio_projects/twin-house/image004-23-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/twin-house/image005-14-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/twin-house/image006-11.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/twin-house/image001-29-721x720.jpg",
-      "imageCount": 6
     }
   ]
 }

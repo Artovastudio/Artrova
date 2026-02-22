@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790541641,
-  "count": 35,
+  "publishedAt": 1771790584873,
+  "count": 34,
   "projects": [
     {
       "slug": "residential",
@@ -765,51 +765,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/palm-hills/098.jpg",
       "imageCount": 17
-    },
-    {
-      "slug": "private-house-in-spain",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Private House In Spain",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/bedroom-1.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/bedroom-2.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/bedroom-3.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/bedroom-4.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/bedroom-5.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/kitchen-1.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/kitchen-2.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/kitchen-3.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/kitchen-5.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/kitchen-6.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/kitchen-7.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/kitchen-8.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/living-1.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/living-2.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/living-4.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/living-5.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/living-6.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/living-7.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/master-bathroom-1.jpeg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/master-bathroom-2.jpeg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/master-bathroom-3.jpeg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/master-bathroom-5.jpeg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/master-bedroom-1.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/master-bedroom-2.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/master-bedroom-3.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-10.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-12.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-13.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-14.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-15.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-18.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-20.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-6.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-8.jpg",
-        "assets/site_images/projects/portfolio_projects/private-house-in-spain/reception-9.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/private-house-in-spain/bedroom-1.jpg",
-      "imageCount": 35
     }
   ]
 }

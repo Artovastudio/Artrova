@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790428854,
-  "count": 37,
+  "publishedAt": 1771790484541,
+  "count": 36,
   "projects": [
     {
       "slug": "residential",
@@ -827,27 +827,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/reception-residential-apart-alex/23g3.jpg",
       "imageCount": 7
-    },
-    {
-      "slug": "residential-apart-alex",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Residential Apart Alex",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/344-1.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/433t34.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/434t.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/43t.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/65.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/768.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/86-1.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/rere.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/t4334.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/t4343.jpg",
-        "assets/site_images/projects/portfolio_projects/residential-apart-alex/بلب.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/residential-apart-alex/344-1.jpg",
-      "imageCount": 11
     }
   ]
 }

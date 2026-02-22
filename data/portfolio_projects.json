@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796033363,
-  "count": 18,
+  "publishedAt": 1771796075064,
+  "count": 17,
   "projects": [
     {
       "slug": "residential",
@@ -429,24 +429,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/kitchen-for-small-family/image001-24-721x720.jpg",
       "imageCount": 6
-    },
-    {
-      "slug": "kitchen-residential-apart-alex",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Kitchen Residential Apart Alex",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/kitchen-residential-apart-alex/345-1-718x720.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-residential-apart-alex/3556-718x720.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-residential-apart-alex/356356-718x720.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-residential-apart-alex/4t34-718x720.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-residential-apart-alex/5434-718x720.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-residential-apart-alex/63556-1-718x720.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-residential-apart-alex/636-718x720.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-residential-apart-alex/6645-719x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/kitchen-residential-apart-alex/345-1-718x720.jpg",
-      "imageCount": 8
     }
   ]
 }

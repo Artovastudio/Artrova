@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796290179,
-  "count": 13,
+  "publishedAt": 1771796326704,
+  "count": 12,
   "projects": [
     {
       "slug": "residential",
@@ -342,29 +342,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/6-2-720x720.jpg",
       "imageCount": 10
-    },
-    {
-      "slug": "guest-bedroom-bathroom-shrouk-gardens",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Guest Bedroom Bathroom Shrouk Gardens",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/2-2.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/63556-718x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image001-12-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image001-13.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image001-14-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image002-10.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image002.png",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image002-9-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image003-10-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image003-11.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image003.gif",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image004-6-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/image004-7.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/2-2.jpg",
-      "imageCount": 13
     }
   ]
 }

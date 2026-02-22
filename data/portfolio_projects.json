@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790216708,
-  "count": 40,
+  "publishedAt": 1771790264283,
+  "count": 39,
   "projects": [
     {
       "slug": "residential",
@@ -888,40 +888,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/shape-villa/image001-25.jpg",
       "imageCount": 8
-    },
-    {
-      "slug": "shrouk-gardens",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Shrouk Gardens",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image001-18.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image001-19-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image001-20.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image002-16.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image002-17-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image002-18.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image003-15.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image003-16.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image003-17.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image004-13.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image004-14.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image004.png",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image005-1.gif",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image005-6.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image005-7.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image006-6.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image007-5.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image008-6.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image009-3.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image010-2.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image011-2.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image012-2.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image013-2.jpg",
-        "assets/site_images/projects/portfolio_projects/shrouk-gardens/image014-2.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/shrouk-gardens/image001-18.jpg",
-      "imageCount": 24
     }
   ]
 }

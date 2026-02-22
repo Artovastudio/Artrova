@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796519009,
-  "count": 8,
+  "publishedAt": 1771796641930,
+  "count": 7,
   "projects": [
     {
       "slug": "residential",
@@ -229,27 +229,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/4-1-min.jpg",
       "imageCount": 37
-    },
-    {
-      "slug": "elyassmin",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Elyassmin",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/elyassmin/4523542-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/RESTAURANT-1-1.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/image001-7.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/image002-5.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/image003-4.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/image004-3.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/image005-2.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/image006-3.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/image007-3.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/image008-4.jpg",
-        "assets/site_images/projects/portfolio_projects/elyassmin/image018-1-150x150.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/elyassmin/4523542-719x720.jpg",
-      "imageCount": 11
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790356304,
-  "count": 38,
+  "publishedAt": 1771790428854,
+  "count": 37,
   "projects": [
     {
       "slug": "residential",
@@ -848,28 +848,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/residential-apart-alex/344-1.jpg",
       "imageCount": 11
-    },
-    {
-      "slug": "rooftop-shorouk-gardens",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Rooftop Shorouk Gardens",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image001-23.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image001-24-150x150.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image002-20.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image003-1-1.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image004-16-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image004-19-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image005-9.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image006-7-1.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image007-6.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image008-7.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image009-4-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image010-3.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image001-23.jpg",
-      "imageCount": 12
     }
   ]
 }

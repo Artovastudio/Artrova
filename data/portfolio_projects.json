@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796434792,
-  "count": 10,
+  "publishedAt": 1771796478159,
+  "count": 9,
   "projects": [
     {
       "slug": "residential",
@@ -290,21 +290,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/23r23-2.jpg",
       "imageCount": 30
-    },
-    {
-      "slug": "girls-bedroom-residential-apart-alex",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Girls Bedroom Residential Apart Alex",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/girls-bedroom-residential-apart-alex/234324-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-bedroom-residential-apart-alex/43532-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-bedroom-residential-apart-alex/4f34-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-bedroom-residential-apart-alex/863-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-bedroom-residential-apart-alex/image001-2-1.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/girls-bedroom-residential-apart-alex/234324-719x720.jpg",
-      "imageCount": 5
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795422447,
-  "count": 29,
+  "publishedAt": 1771795487054,
+  "count": 28,
   "projects": [
     {
       "slug": "residential",
@@ -629,21 +629,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/minimal-guests-house/1-2-720x720.jpg",
       "imageCount": 10
-    },
-    {
-      "slug": "minimalistic-art-house",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Minimalistic Art House",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/minimalistic-art-house/1-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-art-house/3-2-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-art-house/4-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-art-house/5-2-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-art-house/9-3-720x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/minimalistic-art-house/1-1-720x720.jpg",
-      "imageCount": 5
     }
   ]
 }

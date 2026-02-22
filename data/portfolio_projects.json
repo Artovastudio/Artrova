@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796953192,
-  "count": 3,
+  "publishedAt": 1771797021243,
+  "count": 2,
   "projects": [
     {
       "slug": "commercial",
@@ -69,36 +69,6 @@
       ],
       "cover": "assets/site_images/categories/Hospitality/hospitality-001.jpeg",
       "imageCount": 14
-    },
-    {
-      "slug": "furniture",
-      "titleAr": null,
-      "titleEn": "Furniture",
-      "title": "Furniture",
-      "images": [
-        "assets/site_images/categories/Furniture/furniture-005.jpeg",
-        "assets/site_images/categories/Furniture/furniture-001.jpeg",
-        "assets/site_images/categories/Furniture/furniture-003.jpeg",
-        "assets/site_images/categories/Furniture/furniture-004.jpeg",
-        "assets/site_images/categories/Furniture/furniture-002.jpeg",
-        "assets/site_images/categories/Furniture/furniture-006.jpeg",
-        "assets/site_images/categories/Furniture/furniture-007.jpeg",
-        "assets/site_images/categories/Furniture/furniture-008.jpeg",
-        "assets/site_images/categories/Furniture/furniture-009.jpeg",
-        "assets/site_images/categories/Furniture/furniture-010.jpeg",
-        "assets/site_images/categories/Furniture/furniture-012.jpeg",
-        "assets/site_images/categories/Furniture/furniture-013.jpeg",
-        "assets/site_images/categories/Furniture/furniture-015.jpeg",
-        "assets/site_images/categories/Furniture/furniture-016.jpeg",
-        "assets/site_images/categories/Furniture/furniture-017.jpeg",
-        "assets/site_images/categories/Furniture/furniture-018.jpeg",
-        "assets/site_images/categories/Furniture/furniture-019.jpeg",
-        "assets/site_images/categories/Furniture/furniture-020.jpeg",
-        "assets/site_images/categories/Furniture/furniture-021.jpeg",
-        "assets/site_images/categories/Furniture/furniture-022.jpeg"
-      ],
-      "cover": "assets/site_images/categories/Furniture/furniture-018.jpeg",
-      "imageCount": 20
     }
   ]
 }

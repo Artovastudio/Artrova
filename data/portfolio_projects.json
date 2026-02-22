@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796223291,
-  "count": 14,
+  "publishedAt": 1771796290179,
+  "count": 13,
   "projects": [
     {
       "slug": "residential",
@@ -365,22 +365,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-shrouk-gardens/2-2.jpg",
       "imageCount": 13
-    },
-    {
-      "slug": "ibn-elhakam",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Ibn Elhakam",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/ibn-elhakam/image001-15.jpg",
-        "assets/site_images/projects/portfolio_projects/ibn-elhakam/image002-1-1.jpg",
-        "assets/site_images/projects/portfolio_projects/ibn-elhakam/image002-12.jpg",
-        "assets/site_images/projects/portfolio_projects/ibn-elhakam/image003-12.jpg",
-        "assets/site_images/projects/portfolio_projects/ibn-elhakam/image004-1-1.jpg",
-        "assets/site_images/projects/portfolio_projects/ibn-elhakam/image004-8.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/ibn-elhakam/image001-15.jpg",
-      "imageCount": 6
     }
   ]
 }

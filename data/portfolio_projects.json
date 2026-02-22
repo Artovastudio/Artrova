@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790098271,
-  "count": 42,
+  "publishedAt": 1771790165753,
+  "count": 41,
   "projects": [
     {
       "slug": "residential",
@@ -941,26 +941,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/standalone-villa/image001-26.jpg",
       "imageCount": 9
-    },
-    {
-      "slug": "stylish-family-appartment",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Stylish Family Appartment",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/10-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/11-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/12-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/13-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/14-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/5-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/6-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/7-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/8-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/stylish-family-appartment/9-720x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/stylish-family-appartment/10-720x720.jpg",
-      "imageCount": 10
     }
   ]
 }

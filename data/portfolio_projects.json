@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796641930,
-  "count": 7,
+  "publishedAt": 1771796724643,
+  "count": 6,
   "projects": [
     {
       "slug": "residential",
@@ -182,53 +182,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/art-family-residence/1-KITCHEN-720x720.jpg",
       "imageCount": 16
-    },
-    {
-      "slug": "basement-shrouk-gardens",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Basement Shrouk Gardens",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/4-1-min.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image001-1-1.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image001-1.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image001-2.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image001-3.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image001-4.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image002-2.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image002-3.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image002-4-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image003-1.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image003-2.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image003-3-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image004-1.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image004-2-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image005-1-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image005.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image006-1.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image006-2.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image007-1.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image008-1.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image008-2.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image008-3.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image009-1.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image009.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image010.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image011.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image012.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image013.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image014.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image015.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image016.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image017.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image018.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image019.png",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image020.gif",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image021.jpg",
-        "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/image022.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/basement-shrouk-gardens/4-1-min.jpg",
-      "imageCount": 37
     }
   ]
 }

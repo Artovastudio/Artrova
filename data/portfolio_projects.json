@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796326704,
-  "count": 12,
+  "publishedAt": 1771796380505,
+  "count": 11,
   "projects": [
     {
       "slug": "residential",
@@ -322,26 +322,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/girls-dressing-bathroom-shrouk-gardens/2rgrg-1.jpg",
       "imageCount": 7
-    },
-    {
-      "slug": "guest-bedroom-bathroom-la-fontaine",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Guest Bedroom Bathroom La Fontaine",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/6-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/dgdg-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/dgdgdgdg-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/dvs-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/f43f-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/gfg-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/gg-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/tt-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/wefw-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/بري-719x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/guest-bedroom-bathroom-la-fontaine/6-2-720x720.jpg",
-      "imageCount": 10
     }
   ]
 }

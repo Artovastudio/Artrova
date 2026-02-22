@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795609375,
-  "count": 25,
+  "publishedAt": 1771795665984,
+  "count": 24,
   "projects": [
     {
       "slug": "residential",
@@ -549,26 +549,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/5353.jpg",
       "imageCount": 8
-    },
-    {
-      "slug": "master-bathroom-residential-apart-alex-la-fontaine",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Master Bathroom Residential Apart Alex La Fontaine",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/32-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/534-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/543-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/56-1-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/gerge-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/jh-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/reee-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/trrt-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/weefwef-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/wfewe-1-719x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/32-719x720.jpg",
-      "imageCount": 10
     }
   ]
 }

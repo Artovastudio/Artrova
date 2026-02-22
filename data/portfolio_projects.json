@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790264283,
-  "count": 39,
+  "publishedAt": 1771790356304,
+  "count": 38,
   "projects": [
     {
       "slug": "residential",
@@ -870,24 +870,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/rooftop-shorouk-gardens/image001-23.jpg",
       "imageCount": 12
-    },
-    {
-      "slug": "shape-villa",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Shape Villa",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/shape-villa/image001-25.jpg",
-        "assets/site_images/projects/portfolio_projects/shape-villa/image002-22.jpg",
-        "assets/site_images/projects/portfolio_projects/shape-villa/image003-21.jpg",
-        "assets/site_images/projects/portfolio_projects/shape-villa/image004-20-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/shape-villa/image005-10.jpg",
-        "assets/site_images/projects/portfolio_projects/shape-villa/image006-8.jpg",
-        "assets/site_images/projects/portfolio_projects/shape-villa/image007-8-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/shape-villa/image007-9-721x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/shape-villa/image001-25.jpg",
-      "imageCount": 8
     }
   ]
 }

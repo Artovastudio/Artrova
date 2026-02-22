@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795877368,
-  "count": 21,
+  "publishedAt": 1771795979325,
+  "count": 20,
   "projects": [
     {
       "slug": "residential",
@@ -482,19 +482,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/lake-view/image001-5-1.jpg",
       "imageCount": 6
-    },
-    {
-      "slug": "laundry-shorouk-gardens",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Laundry Shorouk Gardens",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/laundry-shorouk-gardens/image001-17.jpg",
-        "assets/site_images/projects/portfolio_projects/laundry-shorouk-gardens/image002-15.jpg",
-        "assets/site_images/projects/portfolio_projects/laundry-shorouk-gardens/image003-14.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/laundry-shorouk-gardens/image001-17.jpg",
-      "imageCount": 3
     }
   ]
 }

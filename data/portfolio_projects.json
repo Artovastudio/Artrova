@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795125450,
-  "count": 33,
+  "publishedAt": 1771795239022,
+  "count": 32,
   "projects": [
     {
       "slug": "residential",
@@ -726,18 +726,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/new-boys-bedroom-la-fontaine/efwewf.jpg",
       "imageCount": 4
-    },
-    {
-      "slug": "new-project",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "New Project",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/new-project/image001-30-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/new-project/image005-12-721x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/new-project/image001-30-721x720.jpg",
-      "imageCount": 2
     }
   ]
 }

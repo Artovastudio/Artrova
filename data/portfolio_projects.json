@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790053477,
-  "count": 43,
+  "publishedAt": 1771790098271,
+  "count": 42,
   "projects": [
     {
       "slug": "residential",
@@ -961,25 +961,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/stylish-family-appartment/10-720x720.jpg",
       "imageCount": 10
-    },
-    {
-      "slug": "town-house",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Town House",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/town-house/image001-27.jpg",
-        "assets/site_images/projects/portfolio_projects/town-house/image001-28-150x150.jpg",
-        "assets/site_images/projects/portfolio_projects/town-house/image002-25.jpg",
-        "assets/site_images/projects/portfolio_projects/town-house/image003-23.jpg",
-        "assets/site_images/projects/portfolio_projects/town-house/image004-22-1-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/town-house/image005-13-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/town-house/image006-10.jpg",
-        "assets/site_images/projects/portfolio_projects/town-house/image007-11.jpg",
-        "assets/site_images/projects/portfolio_projects/town-house/image007-12.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/town-house/image001-27.jpg",
-      "imageCount": 9
     }
   ]
 }

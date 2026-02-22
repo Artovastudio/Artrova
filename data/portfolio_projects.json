@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796380505,
-  "count": 11,
+  "publishedAt": 1771796434792,
+  "count": 10,
   "projects": [
     {
       "slug": "residential",
@@ -305,23 +305,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/girls-bedroom-residential-apart-alex/234324-719x720.jpg",
       "imageCount": 5
-    },
-    {
-      "slug": "girls-dressing-bathroom-shrouk-gardens",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Girls Dressing Bathroom Shrouk Gardens",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/girls-dressing-bathroom-shrouk-gardens/2rgrg-1.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-dressing-bathroom-shrouk-gardens/image001-10.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-dressing-bathroom-shrouk-gardens/image001-11-150x150.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-dressing-bathroom-shrouk-gardens/image001-9.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-dressing-bathroom-shrouk-gardens/image002-7.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-dressing-bathroom-shrouk-gardens/image003-7.jpg",
-        "assets/site_images/projects/portfolio_projects/girls-dressing-bathroom-shrouk-gardens/image003-8.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/girls-dressing-bathroom-shrouk-gardens/2rgrg-1.jpg",
-      "imageCount": 7
     }
   ]
 }

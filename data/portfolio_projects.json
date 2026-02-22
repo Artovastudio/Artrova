@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790484541,
-  "count": 36,
+  "publishedAt": 1771790541641,
+  "count": 35,
   "projects": [
     {
       "slug": "residential",
@@ -810,23 +810,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/private-house-in-spain/bedroom-1.jpg",
       "imageCount": 35
-    },
-    {
-      "slug": "reception-residential-apart-alex",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Reception Residential Apart Alex",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/reception-residential-apart-alex/23g3.jpg",
-        "assets/site_images/projects/portfolio_projects/reception-residential-apart-alex/2rgrg.jpg",
-        "assets/site_images/projects/portfolio_projects/reception-residential-apart-alex/346-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/reception-residential-apart-alex/ergerg.jpg",
-        "assets/site_images/projects/portfolio_projects/reception-residential-apart-alex/gr2gr.jpg",
-        "assets/site_images/projects/portfolio_projects/reception-residential-apart-alex/gr2rg.jpg",
-        "assets/site_images/projects/portfolio_projects/reception-residential-apart-alex/rge.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/reception-residential-apart-alex/23g3.jpg",
-      "imageCount": 7
     }
   ]
 }

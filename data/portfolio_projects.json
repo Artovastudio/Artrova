@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771085082358,
-  "count": 48,
+  "publishedAt": 1771789059017,
+  "count": 47,
   "projects": [
     {
       "slug": "residential",
@@ -1293,20 +1293,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/hhhh/001.jpg",
       "imageCount": 255
-    },
-    {
-      "slug": "home",
-      "titleAr": null,
-      "titleEn": "home",
-      "title": "home",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/home/001.jpg",
-        "assets/site_images/projects/portfolio_projects/home/002.jpg",
-        "assets/site_images/projects/portfolio_projects/home/003.jpg",
-        "assets/site_images/projects/portfolio_projects/home/004.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/home/003.jpg",
-      "imageCount": 4
     }
   ]
 }

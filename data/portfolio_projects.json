@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796124454,
-  "count": 16,
+  "publishedAt": 1771796153422,
+  "count": 15,
   "projects": [
     {
       "slug": "residential",
@@ -398,21 +398,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/interior-design-for-bathroom/43t3.jpg",
       "imageCount": 7
-    },
-    {
-      "slug": "kids-bathroom-residential-apart",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Kids Bathroom Residential Apart",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/kids-bathroom-residential-apart/1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/kids-bathroom-residential-apart/23r23-1.jpg",
-        "assets/site_images/projects/portfolio_projects/kids-bathroom-residential-apart/54y45y-1.jpg",
-        "assets/site_images/projects/portfolio_projects/kids-bathroom-residential-apart/dvs-1.jpg",
-        "assets/site_images/projects/portfolio_projects/kids-bathroom-residential-apart/jkh-1.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/kids-bathroom-residential-apart/1-720x720.jpg",
-      "imageCount": 5
     }
   ]
 }

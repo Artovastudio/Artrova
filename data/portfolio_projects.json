@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795306471,
-  "count": 30,
+  "publishedAt": 1771795422447,
+  "count": 29,
   "projects": [
     {
       "slug": "residential",
@@ -644,28 +644,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/minimalistic-art-house/1-1-720x720.jpg",
       "imageCount": 5
-    },
-    {
-      "slug": "minimalistic-style-appartment",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Minimalistic Style Appartment",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/10-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/10-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/2-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/3-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/4-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/5-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/6-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/7-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/8-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/9-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/9-2-720x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/1-720x720.jpg",
-      "imageCount": 12
     }
   ]
 }

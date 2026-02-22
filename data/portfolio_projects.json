@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771797021243,
-  "count": 2,
+  "publishedAt": 1771797086081,
+  "count": 1,
   "projects": [
     {
       "slug": "commercial",
@@ -45,30 +45,6 @@
       ],
       "cover": "assets/site_images/categories/Commercial/commercial-004.jpeg",
       "imageCount": 33
-    },
-    {
-      "slug": "hospitality",
-      "titleAr": null,
-      "titleEn": "Hospitality",
-      "title": "Hospitality",
-      "images": [
-        "assets/site_images/categories/Hospitality/hospitality-001.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-002.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-003.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-004.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-005.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-006.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-007.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-008.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-009.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-010.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-011.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-012.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-013.jpeg",
-        "assets/site_images/categories/Hospitality/hospitality-014.jpeg"
-      ],
-      "cover": "assets/site_images/categories/Hospitality/hospitality-001.jpeg",
-      "imageCount": 14
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790165753,
-  "count": 41,
+  "publishedAt": 1771790216708,
+  "count": 40,
   "projects": [
     {
       "slug": "residential",
@@ -922,25 +922,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/shrouk-gardens/image001-18.jpg",
       "imageCount": 24
-    },
-    {
-      "slug": "standalone-villa",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Standalone Villa",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/standalone-villa/image001-26.jpg",
-        "assets/site_images/projects/portfolio_projects/standalone-villa/image001-28-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/standalone-villa/image002-23.jpg",
-        "assets/site_images/projects/portfolio_projects/standalone-villa/image003-22-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/standalone-villa/image004-21-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/standalone-villa/image005-11-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/standalone-villa/image005-12-150x150.jpg",
-        "assets/site_images/projects/portfolio_projects/standalone-villa/image006-9.jpg",
-        "assets/site_images/projects/portfolio_projects/standalone-villa/image007-10-721x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/standalone-villa/image001-26.jpg",
-      "imageCount": 9
     }
   ]
 }

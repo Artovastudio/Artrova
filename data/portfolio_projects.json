@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796478159,
-  "count": 9,
+  "publishedAt": 1771796519009,
+  "count": 8,
   "projects": [
     {
       "slug": "residential",
@@ -250,46 +250,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/elyassmin/4523542-719x720.jpg",
       "imageCount": 11
-    },
-    {
-      "slug": "first-floor-shrouk-gardens",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "First Floor Shrouk Gardens",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/23r23-2.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image001-11-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image001-8.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image002-6.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image003-5.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image003-9.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image004-5.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image005-3.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image006-4.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image007-4.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image008-5.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image009-2.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image010-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image011-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image012-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image013-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image014-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image015-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image016-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image017-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image019.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image020.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image021-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image022-1.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image023.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image024.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image025.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image026.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image027.jpg",
-        "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/image028.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/first-floor-shrouk-gardens/23r23-2.jpg",
-      "imageCount": 30
     }
   ]
 }

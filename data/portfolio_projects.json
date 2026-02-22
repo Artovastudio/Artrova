@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796153422,
-  "count": 15,
+  "publishedAt": 1771796223291,
+  "count": 14,
   "projects": [
     {
       "slug": "residential",
@@ -381,23 +381,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/ibn-elhakam/image001-15.jpg",
       "imageCount": 6
-    },
-    {
-      "slug": "interior-design-for-bathroom",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Interior Design For Bathroom",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/interior-design-for-bathroom/43t3.jpg",
-        "assets/site_images/projects/portfolio_projects/interior-design-for-bathroom/ger.jpg",
-        "assets/site_images/projects/portfolio_projects/interior-design-for-bathroom/gerg.jpg",
-        "assets/site_images/projects/portfolio_projects/interior-design-for-bathroom/image001-4-1.jpg",
-        "assets/site_images/projects/portfolio_projects/interior-design-for-bathroom/re.jpg",
-        "assets/site_images/projects/portfolio_projects/interior-design-for-bathroom/rer.jpg",
-        "assets/site_images/projects/portfolio_projects/interior-design-for-bathroom/rewrt.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/interior-design-for-bathroom/43t3.jpg",
-      "imageCount": 7
     }
   ]
 }

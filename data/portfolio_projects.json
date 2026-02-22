@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795487054,
-  "count": 28,
+  "publishedAt": 1771795534417,
+  "count": 27,
   "projects": [
     {
       "slug": "residential",
@@ -609,26 +609,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/master-bedroom-heliopolis/image001-22.jpg",
       "imageCount": 5
-    },
-    {
-      "slug": "minimal-guests-house",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Minimal Guests House",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/1-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/3-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/4-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/5-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/7-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/bathroom-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/bathroom-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/bathroom-3-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/minimal-guests-house/bathroom-4-720x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/minimal-guests-house/1-2-720x720.jpg",
-      "imageCount": 10
     }
   ]
 }

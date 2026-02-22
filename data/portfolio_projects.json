@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795270882,
-  "count": 31,
+  "publishedAt": 1771795306471,
+  "count": 30,
   "projects": [
     {
       "slug": "residential",
@@ -666,52 +666,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/minimalistic-style-appartment/1-720x720.jpg",
       "imageCount": 12
-    },
-    {
-      "slug": "modern-villa-in-belgium",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Modern Villa In Belgium",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/1-guest--805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/2-guest--805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/3-guest-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/4-BATHROOM-ROOF-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/5-BATHROOM-ROOF-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/6-BATHROOM-ROOF-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/8-BATHROOM-ROOF-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-10-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-11-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-12-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-2-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-3-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-4-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-5-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-6-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-7-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-8-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/RECEPTION-9-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/first-floor-living-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/first-floor-living-2-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/first-floor-living-3-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/first-floor-living-4-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/first-floor-living-5-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/first-floor-living-6-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/master-bathroom-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/master-bathroom-3-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/master-bathroom-4-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/master-bathroom-6--805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/master-bathroom-6-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/master-bedroom-2-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/master-bedroom-3-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/master-bedroom-4-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/master-bedroom-6-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/reception-1-1-805x683.jpg",
-        "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/reception-2-1-805x683.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/modern-villa-in-belgium/1-guest--805x683.jpg",
-      "imageCount": 36
     }
   ]
 }

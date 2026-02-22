@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795578430,
-  "count": 26,
+  "publishedAt": 1771795609375,
+  "count": 25,
   "projects": [
     {
       "slug": "residential",
@@ -569,31 +569,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine/32-719x720.jpg",
       "imageCount": 10
-    },
-    {
-      "slug": "master-bathroom-residential-apart-alex-la-fontaine-palm-hills",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Master Bathroom Residential Apart Alex La Fontaine Palm Hills",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/5345-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/545-1.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/csas.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/eyyt-1.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/feew.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/master-bedroom-2-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/master-bedroom-3-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/master-bedroom-5-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/mtyy.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/mtyym.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/sca.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/ttr.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/wefew-2.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/wefwe.jpg",
-        "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/ytm.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/master-bathroom-residential-apart-alex-la-fontaine-palm-hills/5345-719x720.jpg",
-      "imageCount": 15
     }
   ]
 }

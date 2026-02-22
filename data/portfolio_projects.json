@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795979325,
-  "count": 20,
+  "publishedAt": 1771796002515,
+  "count": 19,
   "projects": [
     {
       "slug": "residential",
@@ -466,22 +466,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/kitchen-shorouk-gardens/image001-16.jpg",
       "imageCount": 9
-    },
-    {
-      "slug": "lake-view",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Lake View",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/lake-view/image001-5-1.jpg",
-        "assets/site_images/projects/portfolio_projects/lake-view/image002-21-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/lake-view/image003-20-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/lake-view/image004-18.jpg",
-        "assets/site_images/projects/portfolio_projects/lake-view/image004-19-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/lake-view/landscape-1-720x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/lake-view/image001-5-1.jpg",
-      "imageCount": 6
     }
   ]
 }

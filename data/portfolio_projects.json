@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796075064,
-  "count": 17,
+  "publishedAt": 1771796124454,
+  "count": 16,
   "projects": [
     {
       "slug": "residential",
@@ -413,22 +413,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/kids-bathroom-residential-apart/1-720x720.jpg",
       "imageCount": 5
-    },
-    {
-      "slug": "kitchen-for-small-family",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Kitchen For Small Family",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/kitchen-for-small-family/image001-24-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-for-small-family/landscape-1.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-for-small-family/landscape-2.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-for-small-family/landscape-3.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-for-small-family/landscape-4-1.jpg",
-        "assets/site_images/projects/portfolio_projects/kitchen-for-small-family/landscape-4.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/kitchen-for-small-family/image001-24-721x720.jpg",
-      "imageCount": 6
     }
   ]
 }

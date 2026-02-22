@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796842991,
-  "count": 5,
+  "publishedAt": 1771796903551,
+  "count": 4,
   "projects": [
     {
       "slug": "residential",
@@ -129,33 +129,6 @@
       ],
       "cover": "assets/site_images/categories/Furniture/furniture-018.jpeg",
       "imageCount": 20
-    },
-    {
-      "slug": "6-october-shop",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "6 October Shop",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/6-october-shop/4-KITCHEN.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/RECEPTION-9-1.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/RESTAURANT-4.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image001.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image001-5.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image002-13.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image002.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image003.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image004.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image005.gif",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image006.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image007.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image008.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/image018-1-721x720.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/master-bedroom-6-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/reception-1-1.jpg",
-        "assets/site_images/projects/portfolio_projects/6-october-shop/reception-2-1.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/6-october-shop/4-KITCHEN.jpg",
-      "imageCount": 17
     }
   ]
 }

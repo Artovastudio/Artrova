@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795665984,
-  "count": 24,
+  "publishedAt": 1771795761150,
+  "count": 23,
   "projects": [
     {
       "slug": "residential",
@@ -531,24 +531,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/luxury-bathroom-interior/2-3-1.jpg",
       "imageCount": 11
-    },
-    {
-      "slug": "maids-bathroom-and-kitchen-la-fontaine",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Maids Bathroom And Kitchen La Fontaine",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/5353.jpg",
-        "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/545.jpg",
-        "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/5454-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/54544-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/6645-1-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/673542-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/rtyrt-719x720.jpg",
-        "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/wfewe-719x720.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/maids-bathroom-and-kitchen-la-fontaine/5353.jpg",
-      "imageCount": 8
     }
   ]
 }

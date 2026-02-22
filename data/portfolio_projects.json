@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771795809279,
-  "count": 22,
+  "publishedAt": 1771795877368,
+  "count": 21,
   "projects": [
     {
       "slug": "residential",
@@ -495,21 +495,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/laundry-shorouk-gardens/image001-17.jpg",
       "imageCount": 3
-    },
-    {
-      "slug": "loft-kitchen-interior",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Loft Kitchen Interior",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/loft-kitchen-interior/casscas.jpg",
-        "assets/site_images/projects/portfolio_projects/loft-kitchen-interior/r32-2.jpg",
-        "assets/site_images/projects/portfolio_projects/loft-kitchen-interior/scacas.jpg",
-        "assets/site_images/projects/portfolio_projects/loft-kitchen-interior/scasca.jpg",
-        "assets/site_images/projects/portfolio_projects/loft-kitchen-interior/wdqwd.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/loft-kitchen-interior/casscas.jpg",
-      "imageCount": 5
     }
   ]
 }

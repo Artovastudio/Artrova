@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771790584873,
-  "count": 34,
+  "publishedAt": 1771795125450,
+  "count": 33,
   "projects": [
     {
       "slug": "residential",
@@ -738,33 +738,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/new-project/image001-30-721x720.jpg",
       "imageCount": 2
-    },
-    {
-      "slug": "palm-hills",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Palm Hills",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/palm-hills/098.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/111-e1689690626139.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/22.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/2324-2-1-1-1.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/33-1-1.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/345.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/43.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/433-2.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/46-1.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/86.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/d-f.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/fg.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/fggf.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/fvd.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/vdfssdf.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/vfds.jpg",
-        "assets/site_images/projects/portfolio_projects/palm-hills/vfsd.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/palm-hills/098.jpg",
-      "imageCount": 17
     }
   ]
 }

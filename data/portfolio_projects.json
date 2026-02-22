@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771796724643,
-  "count": 6,
+  "publishedAt": 1771796842991,
+  "count": 5,
   "projects": [
     {
       "slug": "residential",
@@ -156,32 +156,6 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/6-october-shop/4-KITCHEN.jpg",
       "imageCount": 17
-    },
-    {
-      "slug": "art-family-residence",
-      "titleAr": null,
-      "titleEn": null,
-      "title": "Art Family Residence",
-      "images": [
-        "assets/site_images/projects/portfolio_projects/art-family-residence/1-KITCHEN-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/2-KITCHEN-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/3-KITCHEN-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/4-KITCHEN-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/433-1.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/5-min-1.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/RESTAURANT-1-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/RESTAURANT-2-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/RESTAURANT-3-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/RESTAURANT-4-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/RESTAURANT-5-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/RESTAURANT-6-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/RESTAURANT-7-720x720.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/master-bathroom-6-1.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/master-bedroom-1-1.jpg",
-        "assets/site_images/projects/portfolio_projects/art-family-residence/rre.jpg"
-      ],
-      "cover": "assets/site_images/projects/portfolio_projects/art-family-residence/1-KITCHEN-720x720.jpg",
-      "imageCount": 16
     }
   ]
 }

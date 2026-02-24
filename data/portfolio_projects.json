@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771965453905,
-  "count": 11,
+  "publishedAt": 1771965826610,
+  "count": 12,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -179,6 +179,19 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/dental-clinic-in-5th-settlement-egypt/001.jpg",
       "imageCount": 8
+    },
+    {
+      "slug": "drmohamed-attia-office",
+      "titleAr": "Dr.Mohamed Attia Office",
+      "titleEn": null,
+      "title": "Dr.Mohamed Attia Office",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/drmohamed-attia-office/001.jpg",
+        "assets/site_images/projects/portfolio_projects/drmohamed-attia-office/002.jpg",
+        "assets/site_images/projects/portfolio_projects/drmohamed-attia-office/003.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/drmohamed-attia-office/001.jpg",
+      "imageCount": 3
     }
   ]
 }

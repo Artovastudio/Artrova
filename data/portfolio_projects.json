@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771972906248,
-  "count": 16,
+  "publishedAt": 1771973313363,
+  "count": 17,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -268,6 +268,21 @@
         "assets/site_images/projects/portfolio_projects/neoclassic-kitchen-design/005.jpg"
       ],
       "cover": "assets/site_images/projects/portfolio_projects/neoclassic-kitchen-design/001.jpg",
+      "imageCount": 5
+    },
+    {
+      "slug": "modern-reception-of-villa-in-dammamksa",
+      "titleAr": "Modern Reception of Villa in Dammam,KSA",
+      "titleEn": null,
+      "title": "Modern Reception of Villa in Dammam,KSA",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/modern-reception-of-villa-in-dammamksa/001.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-reception-of-villa-in-dammamksa/002.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-reception-of-villa-in-dammamksa/003.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-reception-of-villa-in-dammamksa/004.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-reception-of-villa-in-dammamksa/005.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/modern-reception-of-villa-in-dammamksa/001.jpg",
       "imageCount": 5
     }
   ]

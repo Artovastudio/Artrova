@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771972437842,
-  "count": 15,
+  "publishedAt": 1771972906248,
+  "count": 16,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -254,6 +254,21 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/neoclassic-villa-in-ryadih-ksa/001.jpg",
       "imageCount": 11
+    },
+    {
+      "slug": "neoclassic-kitchen-design",
+      "titleAr": "Neoclassic Kitchen Design",
+      "titleEn": null,
+      "title": "Neoclassic Kitchen Design",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/neoclassic-kitchen-design/001.jpg",
+        "assets/site_images/projects/portfolio_projects/neoclassic-kitchen-design/002.jpg",
+        "assets/site_images/projects/portfolio_projects/neoclassic-kitchen-design/003.jpg",
+        "assets/site_images/projects/portfolio_projects/neoclassic-kitchen-design/004.jpg",
+        "assets/site_images/projects/portfolio_projects/neoclassic-kitchen-design/005.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/neoclassic-kitchen-design/001.jpg",
+      "imageCount": 5
     }
   ]
 }

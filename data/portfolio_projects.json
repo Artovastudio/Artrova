@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771966862513,
-  "count": 13,
+  "publishedAt": 1771971928258,
+  "count": 14,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -208,6 +208,31 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ksa/001.jpg",
       "imageCount": 6
+    },
+    {
+      "slug": "master-bedroom-design-in-ryadih",
+      "titleAr": "Master Bedroom Design in Ryadih",
+      "titleEn": null,
+      "title": "Master Bedroom Design in Ryadih",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/001.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/002.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/003.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/004.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/005.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/006.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/007.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/008.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/009.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/010.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/011.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/012.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/013.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/014.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/015.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ryadih/001.jpg",
+      "imageCount": 15
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771963034364,
-  "count": 5,
+  "publishedAt": 1771963316960,
+  "count": 6,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -75,6 +75,23 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/hajer-agency-for-recruitment/001.jpg",
       "imageCount": 3
+    },
+    {
+      "slug": "modern-villa-in-ryadihksa",
+      "titleAr": "Modern Villa in Ryadih,KSA",
+      "titleEn": null,
+      "title": "Modern Villa in Ryadih,KSA",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/modern-villa-in-ryadihksa/001.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-villa-in-ryadihksa/002.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-villa-in-ryadihksa/003.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-villa-in-ryadihksa/004.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-villa-in-ryadihksa/005.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-villa-in-ryadihksa/006.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-villa-in-ryadihksa/007.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/modern-villa-in-ryadihksa/001.jpg",
+      "imageCount": 7
     }
   ]
 }

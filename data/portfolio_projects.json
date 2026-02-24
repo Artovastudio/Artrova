@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771965826610,
-  "count": 12,
+  "publishedAt": 1771966862513,
+  "count": 13,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -192,6 +192,22 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/drmohamed-attia-office/001.jpg",
       "imageCount": 3
+    },
+    {
+      "slug": "master-bedroom-design-in-ksa",
+      "titleAr": "Master Bedroom Design in KSA",
+      "titleEn": null,
+      "title": "Master Bedroom Design in KSA",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ksa/001.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ksa/002.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ksa/003.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ksa/004.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ksa/005.jpg",
+        "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ksa/006.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/master-bedroom-design-in-ksa/001.jpg",
+      "imageCount": 6
     }
   ]
 }

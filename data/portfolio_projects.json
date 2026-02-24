@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771962539033,
-  "count": 3,
+  "publishedAt": 1771962680432,
+  "count": 4,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -48,6 +48,20 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/gaming-room-design-in-elehsaaksa/001.jpg",
       "imageCount": 3
+    },
+    {
+      "slug": "executive-room-design-in-eldammamksa",
+      "titleAr": "Executive Room Design in Eldammam,KSA",
+      "titleEn": null,
+      "title": "Executive Room Design in Eldammam,KSA",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/executive-room-design-in-eldammamksa/001.jpg",
+        "assets/site_images/projects/portfolio_projects/executive-room-design-in-eldammamksa/002.jpg",
+        "assets/site_images/projects/portfolio_projects/executive-room-design-in-eldammamksa/003.jpg",
+        "assets/site_images/projects/portfolio_projects/executive-room-design-in-eldammamksa/004.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/executive-room-design-in-eldammamksa/001.jpg",
+      "imageCount": 4
     }
   ]
 }

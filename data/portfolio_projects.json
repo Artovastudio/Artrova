@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771962059305,
-  "count": 1,
+  "publishedAt": 1771962318387,
+  "count": 2,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -22,6 +22,19 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/skadi-designs-in-ryadih-ksa/001.jpg",
       "imageCount": 10
+    },
+    {
+      "slug": "modern-exterior-villa-in-jeddah-ksa",
+      "titleAr": "Modern Exterior Villa in Jeddah, KSA",
+      "titleEn": null,
+      "title": "Modern Exterior Villa in Jeddah, KSA",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/modern-exterior-villa-in-jeddah-ksa/001.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-exterior-villa-in-jeddah-ksa/002.jpg",
+        "assets/site_images/projects/portfolio_projects/modern-exterior-villa-in-jeddah-ksa/003.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/modern-exterior-villa-in-jeddah-ksa/001.jpg",
+      "imageCount": 3
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771963811638,
-  "count": 7,
+  "publishedAt": 1771964166626,
+  "count": 8,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -106,6 +106,30 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/kids-room-design-in-ksa/001.jpg",
       "imageCount": 4
+    },
+    {
+      "slug": "administrative-company-in-jeddahksa",
+      "titleAr": "Administrative Company In Jeddah,KSA",
+      "titleEn": null,
+      "title": "Administrative Company In Jeddah,KSA",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/001.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/002.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/003.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/004.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/005.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/006.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/007.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/008.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/009.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/010.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/011.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/012.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/013.jpg",
+        "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/014.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/administrative-company-in-jeddahksa/001.jpg",
+      "imageCount": 14
     }
   ]
 }

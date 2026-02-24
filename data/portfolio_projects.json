@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771962680432,
-  "count": 4,
+  "publishedAt": 1771963034364,
+  "count": 5,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -62,6 +62,19 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/executive-room-design-in-eldammamksa/001.jpg",
       "imageCount": 4
+    },
+    {
+      "slug": "hajer-agency-for-recruitment",
+      "titleAr": "Hajer Agency For recruitment",
+      "titleEn": null,
+      "title": "Hajer Agency For recruitment",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/hajer-agency-for-recruitment/001.jpg",
+        "assets/site_images/projects/portfolio_projects/hajer-agency-for-recruitment/002.jpg",
+        "assets/site_images/projects/portfolio_projects/hajer-agency-for-recruitment/003.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/hajer-agency-for-recruitment/001.jpg",
+      "imageCount": 3
     }
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "updatedAt": "2026-02-25T20:11:00.000Z",
+  "contact": {
+    "phone1": {
+      "tel": "+966506534579",
+      "display": "+966 50 653 4579"
+    },
+    "phone2": {
+      "tel": "+201014302333",
+      "display": "+20 10 14302333"
+    },
+    "email": "ArtrovaStudio@gmail.com",
+    "facebookUrl": "https://www.facebook.com/profile.php?id=61574086439178",
+    "instagramUrl": "https://www.instagram.com/nodedesignn",
+    "whatsappUrl": "https://wa.me/966506534579"
+  }
+}

@@ -52,6 +52,8 @@
     .grid{display:grid; grid-template-columns: 420px 1fr; gap: var(--gap); align-items:start;}
     @media (max-width: 980px){ .grid{grid-template-columns:1fr;} }
 
+    .grid-full{grid-column: 1 / -1;}
+
     .card{background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)); border:1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden; transition: transform .18s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease), background .22s var(--ease);}
     .card:hover{border-color: rgba(255,255,255,.16); box-shadow: var(--shadow2), var(--glowBrand);}
     .card .hd{display:flex; align-items:center; justify-content:space-between; padding: var(--padHd) var(--padHd); border-bottom:1px solid var(--border); background: rgba(0,0,0,.25);}
@@ -62,6 +64,7 @@
     .col{display:flex; flex-direction:column; gap:6px; flex:1; min-width: 180px;}
     label{font-size:.82rem; color:var(--muted);}
     input[type="text"], input[type="password"], select{width:100%; padding:11px 12px; border-radius: 14px; border:1px solid var(--border); background: rgba(2,6,23,.55); color:var(--text); outline:none;}
+    textarea{width:100%; padding:11px 12px; border-radius: 14px; border:1px solid var(--border); background: rgba(2,6,23,.55); color:var(--text); outline:none; resize: vertical; min-height: 110px;}
     input[type="file"]{width:100%;}
 
     .btn{appearance:none; border:1px solid var(--border); background: rgba(255,255,255,.06); color:var(--text); padding:10px 12px; border-radius: 14px; cursor:pointer; transition: transform .16s var(--ease), background .22s var(--ease), border-color .22s var(--ease), box-shadow .22s var(--ease), filter .22s var(--ease);}
@@ -356,6 +359,67 @@
           </div>
         </div>
       </div>
+
+      <div class="card grid-full" id="siteSettings" style="margin-top: var(--gap);">
+        <div class="hd"><h2>إعدادات الموقع</h2><span class="pill">Contact</span></div>
+        <div class="bd">
+          <details open>
+            <summary>
+              <span>إعدادات التواصل</span>
+              <span class="pill">Phones / Email / Social</span>
+            </summary>
+            <div class="details-body">
+              <div class="row">
+                <div class="col">
+                  <label>Phone 1 (tel)</label>
+                  <input id="sitePhone1Tel" type="text" placeholder="+201128775769" />
+                </div>
+                <div class="col">
+                  <label>Phone 1 (display)</label>
+                  <input id="sitePhone1Display" type="text" placeholder="+20 11 28775769" />
+                </div>
+                <div class="col">
+                  <label>Email</label>
+                  <input id="siteEmail" type="text" placeholder="ArtrovaStudio@gmail.com" />
+                </div>
+              </div>
+
+              <div class="row" style="margin-top:10px;">
+                <div class="col">
+                  <label>Phone 2 (tel)</label>
+                  <input id="sitePhone2Tel" type="text" placeholder="+201014302333" />
+                </div>
+                <div class="col">
+                  <label>Phone 2 (display)</label>
+                  <input id="sitePhone2Display" type="text" placeholder="+20 10 14302333" />
+                </div>
+                <div class="col">
+                  <label>WhatsApp URL</label>
+                  <input id="siteWhatsapp" type="text" placeholder="https://wa.me/201128775769" />
+                </div>
+              </div>
+
+              <div class="row" style="margin-top:10px;">
+                <div class="col">
+                  <label>Facebook URL</label>
+                  <input id="siteFacebook" type="text" placeholder="https://www.facebook.com/..." />
+                </div>
+                <div class="col">
+                  <label>Instagram URL</label>
+                  <input id="siteInstagram" type="text" placeholder="https://www.instagram.com/..." />
+                </div>
+              </div>
+
+              <div class="row" style="margin-top:10px;">
+                <button class="btn ok" id="btnSiteSave" type="button">حفظ محلي</button>
+                <button class="btn" id="btnSiteLoad" type="button">تحميل المحلي</button>
+                <button class="btn primary" id="btnSitePublish" type="button">Publish إلى GitHub</button>
+                <span class="pill" id="siteStatus">—</span>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -391,6 +455,7 @@
   <script>
     const ADMIN_PASSWORD = 'artrova123';
     const TOKEN_STORE_KEY = 'artrova_admin_gh_token_v2';
+    const SITE_STORE_KEY = 'artrova_site_config_v1';
     const COMPACT_STORE_KEY = 'artrova_admin_compact_v2';
     const API_MODE_STORE_KEY = 'artrova_admin_gh_api_mode_v2';
 
@@ -543,6 +608,106 @@
         setLog('✓ تم حفظ التوكن على هذا الجهاز.', 'ok');
       } catch (e) {
         setLog('❌ المتصفح منع حفظ التوكن. ستحتاج لصقه كل مرة.', 'danger');
+      }
+    }
+
+    function setSiteStatus(text, kind) {
+      const el = $('siteStatus');
+      if (!el) return;
+      el.textContent = String(text || '—');
+      el.style.borderColor = '';
+      if (kind === 'ok') el.style.borderColor = 'rgba(34,197,94,.55)';
+      if (kind === 'danger') el.style.borderColor = 'rgba(255,77,109,.55)';
+    }
+
+    function getSiteConfigFromUi() {
+      return {
+        version: 1,
+        updatedAt: new Date().toISOString(),
+        contact: {
+          phone1: {
+            tel: String(($('sitePhone1Tel') && $('sitePhone1Tel').value) || '').trim(),
+            display: String(($('sitePhone1Display') && $('sitePhone1Display').value) || '').trim()
+          },
+          phone2: {
+            tel: String(($('sitePhone2Tel') && $('sitePhone2Tel').value) || '').trim(),
+            display: String(($('sitePhone2Display') && $('sitePhone2Display').value) || '').trim()
+          },
+          email: String(($('siteEmail') && $('siteEmail').value) || '').trim(),
+          facebookUrl: String(($('siteFacebook') && $('siteFacebook').value) || '').trim(),
+          instagramUrl: String(($('siteInstagram') && $('siteInstagram').value) || '').trim(),
+          whatsappUrl: String(($('siteWhatsapp') && $('siteWhatsapp').value) || '').trim()
+        }
+      };
+    }
+
+    function applySiteConfigToUi(cfg) {
+      const c = cfg && typeof cfg === 'object' ? cfg : {};
+      const contact = c.contact && typeof c.contact === 'object' ? c.contact : {};
+      const p1 = contact.phone1 && typeof contact.phone1 === 'object' ? contact.phone1 : {};
+      const p2 = contact.phone2 && typeof contact.phone2 === 'object' ? contact.phone2 : {};
+      if ($('sitePhone1Tel')) $('sitePhone1Tel').value = String(p1.tel || '');
+      if ($('sitePhone1Display')) $('sitePhone1Display').value = String(p1.display || '');
+      if ($('sitePhone2Tel')) $('sitePhone2Tel').value = String(p2.tel || '');
+      if ($('sitePhone2Display')) $('sitePhone2Display').value = String(p2.display || '');
+      if ($('siteEmail')) $('siteEmail').value = String(contact.email || '');
+      if ($('siteFacebook')) $('siteFacebook').value = String(contact.facebookUrl || '');
+      if ($('siteInstagram')) $('siteInstagram').value = String(contact.instagramUrl || '');
+      if ($('siteWhatsapp')) $('siteWhatsapp').value = String(contact.whatsappUrl || '');
+    }
+
+    function saveSiteLocal() {
+      try {
+        const cfg = getSiteConfigFromUi();
+        localStorage.setItem(SITE_STORE_KEY, JSON.stringify(cfg));
+        setSiteStatus('Saved (local)', 'ok');
+      } catch (e) {
+        setSiteStatus('Local save failed', 'danger');
+      }
+    }
+
+    function loadSiteLocal() {
+      try {
+        const raw = localStorage.getItem(SITE_STORE_KEY);
+        if (!raw) {
+          setSiteStatus('No local config', 'danger');
+          return;
+        }
+        const cfg = JSON.parse(raw);
+        applySiteConfigToUi(cfg);
+        setSiteStatus('Loaded (local)', 'ok');
+      } catch (e) {
+        setSiteStatus('Local load failed', 'danger');
+      }
+    }
+
+    async function publishSiteConfig() {
+      const token = getEffectiveToken();
+      if (!token) {
+        setSiteStatus('Missing GitHub token', 'danger');
+        return;
+      }
+      setSiteStatus('Publishing...', '');
+      const branch = String(GITHUB_BRANCH || 'main');
+      const gh = createGithubClient(GITHUB_OWNER, GITHUB_REPO, branch, token, getGithubApiBase());
+
+      const path = 'data/site_config.json';
+      const cfg = getSiteConfigFromUi();
+      const b64 = utf8ToBase64(JSON.stringify(cfg, null, 2));
+
+      let sha = undefined;
+      try {
+        const meta = await gh.getFileMeta(path, branch, true);
+        if (meta && meta.sha) sha = meta.sha;
+      } catch (e) {}
+
+      try {
+        await gh.putFile(path, 'Update site config', b64, sha);
+        setSiteStatus('Published ✓', 'ok');
+      } catch (e) {
+        setSiteStatus('Publish failed', 'danger');
+        const msg = String(e && e.message ? e.message : e);
+        setLog(`❌ Site config publish failed\n${msg}`, 'danger');
       }
     }
 
@@ -2015,6 +2180,7 @@
         }
         state.authed = true;
         showApp();
+        loadSiteLocal();
         await reloadData();
         setLog('✓ تم تسجيل الدخول. اختر مشروع.', 'ok');
       });
@@ -2028,6 +2194,13 @@
       $('btnTestGh').addEventListener('click', testGithubConnection);
       $('btnReload').addEventListener('click', reloadData);
       $('btnPublish').addEventListener('click', publishNow);
+
+      const btnSiteSave = $('btnSiteSave');
+      if (btnSiteSave) btnSiteSave.addEventListener('click', saveSiteLocal);
+      const btnSiteLoad = $('btnSiteLoad');
+      if (btnSiteLoad) btnSiteLoad.addEventListener('click', loadSiteLocal);
+      const btnSitePublish = $('btnSitePublish');
+      if (btnSitePublish) btnSitePublish.addEventListener('click', publishSiteConfig);
 
       initDragSelect();
 

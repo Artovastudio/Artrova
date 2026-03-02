@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1771977429520,
-  "count": 18,
+  "publishedAt": 1772483738056,
+  "count": 19,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -316,6 +316,20 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/master-bedroom-design-two-design-options/001.jpg",
       "imageCount": 22
+    },
+    {
+      "slug": "brooke-house-collage-ryadih",
+      "titleAr": "Brooke House Collage Ryadih",
+      "titleEn": null,
+      "title": "Brooke House Collage Ryadih",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/brooke-house-collage-ryadih/001.jpg",
+        "assets/site_images/projects/portfolio_projects/brooke-house-collage-ryadih/002.jpg",
+        "assets/site_images/projects/portfolio_projects/brooke-house-collage-ryadih/003.jpg",
+        "assets/site_images/projects/portfolio_projects/brooke-house-collage-ryadih/004.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/brooke-house-collage-ryadih/001.jpg",
+      "imageCount": 4
     }
   ]
 }

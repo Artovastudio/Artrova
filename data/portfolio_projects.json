@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1772483738056,
-  "count": 19,
+  "publishedAt": 1772484013093,
+  "count": 20,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -330,6 +330,21 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/brooke-house-collage-ryadih/001.jpg",
       "imageCount": 4
+    },
+    {
+      "slug": "rest-stop-in-umlugksa",
+      "titleAr": "Rest Stop in Umlug,KSA",
+      "titleEn": null,
+      "title": "Rest Stop in Umlug,KSA",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/rest-stop-in-umlugksa/001.jpg",
+        "assets/site_images/projects/portfolio_projects/rest-stop-in-umlugksa/002.jpg",
+        "assets/site_images/projects/portfolio_projects/rest-stop-in-umlugksa/003.jpg",
+        "assets/site_images/projects/portfolio_projects/rest-stop-in-umlugksa/004.jpg",
+        "assets/site_images/projects/portfolio_projects/rest-stop-in-umlugksa/005.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/rest-stop-in-umlugksa/001.jpg",
+      "imageCount": 5
     }
   ]
 }

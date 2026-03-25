@@ -1,7 +1,7 @@
 {
   "source": "portfolio_projects",
-  "publishedAt": 1772484013093,
-  "count": 20,
+  "publishedAt": 1774449465557,
+  "count": 21,
   "projects": [
     {
       "slug": "skadi-designs-in-ryadih-ksa",
@@ -345,6 +345,34 @@
       ],
       "cover": "assets/site_images/projects/portfolio_projects/rest-stop-in-umlugksa/001.jpg",
       "imageCount": 5
+    },
+    {
+      "slug": "kitchens-design-styles",
+      "titleAr": "Kitchens design styles",
+      "titleEn": null,
+      "title": "Kitchens design styles",
+      "images": [
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/001.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/002.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/003.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/004.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/005.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/006.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/007.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/008.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/009.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/010.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/011.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/012.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/013.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/014.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/015.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/016.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/017.jpg",
+        "assets/site_images/projects/portfolio_projects/kitchens-design-styles/018.jpg"
+      ],
+      "cover": "assets/site_images/projects/portfolio_projects/kitchens-design-styles/001.jpg",
+      "imageCount": 18
     }
   ]
 }
